@@ -1,0 +1,13 @@
+<div class="container">
+    <div>
+        <div class="container-title">
+            <span>Ingredients List</span>
+        </div>
+        <div *ngFor="let ingredient of ingredientList">
+            <app-ingredient-item [ingredient]="ingredient"></app-ingredient-item>
+        </div>
+    </div>
+    <div class="center">
+        <button mat-raised-button color="secondary">Generate Recipe</button>
+    </div>
+</div>
