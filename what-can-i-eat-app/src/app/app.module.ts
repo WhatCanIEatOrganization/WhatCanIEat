@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IngredientListViewComponent } from './pages/home-page/ingredient-list-view/ingredient-list-view.component';
 import { IngredientItemComponent } from './pages/home-page/ingredient-item/ingredient-item.component';
 import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recipes-history.component';
+import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.component';
 
 
 
@@ -22,6 +23,7 @@ import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recip
     IngredientListViewComponent,
     IngredientItemComponent,
     RecipesHistoryComponent,
+    RecipeItemComponent,
   ],
   imports: [
     BrowserModule,
