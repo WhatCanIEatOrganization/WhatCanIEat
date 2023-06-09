@@ -18,7 +18,7 @@ export class RecipesHistoryViewService {
 
     let secondRecipe: Recipe = {
       name: 'Lasagna',
-      description: 'Great dish for huge hunger'
+      description: 'Great dish for great hunger'
     }
 
     let thirdRecipe: Recipe = {
@@ -28,7 +28,7 @@ export class RecipesHistoryViewService {
 
     let fourthRecipe: Recipe = {
       name: 'Chicken with rice',
-      description: 'Gotta get those gym mass!'
+      description: 'Gotta get those gym kilograms!'
     }
 
     recipesList.push(firstRecipe);

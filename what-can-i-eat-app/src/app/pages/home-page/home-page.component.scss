@@ -46,3 +46,24 @@ button {
   border: 1px solid #d1d1d1;
   border-radius: 16px;
 }
+
+.app-title {
+  position: absolute;
+  width: 378px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 60px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  color: rgba(74, 151, 142, 0.96);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
