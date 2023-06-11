@@ -1,0 +1,87 @@
+<div class="container content-container">
+    <mat-stepper [linear]="true" #stepper>
+        <mat-step [stepControl]="generalInformationForm">
+            <h3>General Information</h3>
+            <form [formGroup]="generalInformationForm">
+                <ng-template matStepLabel>Set general information</ng-template>
+                <div class="inputs">
+                    <mat-form-field>
+                        <mat-label>Recipe name</mat-label>
+                        <input matInput type="text" formControlName="recipeName" placeholder="Example 'Spaghetti Bolognese'">
+                    </mat-form-field>  
+                    <mat-form-field>
+                        <mat-label>Description</mat-label>
+                        <input matInput type="text" formControlName="description" placeholder="Describe your recipe">
+                    </mat-form-field>  
+                    <mat-form-field>
+                        <mat-label>Preparation time</mat-label>
+                        <input matInput type="number" formControlName="preparationTime" placeholder="Set time in minutes">
+                    </mat-form-field> 
+                </div>
+                <div class="stepper-button">
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="ingredientsFormGroup">
+            <h3>Recipes Ingredients</h3>
+            <form [formGroup]="ingredientsFormGroup">
+                <ng-template matStepLabel>Set recipe ingredients</ng-template>
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Ingredient name</mat-label>
+                                    <input matInput type="text" placeholder="Input ingredient name">
+                                </mat-form-field>  
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput type="number" placeholder="Set ingredient amount" value="1">
+                                </mat-form-field> 
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Type</mat-label>
+                                    <input matInput type="number" value="gram">
+                                </mat-form-field> 
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <button mat-button>Add Ingredient</button>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="preparationStepsFormGroup">
+            <form [formGroup]="preparationStepsFormGroup">
+                <ng-template matStepLabel>Set preparation steps</ng-template>
+                <div class="inputs">
+                    <h3>Preparation steps</h3>
+                    <mat-form-field>
+                        <mat-label>Step 1</mat-label>
+                        <input matInput type="text" placeholder="Describe step">
+                    </mat-form-field>  
+                    <mat-form-field>
+                        <mat-label>Step 2</mat-label>
+                        <input matInput type="text" placeholder="Describe step">
+                    </mat-form-field> 
+                    <mat-form-field>
+                        <mat-label>Step 3</mat-label>
+                        <input matInput type="text" placeholder="Describe step">
+                    </mat-form-field> 
+                </div>
+                <button mat-button>Add Step</button>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Finish</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-stepper>
+</div>

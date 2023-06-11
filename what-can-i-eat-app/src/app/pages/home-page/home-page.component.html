@@ -6,12 +6,12 @@
         <input matInput #message maxlength="50" [(ngModel)]="value" (keyup.enter)="onInput()"> 
         <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="onInput()">
           <mat-icon>add</mat-icon>
-        </button>
+        </button> 
         <mat-hint align="start"><strong>Add Ingredient to your list</strong></mat-hint>
       </mat-form-field>
     </div>
     <div>
-      <button mat-raised-button color="secondary">Create Recipe</button>
+      <button mat-raised-button color="secondary" [routerLink]="['/add']">Create Recipe</button>
     </div>
   </div>
   <div class="ingredients-recipes">

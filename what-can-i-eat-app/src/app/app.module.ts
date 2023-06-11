@@ -13,6 +13,8 @@ import { IngredientListViewComponent } from './pages/home-page/ingredient-list-v
 import { IngredientItemComponent } from './pages/home-page/ingredient-item/ingredient-item.component';
 import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recipes-history.component';
 import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.component';
+import { RecipeCreatorComponent } from './pages/home-page/recipe-creator/recipe-creator.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 
@@ -24,6 +26,7 @@ import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.c
     IngredientItemComponent,
     RecipesHistoryComponent,
     RecipeItemComponent,
+    RecipeCreatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.c
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    MatStepperModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

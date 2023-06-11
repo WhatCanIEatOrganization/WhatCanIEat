@@ -1,0 +1,29 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.adding-ingredient {
+    display: flex;
+}
+
+.container {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stepper-button {
+    display: flex;
+    flex-direction: row;
+}
