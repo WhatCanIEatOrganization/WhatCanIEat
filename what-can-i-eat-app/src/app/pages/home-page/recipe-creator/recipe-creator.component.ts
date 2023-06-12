@@ -15,9 +15,6 @@ export class RecipeCreatorComponent implements OnInit {
   })
 
   ingredientsFormGroup = this.formBuilder.group({
-    ingredientName: [''],
-    amount: [''],
-    type: [''],
     ingredients: this.formBuilder.array([])
   });
 
@@ -28,24 +25,28 @@ export class RecipeCreatorComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.addIngredientInput();
   }
 
   public onFormSubmit(): void {
     console.log(this.generalInformationForm);
   }
 
-  public getIngredientsAsFormArray(): any {
-    return this.ingredientsFormGroup.get('ingredients') as FormArray;
+  get ingredientsAsFormArray(): any {
+    return this.ingredientsFormGroup.controls['ingredients'] as FormArray;
   }
 
-  public ingredients(): any {
-    return this.formBuilder.group({
-      ingredients: this.formBuilder.control(''),
-    });
-  }
+  public addIngredientInput(): void {
+    const ingredientsForm = this.formBuilder.group({
+      ingredientName: [''],
+      amount: ['1'],
+      type: [''],
+    })
 
-  public addInput(): void {
-    // this.getIngredientsAsFormArray(this.ingredients());
-    // https://blog.knoldus.com/adding-elements-dynamically-in-angular/
+    this.ingredientsAsFormArray.push(ingredientsForm);
+  }
+  
+  public removeInput(i: number): void {
+    this.ingredientsAsFormArray.removeAt(i);
   }
 }
