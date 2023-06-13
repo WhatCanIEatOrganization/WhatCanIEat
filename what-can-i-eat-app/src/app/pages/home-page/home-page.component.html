@@ -1,18 +1,56 @@
 <div class="main-container">
-  <div class="creators">
-    <div class="example-form">
-      <mat-form-field class="example-full-width">
-        <mat-label>Ingredient</mat-label>
-        <input matInput #message maxlength="50" [(ngModel)]="value" (keyup.enter)="onInput()"> 
-        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="onInput()">
-          <mat-icon>add</mat-icon>
-        </button> 
-        <mat-hint align="start"><strong>Add Ingredient to your list</strong></mat-hint>
-      </mat-form-field>
+  <div class="ingredient-input-container">
+    <div *ngIf="!secondStep">
+      <table>
+        <tr>
+          <th style="width: 15%;">
+          </th>
+          <th>
+            <div class="item" style="width: 70%;">
+              <mat-form-field class="ingredient-input">
+                <mat-label>Ingredient</mat-label>
+                <input matInput #message maxlength="50" [(ngModel)]="value"> 
+                <mat-hint align="start"><strong>Add Ingredient to your list</strong></mat-hint>
+              </mat-form-field>
+            </div>
+          </th>
+          <th style="width: 15%;">
+            <div *ngIf="value.length > 3" class="child">
+              <button (click)="secondStep = true">Next</button>
+            </div>
+          </th>
+        </tr>
+      </table>
     </div>
-    <div>
+    <div *ngIf="secondStep" class="flex-row">
+      <div class="example-form">
+        <table>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Amount</mat-label>
+                <input matInput type="number" [(ngModel)]="amount">
+                <mat-hint align="start"><strong>Set ingredient amount</strong></mat-hint>
+              </mat-form-field> 
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-label>Type</mat-label>
+                <input matInput type="number" value="gram">
+              </mat-form-field> 
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <button (click)="secondStep = false">Back</button>
+        <button (click)="onAddIngredient()">Add</button>
+      </div>
+    </div>
+
+    <!-- <div>
       <button mat-raised-button color="secondary" [routerLink]="['/add']">Create Recipe</button>
-    </div>
+    </div> -->
   </div>
   <div class="ingredients-recipes">
     <div class="content-container">
