@@ -15,6 +15,7 @@ import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recip
 import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.component';
 import { RecipeCreatorComponent } from './pages/home-page/recipe-creator/recipe-creator.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { NavBarComponent } from './common/nav-bar/nav-bar.component';
 
 
 
@@ -27,6 +28,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     RecipesHistoryComponent,
     RecipeItemComponent,
     RecipeCreatorComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
