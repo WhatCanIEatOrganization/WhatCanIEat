@@ -27,31 +27,38 @@
             <h3>Recipes Ingredients</h3>
             <form [formGroup]="ingredientsFormGroup">
                 <ng-template matStepLabel>Set recipe ingredients</ng-template>
-                <div>
-                    <table>
-                        <tr>
-                            <td>
-                                <mat-form-field>
-                                    <mat-label>Ingredient name</mat-label>
-                                    <input matInput type="text" placeholder="Input ingredient name">
-                                </mat-form-field>  
-                            </td>
-                            <td>
-                                <mat-form-field>
-                                    <mat-label>Amount</mat-label>
-                                    <input matInput type="number" placeholder="Set ingredient amount" value="1">
-                                </mat-form-field> 
-                            </td>
-                            <td>
-                                <mat-form-field>
-                                    <mat-label>Type</mat-label>
-                                    <input matInput type="number" value="gram">
-                                </mat-form-field> 
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <button mat-button>Add Ingredient</button>
+                <ng-container formArrayName="ingredients">
+                    <ng-container *ngFor="let ingredientControl of ingredientsAsFormArray.controls ;let i = index;">
+                        <div [formGroup]="ingredientControl">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <mat-form-field>
+                                            <mat-label>Ingredient name</mat-label>
+                                            <input matInput type="text" placeholder="Input ingredient name" formControlName="ingredientName">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td>
+                                        <mat-form-field>
+                                            <mat-label>Amount</mat-label>
+                                            <input matInput type="number" placeholder="Set ingredient amount" formControlName="amount">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td>
+                                        <mat-form-field>
+                                            <mat-label>Type</mat-label>
+                                            <input matInput type="number" value="gram" formControlName="type">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td>
+                                        <button *ngIf="i > 0" mat-button (click)="removeInput(i)">Remove Ingredient</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <button mat-button (click)="addIngredientInput()">Add Ingredient</button>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
