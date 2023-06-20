@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
+import { MatIconModule } from '@angular/material/icon'
 
 @Component({
   selector: 'app-ingredient-list-view',

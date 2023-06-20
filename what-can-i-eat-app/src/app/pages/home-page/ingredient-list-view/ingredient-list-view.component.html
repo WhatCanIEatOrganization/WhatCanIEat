@@ -7,7 +7,15 @@
             <app-ingredient-item [ingredient]="ingredient"></app-ingredient-item>
         </div>
     </div>
-    <div class="center">
-        <button mat-raised-button color="secondary">Generate Recipe</button>
+    <div class="buttons-container center">
+        <div class="center">
+            <button mat-raised-button>
+                Add Ingredient
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+        </div>
+        <div class="center">
+            <button mat-raised-button color="secondary">Generate Recipe <mat-icon>change_circle</mat-icon></button>
+        </div>
     </div>
 </div>

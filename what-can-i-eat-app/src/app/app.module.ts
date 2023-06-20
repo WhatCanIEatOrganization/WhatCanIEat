@@ -16,6 +16,8 @@ import { RecipeItemComponent } from './pages/home-page/recipe-item/recipe-item.c
 import { RecipeCreatorComponent } from './pages/home-page/recipe-creator/recipe-creator.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NavBarComponent } from './common/nav-bar/nav-bar.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogConfirmationComponent } from './common/dialog/dialog-confirmation/dialog-confirmation.component';
 
 
 
@@ -29,6 +31,7 @@ import { NavBarComponent } from './common/nav-bar/nav-bar.component';
     RecipeItemComponent,
     RecipeCreatorComponent,
     NavBarComponent,
+    DialogConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { NavBarComponent } from './common/nav-bar/nav-bar.component';
     FormsModule,
     ReactiveFormsModule,
     MatStepperModule,
+    MatDialogModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
