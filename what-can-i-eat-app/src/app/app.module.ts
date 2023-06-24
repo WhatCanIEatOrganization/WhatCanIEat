@@ -19,6 +19,9 @@ import { NavBarComponent } from './common/nav-bar/nav-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from './common/dialog/dialog-confirmation/dialog-confirmation.component';
 import { IngredientCreatorComponent } from './pages/home-page/ingredient-creator/ingredient-creator.component';
+import { RecipesViewFullComponent } from './pages/recipes-view-full/recipes-view-full.component';
+import { RecipeItemCardComponent } from './pages/recipes-view-full/recipe-item-card/recipe-item-card.component';
+import { RecipeItemOnClickComponent } from './pages/recipes-view-full/recipe-item-on-click/recipe-item-on-click.component';
 
 
 
@@ -33,7 +36,10 @@ import { IngredientCreatorComponent } from './pages/home-page/ingredient-creator
     RecipeCreatorComponent,
     NavBarComponent,
     DialogConfirmationComponent,
-    IngredientCreatorComponent
+    IngredientCreatorComponent,
+    RecipesViewFullComponent,
+    RecipeItemCardComponent,
+    RecipeItemOnClickComponent
   ],
   imports: [
     BrowserModule,
