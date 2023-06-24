@@ -18,6 +18,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { NavBarComponent } from './common/nav-bar/nav-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from './common/dialog/dialog-confirmation/dialog-confirmation.component';
+import { IngredientCreatorComponent } from './pages/home-page/ingredient-creator/ingredient-creator.component';
 
 
 
@@ -31,7 +32,8 @@ import { DialogConfirmationComponent } from './common/dialog/dialog-confirmation
     RecipeItemComponent,
     RecipeCreatorComponent,
     NavBarComponent,
-    DialogConfirmationComponent
+    DialogConfirmationComponent,
+    IngredientCreatorComponent
   ],
   imports: [
     BrowserModule,
