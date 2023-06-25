@@ -16,5 +16,7 @@ export class RecipesViewFullComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipesList = this.recipesViewFullService.createDummyRecipes();
+  }  onRecipeCardClick(): void {
+    console.log("here");
   }
 }
