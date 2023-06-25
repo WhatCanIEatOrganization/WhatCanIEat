@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+export interface IngredientCreatorData {
+  operationType: string,
+  ingredientName: string,
+  amount: string,
+  type: string,
+}
 
 @Component({
   selector: 'app-ingredient-creator',
@@ -14,15 +21,29 @@ export class IngredientCreatorComponent implements OnInit {
     type: new FormControl(''),
   });
 
+  dialogTypeOfOperation: string | undefined;
+
   constructor(
     private dialogRef: MatDialogRef<IngredientCreatorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: IngredientCreatorData
   ) { }
 
   ngOnInit(): void {
+    this.setFormWithValues();
+    this.dialogTypeOfOperation = this.data.operationType;
   }
 
   onFormSubmit() {
     console.log(this.ingredientCreatorForm);
   }
 
+  setFormWithValues(): void {
+    if(this.data != null) {
+      this.ingredientCreatorForm.setValue({
+        ingredientName: this.data.ingredientName,
+        amount: this.data.amount,
+        type: this.data.type
+      })
+    }
+  }
 }
