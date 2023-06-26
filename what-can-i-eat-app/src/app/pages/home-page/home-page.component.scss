@@ -15,10 +15,12 @@
 }
 
 .main-container {
-  background-image: url("/assets/images/bg2.jpg");
+  background-image: url("/assets/images/background2.jpg");
+  background-color: #F2F6F7;
   background-size: contain;
   background-repeat: no-repeat;
   height: 100vh;
+  box-shadow: inset -20px 10px 20px 0px white;
 }
 
 .table {
@@ -41,9 +43,6 @@ button {
 .content-container {
   height: 440px;
   width: 405px;
-  background-color: #FEF7FF;
-  border: 1px solid #d1d1d1;
-  border-radius: 16px;
 }
 
 .flex-row {
