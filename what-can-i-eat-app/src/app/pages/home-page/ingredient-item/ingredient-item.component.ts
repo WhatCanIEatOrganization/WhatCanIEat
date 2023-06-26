@@ -38,7 +38,7 @@ export class IngredientItemComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.panelClass = "dialog-no-padding";
-    dialogConfig.width = "600px";
+    dialogConfig.width = "750px";
     dialogConfig.data = {
       operationType: "Modify",
       ingredientName: this.ingredient.name,

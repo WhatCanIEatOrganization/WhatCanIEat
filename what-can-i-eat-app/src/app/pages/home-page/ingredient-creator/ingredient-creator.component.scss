@@ -1,6 +1,8 @@
 h1 {
     text-align: center;
     padding: 24px 24px 0px 24px;
+    letter-spacing: .2rem;
+    font-size: 1.5rem;
 }
 
 img {
@@ -27,6 +29,11 @@ img {
     color: #FFFFFF;
     margin-bottom: 20px;
 }   
+
+.cancel-button, .save-button {
+    height: 45px;
+    width: 90px;
+}
 
 mat-form-field, table {
     width: 100%;

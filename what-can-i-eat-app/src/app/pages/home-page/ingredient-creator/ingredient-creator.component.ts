@@ -38,7 +38,7 @@ export class IngredientCreatorComponent implements OnInit {
   }
 
   setFormWithValues(): void {
-    if(this.data != null) {
+    if(this.data.operationType != "Create") {
       this.ingredientCreatorForm.setValue({
         ingredientName: this.data.ingredientName,
         amount: this.data.amount,

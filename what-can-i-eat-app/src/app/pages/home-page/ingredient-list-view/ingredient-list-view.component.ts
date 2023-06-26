@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
-import { MatIconModule } from '@angular/material/icon'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
 
@@ -23,8 +22,11 @@ export class IngredientListViewComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.panelClass = "dialog-no-padding";
-    dialogConfig.width = "600px";
-    
+    dialogConfig.width = "750px";
+    dialogConfig.data = {
+      operationType: "Create"
+    }
+
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((data) => {
