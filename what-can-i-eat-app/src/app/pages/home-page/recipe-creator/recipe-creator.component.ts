@@ -42,7 +42,6 @@ export class RecipeCreatorComponent implements OnInit {
       amount: ['1'],
       type: [''],
     })
-
     this.ingredientsAsFormArray.push(ingredientsForm);
   }
   
