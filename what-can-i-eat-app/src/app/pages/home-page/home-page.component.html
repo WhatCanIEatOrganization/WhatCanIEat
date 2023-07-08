@@ -1,19 +1,4 @@
 <div class="main-container">
-  <div class="creators">
-    <div class="example-form">
-      <mat-form-field class="example-full-width">
-        <mat-label>Ingredient</mat-label>
-        <input matInput #message maxlength="50" [(ngModel)]="value" (keyup.enter)="onInput()"> 
-        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="onInput()">
-          <mat-icon>add</mat-icon>
-        </button>
-        <mat-hint align="start"><strong>Add Ingredient to your list</strong></mat-hint>
-      </mat-form-field>
-    </div>
-    <div>
-      <button mat-raised-button color="secondary">Create Recipe</button>
-    </div>
-  </div>
   <div class="ingredients-recipes">
     <div class="content-container">
       <app-ingredient-list-view [ingredientList]="ingredientList"></app-ingredient-list-view>
@@ -23,6 +8,6 @@
     </div>
   </div>
 </div>
-<div class="app-title">
-  <span>WhatCanIEat?!</span>
-</div>
+<!-- <div>
+  <button mat-raised-button color="secondary" [routerLink]="['/add']">Create Recipe</button>
+</div> -->

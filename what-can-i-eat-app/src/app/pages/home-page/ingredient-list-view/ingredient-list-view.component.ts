@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
 
 @Component({
   selector: 'app-ingredient-list-view',
@@ -8,10 +10,27 @@ import { Ingredient } from 'src/app/model/ingredient/ingredient';
 })
 export class IngredientListViewComponent implements OnInit {
   @Input() ingredientList: Ingredient[] = [];
-
-  constructor() { }
+  
+  constructor(
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
   }
 
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.panelClass = "dialog-no-padding";
+    dialogConfig.width = "750px";
+    dialogConfig.data = {
+      operationType: "Create"
+    }
+
+    const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data);
+    })
+  }
 }

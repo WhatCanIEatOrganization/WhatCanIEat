@@ -9,6 +9,9 @@ import { Ingredient } from 'src/app/model/ingredient/ingredient';
 export class HomePageComponent implements OnInit {
   value = '';
   ingredientList: Ingredient[] = [];
+  secondStep = false;
+  amount = 1;
+  type = "gram";
 
   constructor(
   ) { }
@@ -17,17 +20,16 @@ export class HomePageComponent implements OnInit {
     this.ingredientList = this.addDummyIngredients();
   }
 
-  public onInput(): void {
-    console.log(this.value);
-
+  public onAddIngredient(): void {
     let newIngredient: Ingredient = {
       name: this.value,
-      amount: 0,
-      amountType: ''
+      amount: this.amount,
+      amountType: this.type,
     }
 
     this.ingredientList.push(newIngredient);
     this.value = '';
+    this.amount = 1;
 
     console.log(this.ingredientList);
   }
