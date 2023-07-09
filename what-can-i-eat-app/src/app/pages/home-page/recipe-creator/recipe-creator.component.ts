@@ -8,9 +8,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 })
 export class RecipeCreatorComponent implements OnInit {
   generalInformationForm = new FormGroup({
-    recipeName: new FormControl('s', Validators.required),
-    description: new FormControl('s', Validators.required),
-    preparationTime: new FormControl('s', Validators.required),
+    recipeName: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    preparationTime: new FormControl('', Validators.required),
     // recipeImage: new FormControl('')
   })
 
@@ -19,13 +19,14 @@ export class RecipeCreatorComponent implements OnInit {
   });
 
   preparationStepsFormGroup = this.formBuilder.group({
-    step: [''],
-  })
+    steps: this.formBuilder.array([])
+  });
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.addIngredientInput();
+    this.addStepInput();
   }
 
   public onFormSubmit(): void {
@@ -47,5 +48,20 @@ export class RecipeCreatorComponent implements OnInit {
   
   public removeInput(i: number): void {
     this.ingredientsAsFormArray.removeAt(i);
+  }
+
+  public addStepInput(): void {
+    const stepForm = this.formBuilder.group({
+      step: ['', Validators.required],
+    })
+    this.stepsAsFormArray.push(stepForm);
+  }
+
+  get stepsAsFormArray(): any {
+    return this.preparationStepsFormGroup.controls['steps'] as FormArray;
+  }
+
+  public removeStepInput(i: number): void {
+    this.stepsAsFormArray.removeAt(i);
   }
 }

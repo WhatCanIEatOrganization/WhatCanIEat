@@ -5,6 +5,17 @@
     padding-bottom: 20px;
 }
 
+.preparation-step-input {
+    width: 450px;
+}
+
+.step {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 .adding-ingredient {
     display: flex;
 }
