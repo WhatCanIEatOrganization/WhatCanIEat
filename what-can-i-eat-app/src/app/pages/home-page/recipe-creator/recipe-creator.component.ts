@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -8,9 +8,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class RecipeCreatorComponent implements OnInit {
   generalInformationForm = new FormGroup({
-    recipeName: new FormControl(''),
-    description: new FormControl(''),
-    preparationTime: new FormControl(''),
+    recipeName: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    preparationTime: new FormControl('', Validators.required),
     // recipeImage: new FormControl('')
   })
 
@@ -29,7 +29,7 @@ export class RecipeCreatorComponent implements OnInit {
   }
 
   public onFormSubmit(): void {
-    console.log(this.generalInformationForm);
+    
   }
 
   get ingredientsAsFormArray(): any {
@@ -38,7 +38,7 @@ export class RecipeCreatorComponent implements OnInit {
 
   public addIngredientInput(): void {
     const ingredientsForm = this.formBuilder.group({
-      ingredientName: [''],
+      ingredientName: ['', Validators.required],
       amount: ['1'],
       type: [''],
     })
