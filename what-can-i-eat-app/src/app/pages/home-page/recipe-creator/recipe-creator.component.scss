@@ -62,3 +62,21 @@ svg {
     fill: white;
     height: 35px;
 }
+
+.remove {
+    fill: #ca5858;
+    height: 35px;
+}
+
+.td-buttons {
+    padding-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.2s ease-out;
+}
+
+.td-buttons:hover {
+    transform: scale(1.15);
+    fill: #a13434;
+}

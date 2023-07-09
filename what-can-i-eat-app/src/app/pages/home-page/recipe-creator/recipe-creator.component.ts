@@ -8,9 +8,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 })
 export class RecipeCreatorComponent implements OnInit {
   generalInformationForm = new FormGroup({
-    recipeName: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    preparationTime: new FormControl('', Validators.required),
+    recipeName: new FormControl('s', Validators.required),
+    description: new FormControl('s', Validators.required),
+    preparationTime: new FormControl('s', Validators.required),
     // recipeImage: new FormControl('')
   })
 
