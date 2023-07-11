@@ -22,6 +22,7 @@ import { IngredientCreatorComponent } from './pages/home-page/ingredient-creator
 import { RecipesViewFullComponent } from './pages/recipes-view-full/recipes-view-full.component';
 import { RecipeItemCardComponent } from './pages/recipes-view-full/recipe-item-card/recipe-item-card.component';
 import { RecipeItemOnClickComponent } from './pages/recipes-view-full/recipe-item-on-click/recipe-item-on-click.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -55,7 +56,8 @@ import { RecipeItemOnClickComponent } from './pages/recipes-view-full/recipe-ite
     MatStepperModule,
     MatDialogModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]

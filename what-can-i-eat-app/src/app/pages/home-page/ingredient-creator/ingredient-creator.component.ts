@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MeasureUnit } from 'src/app/enums/MeasureUnit';
 
 export interface IngredientCreatorData {
   operationType: string,
@@ -22,6 +23,8 @@ export class IngredientCreatorComponent implements OnInit {
   });
 
   dialogTypeOfOperation: string | undefined;
+
+  MeasureUnit = MeasureUnit;
 
   constructor(
     private dialogRef: MatDialogRef<IngredientCreatorComponent>,
