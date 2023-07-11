@@ -46,8 +46,11 @@
                                     </td>
                                     <td>
                                         <mat-form-field>
-                                            <mat-label>Type</mat-label>
-                                            <input matInput type="number" value="gram" formControlName="type">
+                                            <mat-label>Unit</mat-label>
+                                            <mat-select>
+                                                <mat-option *ngFor="let unit of MeasureUnit | keyvalue" 
+                                                    [value]="unit.key">{{unit.value}}</mat-option>
+                                                </mat-select>
                                         </mat-form-field> 
                                     </td>
                                     <td>
