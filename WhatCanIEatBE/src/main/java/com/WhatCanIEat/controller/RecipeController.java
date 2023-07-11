@@ -5,23 +5,38 @@ import com.WhatCanIEat.service.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/recipes")
+@RequestMapping("/recipe")
 public class RecipeController {
 
     @Autowired
     private RecipeServiceImpl recipeService;
 
     @PostMapping
-    public ResponseEntity<Recipe> addNewRecipe(@PathVariable Recipe requestRecipe) {
+    public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe requestRecipe) {
+        System.out.println(requestRecipe);
        Recipe savedRecipe = recipeService.addNewRecipe(requestRecipe);
+        System.out.println(savedRecipe);
        return ResponseEntity
                .status(HttpStatus.CREATED)
                .body(savedRecipe);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Recipe>> recipeList() {
+        List<Recipe> recipeList = recipeService.getRecipesList();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(recipeList);
+    }
+
+    @DeleteMapping("/{recipeId}")
+    public HttpStatus deleteRecipe(@PathVariable int recipeId) {
+        recipeService.deleteRecipe(recipeId);
+        return HttpStatus.NO_CONTENT;
     }
 }
