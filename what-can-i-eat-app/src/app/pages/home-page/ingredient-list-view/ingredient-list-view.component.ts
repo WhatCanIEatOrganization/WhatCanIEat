@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
+import { IngredientCreatorComponent } from 'src/app/objects/ingredient/ingredient-creator/ingredient-creator.component';
 
 @Component({
   selector: 'app-ingredient-list-view',
