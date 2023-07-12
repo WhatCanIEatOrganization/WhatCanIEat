@@ -10,7 +10,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recipes-history.component';
-import { RecipeCreatorComponent } from './objects/recipe/recipe-creator/recipe-creator.component';
+import { RecipeCreatorComponent } from './pages/recipe-creator/recipe-creator.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NavBarComponent } from './common/nav-bar/nav-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IngredientItemComponent } from './objects/ingredient/ingredient-item/ingredient-item.component';
 import { RecipeItemComponent } from './objects/recipe/recipe-item/recipe-item.component';
 import { IngredientListViewComponent } from './pages/home-page/ingredient-list-view/ingredient-list-view.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -57,7 +58,8 @@ import { IngredientListViewComponent } from './pages/home-page/ingredient-list-v
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
   providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]
