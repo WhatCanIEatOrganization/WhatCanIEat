@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "recipes")
 public class Recipe {
@@ -19,16 +21,11 @@ public class Recipe {
     private int id;
     private String name;
     private String description;
+    private int preparationTime;
 
-    //    @OneToMany(mappedBy = "recipe")
-//    List<RecipeIngredients> recipeIngredients;
+    @OneToMany(mappedBy = "recipe")
+    List<RecipeIngredients> recipeIngredients;
 
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+    @OneToMany(mappedBy = "recipe")
+    List<RecipePreparationSteps> recipePreparationSteps;
 }

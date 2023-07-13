@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/ingredient")
@@ -17,9 +18,7 @@ public class IngredientController {
 
     @PostMapping
     public ResponseEntity<Ingredient> addNewIngredient(@RequestBody Ingredient requestIngredient) {
-        System.out.println(requestIngredient);
         Ingredient savedIngredient = ingredientService.addNewIngredient(requestIngredient);
-        System.out.println(savedIngredient);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedIngredient);
@@ -37,5 +36,13 @@ public class IngredientController {
     public HttpStatus deleteIngredient(@PathVariable int ingredientId) {
         ingredientService.deleteIngredient(ingredientId);
         return HttpStatus.NO_CONTENT;
+    }
+
+    @PatchMapping
+    public ResponseEntity<Ingredient> modifyIngredient(@RequestBody Ingredient modifiedIngredient) {
+        Ingredient patched = ingredientService.modifyIngredient(modifiedIngredient);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patched);
     }
 }

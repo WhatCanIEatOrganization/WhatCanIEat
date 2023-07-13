@@ -3,21 +3,19 @@ package com.WhatCanIEat.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name ="recipe_ingredients" )
-public class RecipeIngredients {
+@Table(name ="recipe_preparation_steps" )
+public class RecipePreparationSteps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
-    private Ingredient ingredient;
+    @JoinColumn(name = "step_id", referencedColumnName = "id")
+    private PreparationStep preparationStep;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 
-    @Column(name = "ingredient_quantity")
-    private int amount;
 }

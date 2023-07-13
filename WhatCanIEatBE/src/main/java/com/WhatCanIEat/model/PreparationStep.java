@@ -13,20 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "ingredients")
-public class Ingredient {
+@Table(name = "preparationSteps")
+public class PreparationStep {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private int stepNumber;
 
-    private int amount;
+    private String text;
 
-    private String unitMeasure;
-
-    @OneToMany(mappedBy = "ingredient")
-    private List<RecipeIngredients> recipeIngredients;
-
+    @OneToMany(mappedBy = "preparationStep")
+    private List<RecipePreparationSteps> recipePreparationSteps;
 }
