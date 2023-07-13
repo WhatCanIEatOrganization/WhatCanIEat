@@ -4,7 +4,7 @@
             <span>Ingredients List</span>
         </div>
         <div *ngFor="let ingredient of ingredientList">
-            <app-ingredient-item [ingredient]="ingredient"></app-ingredient-item>
+            <app-ingredient-item [ingredient]="ingredient" (removeIngredient)="getIngredientList()" (modifyIngredient)="modifyIngredient($event)"></app-ingredient-item>
         </div>
     </div>
     <div class="buttons-container center">

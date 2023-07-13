@@ -2,6 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IngredientCreatorComponent } from 'src/app/objects/ingredient/ingredient-creator/ingredient-creator.component';
+import { concatMap, map, mergeMap } from 'rxjs/operators'
+import { FormGroup } from '@angular/forms';
+import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ingredient-list-view',
@@ -13,9 +17,11 @@ export class IngredientListViewComponent implements OnInit {
   
   constructor(
     public dialog: MatDialog,
+    private ingredientService: IngredientService,
   ) { }
 
   ngOnInit(): void {
+    this.getIngredientList();
   }
 
   openDialog() {
@@ -28,9 +34,45 @@ export class IngredientListViewComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
+  
+    dialogRef.afterClosed()
+      .pipe(concatMap((data: FormGroup) => { 
+        let ingredient: Ingredient = {
+          id: 0,
+          name: data.get("ingredientName")!.value,
+          amount: data.get("amount")!.value,
+          unitMeasure: data.get("type")!.value
+        }
+        return this.ingredientService.createIngredient(ingredient);
+      }))
+      .subscribe({
+        next: (val: HttpResponse<Ingredient>) => {
+          console.log("Ingredient created" + val);
+          this.getIngredientList();
+        },
+        error: () => {
 
-    dialogRef.afterClosed().subscribe((data) => {
-      console.log(data);
+        }
+      });
+  }
+
+  modifyIngredient(ing: Ingredient): void {
+    this.ingredientService.modifyIngredient(ing).subscribe({
+      next: (val) => {
+        this.getIngredientList();
+      },
+      error: () => console.log("Something went wrong!")
+    })
+  }
+
+  getIngredientList(): void {
+    this.ingredientService.getIngredientList().subscribe({
+      next: (val) => {
+        this.ingredientList = val;
+      },
+      error: () => {
+        console.log("smh went wrong");
+      }
     })
   }
 }

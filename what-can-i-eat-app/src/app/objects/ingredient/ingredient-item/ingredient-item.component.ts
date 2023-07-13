@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
 import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
+import { IngredientService } from '../ingredient.service';
+import { concatMap, defaultIfEmpty, filter, map, switchMap, tap } from 'rxjs';
 
 export interface IngredientCreatorData {
   operationType: string,
@@ -18,10 +20,12 @@ export interface IngredientCreatorData {
 })
 export class IngredientItemComponent implements OnInit {
   @Input() ingredient!: Ingredient;
+  @Output() public removeIngredient = new EventEmitter<Ingredient>();
+  @Output() public modifyIngredient = new EventEmitter<Ingredient>();
 
   constructor(
     public dialog: MatDialog,
-    
+    private ingredientService: IngredientService,
     ) { }
 
   ngOnInit(): void {
@@ -32,6 +36,17 @@ export class IngredientItemComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, { 
       data: { ingredient: this.ingredient }
     });
+    
+    dialogRef.afterClosed()
+    .pipe(
+        filter((val) => val === true),
+        concatMap(() => { return this.ingredientService.deleteIngredient(this.ingredient)})
+    ).subscribe({
+      next: (val) => {
+        this.removeIngredient.emit(val);
+      },
+      error: () => console.log("error")
+    })
   }
 
   openIngrdientModifier() {
@@ -43,13 +58,25 @@ export class IngredientItemComponent implements OnInit {
       operationType: "Modify",
       ingredientName: this.ingredient.name,
       amount: this.ingredient.amount,
-      type: this.ingredient.amountType,
+      type: this.ingredient.unitMeasure,
     }
     
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe((data) => {
-      console.log(data);
-    })
+    dialogRef.afterClosed()
+      .pipe(map(
+        (val) => {
+          let ing: Ingredient = {
+            id: this.ingredient.id,
+            name: val.get('ingredientName').value,
+            amount: val.get('amount').value,
+            unitMeasure: val.get('type').value
+          }
+          return ing;
+        }
+      ))
+      .subscribe(val => {
+        this.modifyIngredient.emit(val)
+      });
   }
 }
