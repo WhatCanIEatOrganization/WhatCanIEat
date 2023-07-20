@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { HttpResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-ingredient-list-view',
   templateUrl: './ingredient-list-view.component.html',
@@ -14,6 +15,8 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class IngredientListViewComponent implements OnInit {
   @Input() ingredientList: Ingredient[] = [];
+  ingredientsListEmpty: boolean = false;
+  isLoading: boolean = false;
   
   constructor(
     public dialog: MatDialog,
@@ -22,6 +25,10 @@ export class IngredientListViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getIngredientList();
+  }
+
+  setIngredientsListEmpty(): void {
+    this.ingredientList.length === 0 ? this.ingredientsListEmpty = true : this.ingredientsListEmpty = false;
   }
 
   openDialog() {
@@ -66,9 +73,12 @@ export class IngredientListViewComponent implements OnInit {
   }
 
   getIngredientList(): void {
+    // this.isLoading = true;
     this.ingredientService.getIngredientList().subscribe({
       next: (val) => {
         this.ingredientList = val;
+        this.setIngredientsListEmpty();
+        // this.isLoading = false;
       },
       error: () => {
         console.log("smh went wrong");

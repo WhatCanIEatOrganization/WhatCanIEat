@@ -24,6 +24,7 @@ import { IngredientItemComponent } from './objects/ingredient/ingredient-item/in
 import { RecipeItemComponent } from './objects/recipe/recipe-item/recipe-item.component';
 import { IngredientListViewComponent } from './pages/home-page/ingredient-list-view/ingredient-list-view.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -59,7 +60,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]
