@@ -25,6 +25,7 @@ import { RecipeItemComponent } from './objects/recipe/recipe-item/recipe-item.co
 import { IngredientListViewComponent } from './pages/home-page/ingredient-list-view/ingredient-list-view.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 
@@ -61,7 +62,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatSelectModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ScrollingModule
   ],
   providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]

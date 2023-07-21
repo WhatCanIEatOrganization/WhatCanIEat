@@ -41,3 +41,14 @@ button {
 .text {
     color: #49454F;
 }
+
+::-webkit-scrollbar {
+    width: 4px;
+    overflow-y: scroll;
+    background: rgb(255, 255, 255);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #50A4A4;
+    border-radius: 10px;
+}

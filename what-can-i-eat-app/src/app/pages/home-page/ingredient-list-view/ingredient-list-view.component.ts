@@ -73,12 +73,12 @@ export class IngredientListViewComponent implements OnInit {
   }
 
   getIngredientList(): void {
-    // this.isLoading = true;
+    this.isLoading = true;
     this.ingredientService.getIngredientList().subscribe({
       next: (val) => {
         this.ingredientList = val;
         this.setIngredientsListEmpty();
-        // this.isLoading = false;
+        this.isLoading = false;
       },
       error: () => {
         console.log("smh went wrong");
