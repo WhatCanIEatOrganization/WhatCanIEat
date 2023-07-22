@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class RecipeServiceImpl implements RecipeService{
@@ -27,5 +28,12 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     public void deleteRecipe(int recipeId) {
         recipeRepository.deleteById(recipeId);
+    }
+
+    @Override
+    public Recipe getRandomRecipe() {
+        List<Recipe> recipesList = recipeRepository.findAll();
+        Random rand = new Random();
+        return recipesList.get(rand.nextInt(recipesList.size()));
     }
 }

@@ -28,4 +28,8 @@ export class RecipeService {
   modifyRecipe(recipe: Recipe): Observable<Recipe> {
     return this.http.patch<Recipe>(`${this.apiURL}/recipe`, recipe);
   }
+
+  getRandomRecipe(): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.apiURL}/recipe/rng`);
+  }
 }

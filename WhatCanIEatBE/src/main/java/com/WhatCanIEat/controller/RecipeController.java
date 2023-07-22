@@ -39,4 +39,12 @@ public class RecipeController {
         recipeService.deleteRecipe(recipeId);
         return HttpStatus.NO_CONTENT;
     }
+
+    @GetMapping("/rng")
+    public ResponseEntity<Recipe> randomRecipe() {
+        Recipe recipe = recipeService.getRandomRecipe();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(recipe);
+    }
 }

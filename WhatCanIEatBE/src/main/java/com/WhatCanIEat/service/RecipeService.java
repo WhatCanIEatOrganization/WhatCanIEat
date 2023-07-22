@@ -11,4 +11,6 @@ public interface RecipeService {
     List<Recipe> getRecipesList();
 
     void deleteRecipe(int recipeId);
+
+    Recipe getRandomRecipe();
 }
