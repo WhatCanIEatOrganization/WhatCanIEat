@@ -15,7 +15,7 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class IngredientListViewComponent implements OnInit {
   @Input() ingredientList: Ingredient[] = [];
-  ingredientsListEmpty: boolean = false;
+  ingredientsListEmpty: boolean = true;
   isLoading: boolean = false;
   
   constructor(
