@@ -4,3 +4,8 @@ export interface Ingredient {
     amount: number;
     unitMeasure: string;
 }
+
+export interface IngredientsListPayload {
+    recipeId: number,
+    ingredientsList: Ingredient[];
+}

@@ -6,14 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@Entity
-@Table(name = "recipes")
+@Entity(name = "recipes")
+@Table
 public class Recipe {
 
     @Id
@@ -23,9 +25,16 @@ public class Recipe {
     private String description;
     private int preparationTime;
 
-    @OneToMany(mappedBy = "recipe")
-    List<RecipeIngredients> recipeIngredients;
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_ingredients",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    Set<Ingredient> ingredients = new HashSet<>();
 
-    @OneToMany(mappedBy = "recipe")
-    List<RecipePreparationSteps> recipePreparationSteps;
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
+        ingredient.addRecipe(this);
+    }
 }

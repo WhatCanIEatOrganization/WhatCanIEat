@@ -21,8 +21,8 @@ export class RecipeService {
     return this.http.delete<Recipe>(`${this.apiURL}/recipe/${recipeId}`);
   }
 
-  createRecipe(recipe: Recipe): Observable<HttpResponse<Recipe>> {
-    return this.http.post<HttpResponse<Recipe>>(`${this.apiURL}/recipe` , recipe);
+  createRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(`${this.apiURL}/recipe` , recipe);
   }
 
   modifyRecipe(recipe: Recipe): Observable<Recipe> {

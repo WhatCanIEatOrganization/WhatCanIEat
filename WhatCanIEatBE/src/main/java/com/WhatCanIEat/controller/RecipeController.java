@@ -1,5 +1,6 @@
 package com.WhatCanIEat.controller;
 
+import com.WhatCanIEat.dto.CreateRecipeIngredientsListDTO;
 import com.WhatCanIEat.model.Recipe;
 import com.WhatCanIEat.service.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe requestRecipe) {
-        System.out.println(requestRecipe);
-       Recipe savedRecipe = recipeService.addNewRecipe(requestRecipe);
-        System.out.println(savedRecipe);
+        Recipe savedRecipe = recipeService.addNewRecipe(requestRecipe);
+
        return ResponseEntity
                .status(HttpStatus.CREATED)
                .body(savedRecipe);
+    }
+
+    @PostMapping("/list")
+    public HttpStatus addRecipeIngredientsList(@RequestBody CreateRecipeIngredientsListDTO recipeIngredientsListDTO) {
+        return HttpStatus.OK;
     }
 
     @GetMapping

@@ -6,14 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@Entity
-@Table(name = "ingredients")
+@Entity(name = "ingredients")
+@Table
 public class Ingredient {
 
     @Id
@@ -26,7 +28,11 @@ public class Ingredient {
 
     private String unitMeasure;
 
-    @OneToMany(mappedBy = "ingredient")
-    private List<RecipeIngredients> recipeIngredients;
+    @ManyToMany(mappedBy = "ingredients")
+    private Set<Recipe> recipes = new HashSet<>();
+
+    public void addRecipe(Recipe recipe) {
+        this.recipes.add(recipe);
+    }
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Ingredient } from 'src/app/model/ingredient/ingredient';
+import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
 
@@ -29,4 +29,9 @@ export class IngredientService {
   modifyIngredient(ingredient: Ingredient): Observable<HttpResponse<Ingredient>> {
     return this.http.patch<HttpResponse<Ingredient>>(`${this.apiURL}/ingredient`, ingredient);
   }
+
+  postIngredientsList(ingredientsListPayload: IngredientsListPayload): Observable<Recipe> {
+    return this.http.post<Recipe>(`${this.apiURL}/recipe/list` , ingredientsListPayload);
+  }
+
 }

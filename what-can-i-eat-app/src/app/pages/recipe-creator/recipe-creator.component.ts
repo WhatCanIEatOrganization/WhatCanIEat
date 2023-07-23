@@ -4,6 +4,8 @@ import { MeasureUnit } from 'src/app/enums/MeasureUnit';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { HttpResponse } from '@angular/common/http';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
+import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
+import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -28,7 +30,11 @@ export class RecipeCreatorComponent implements OnInit {
     steps: this.formBuilder.array([])
   });
 
-  constructor(private formBuilder: FormBuilder, private recipeService: RecipeService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private recipeService: RecipeService,
+    private ingredientsService: IngredientService
+    ) { }
 
   ngOnInit(): void {
     this.addIngredientInput();
@@ -72,10 +78,37 @@ export class RecipeCreatorComponent implements OnInit {
       id: 0,
       name: this.generalInformationForm.value.recipeName!,
       description: this.generalInformationForm.value.recipeName!,
-      preparationTime: this.generalInformationForm.value.preparationTime!
+      preparationTime: this.generalInformationForm.value.preparationTime!,
+      ingredientList: this.createIngredientsList(),
     }
 
-    this.recipeService.createRecipe(recipe).subscribe((value: HttpResponse<Recipe>) => {
+    this.recipeService.createRecipe(recipe).subscribe({
+      next: (value: Recipe) => {
+        let ingListPayload = this.ingredientsListToPayload(value.id!, this.createIngredientsList());
+        this.ingredientsService.postIngredientsList(ingListPayload).subscribe((val) => {
+        })
+      },
+      error: () => {
+        console.log("Error");
+      }
     });
+  }
+
+  public ingredientsListToPayload(recipeId: number, ingredientsList: Ingredient[]): IngredientsListPayload {
+    return {
+      recipeId: recipeId,
+      ingredientsList: ingredientsList,
+    }
+  }
+
+  public createIngredientsList(): Ingredient[] {
+    return Object.keys(this.ingredientsAsFormArray.controls).map(key => {
+      return {
+        id: 0,
+        name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
+        amount: this.ingredientsAsFormArray.controls[key].get("amount").value,
+        unitMeasure: this.ingredientsAsFormArray.controls[key].get("type").value,
+      };
+    });   
   }
 }

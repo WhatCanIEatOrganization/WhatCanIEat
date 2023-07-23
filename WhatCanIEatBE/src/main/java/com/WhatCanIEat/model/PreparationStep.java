@@ -23,7 +23,4 @@ public class PreparationStep {
     private int stepNumber;
 
     private String text;
-
-    @OneToMany(mappedBy = "preparationStep")
-    private List<RecipePreparationSteps> recipePreparationSteps;
 }
