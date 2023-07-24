@@ -77,7 +77,7 @@ export class RecipeCreatorComponent implements OnInit {
     let recipe: Recipe = {
       id: 0,
       name: this.generalInformationForm.value.recipeName!,
-      description: this.generalInformationForm.value.recipeName!,
+      description: this.generalInformationForm.value.description!,
       preparationTime: this.generalInformationForm.value.preparationTime!,
       favorite: false,
       ingredientList: this.createIngredientsList(),

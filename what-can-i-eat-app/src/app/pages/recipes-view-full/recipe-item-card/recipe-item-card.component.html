@@ -13,11 +13,11 @@
     <div class="content" (click)="onRecipeCardClick()">
         <img src="/assets/images/comfort_food_placeholder.png">
         <div class="preparation-time">
-            <span>Preparation Time: 30 minutes</span>
+            <span>Preparation Time: {{recipe.preparationTime}} minutes</span>
         </div>
         <div class="recipe-description">
             <span class="description">
-                Description
+                {{recipe.description}}
             </span>
         </div>
     </div>
