@@ -79,6 +79,7 @@ export class RecipeCreatorComponent implements OnInit {
       name: this.generalInformationForm.value.recipeName!,
       description: this.generalInformationForm.value.recipeName!,
       preparationTime: this.generalInformationForm.value.preparationTime!,
+      favorite: false,
       ingredientList: this.createIngredientsList(),
     }
 

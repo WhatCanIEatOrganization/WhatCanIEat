@@ -11,7 +11,6 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 })
 export class RecipeItemCardComponent implements OnInit {
   @Input() recipe!: Recipe;
-  favorite = false;
 
   constructor(
     private dialog: MatDialog,
@@ -32,6 +31,21 @@ export class RecipeItemCardComponent implements OnInit {
       },
       error: () => {
         console.log("Not deleted");
+      }
+    })
+  }
+
+  public toggleFavorite(): void {
+    // console.log(this.recipe);
+    this.recipe.favorite ? this.recipe.favorite = false : this.recipe.favorite = true;
+    // console.log(this.recipe);
+    this.recipeService.modifyRecipe(this.recipe).subscribe({
+      next: (recipe) => {
+        console.log(this.recipe);
+        console.log(recipe);
+      },
+      error: () => {
+        console.log("Something went wrong");
       }
     })
   }
