@@ -22,12 +22,12 @@ export class IngredientService {
     return this.http.delete<Ingredient>(`${this.apiURL}/ingredient/${ingredientId}`);
   }
 
-  createIngredient(ingredient: Ingredient): Observable<HttpResponse<Ingredient>> {
-    return this.http.post<HttpResponse<Ingredient>>(`${this.apiURL}/ingredient` , ingredient);
+  createIngredient(ingredient: Ingredient): Observable<Ingredient> {
+    return this.http.post<Ingredient>(`${this.apiURL}/ingredient` , ingredient);
   }
 
-  modifyIngredient(ingredient: Ingredient): Observable<HttpResponse<Ingredient>> {
-    return this.http.patch<HttpResponse<Ingredient>>(`${this.apiURL}/ingredient`, ingredient);
+  modifyIngredient(ingredient: Ingredient): Observable<Ingredient> {
+    return this.http.patch<Ingredient>(`${this.apiURL}/ingredient`, ingredient);
   }
 
   postIngredientsList(ingredientsListPayload: IngredientsListPayload): Observable<Recipe> {

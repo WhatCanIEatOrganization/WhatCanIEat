@@ -5,6 +5,8 @@ import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confir
 import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
 import { IngredientService } from '../ingredient.service';
 import { concatMap, defaultIfEmpty, filter, map, switchMap, tap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 
 export interface IngredientCreatorData {
   operationType: string,
@@ -26,6 +28,7 @@ export class IngredientItemComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private ingredientService: IngredientService,
+    private _snackBar: MatSnackBar
     ) { }
 
   ngOnInit(): void {
@@ -43,6 +46,7 @@ export class IngredientItemComponent implements OnInit {
         concatMap(() => { return this.ingredientService.deleteIngredient(this.ingredient)})
     ).subscribe({
       next: (val) => {
+        this.openSnackbarSuccess(this.ingredient.name, "deleted");
         this.removeIngredient.emit(val);
       },
       error: () => console.log("error")
@@ -78,5 +82,13 @@ export class IngredientItemComponent implements OnInit {
       .subscribe(val => {
         this.modifyIngredient.emit(val)
       });
+  }
+
+  private openSnackbarSuccess(objectName: String, operationType: String): void {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      data: {
+        message: `Ingredient ${objectName} has been ${operationType}!`
+      }
+    });
   }
 }

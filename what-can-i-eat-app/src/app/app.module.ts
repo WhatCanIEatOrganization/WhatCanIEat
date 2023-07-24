@@ -26,6 +26,8 @@ import { IngredientListViewComponent } from './pages/home-page/ingredient-list-v
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { SnackbarSuccessComponent } from './common/dialog/snackbar-success/snackbar-success.component';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -43,7 +45,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     IngredientCreatorComponent,
     RecipesViewFullComponent,
     RecipeItemCardComponent,
-    RecipeItemOnClickComponent
+    RecipeItemOnClickComponent,
+    SnackbarSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -63,9 +66,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSelectModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    ScrollingModule
+    ScrollingModule,
+    MatSnackBarModule
   ],
-  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

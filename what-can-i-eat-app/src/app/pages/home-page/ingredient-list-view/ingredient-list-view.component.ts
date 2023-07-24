@@ -6,6 +6,9 @@ import { concatMap, map, mergeMap } from 'rxjs/operators'
 import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { HttpResponse } from '@angular/common/http';
+import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
+import { Recipe } from 'src/app/model/recipe/recipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class IngredientListViewComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private ingredientService: IngredientService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -53,8 +57,8 @@ export class IngredientListViewComponent implements OnInit {
         return this.ingredientService.createIngredient(ingredient);
       }))
       .subscribe({
-        next: (val: HttpResponse<Ingredient>) => {
-          console.log("Ingredient created" + val);
+        next: (val: Ingredient) => {
+          this.openSnackbarSuccess(val.name, "created");
           this.getIngredientList();
         },
         error: () => {
@@ -67,6 +71,7 @@ export class IngredientListViewComponent implements OnInit {
     this.ingredientService.modifyIngredient(ing).subscribe({
       next: (val) => {
         this.getIngredientList();
+        this.openSnackbarSuccess(val.name, "changed")
       },
       error: () => console.log("Something went wrong!")
     })
@@ -84,5 +89,13 @@ export class IngredientListViewComponent implements OnInit {
         console.log("smh went wrong");
       }
     })
+  }
+
+  private openSnackbarSuccess(objectName: String, operationType: String): void {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      data: {
+        message: `Ingredient ${objectName} has been ${operationType}!`
+      }
+    });
   }
 }

@@ -5,6 +5,8 @@ import { RecipeItemOnClickComponent } from '../recipe-item-on-click/recipe-item-
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { filter, concatMap } from 'rxjs';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 
 @Component({
   selector: 'app-recipe-item-card',
@@ -18,6 +20,7 @@ export class RecipeItemCardComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private recipeService: RecipeService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -42,9 +45,18 @@ export class RecipeItemCardComponent implements OnInit {
     ).subscribe({
       next: (val) => {
         this.delete.emit();
+        this.openSnackbarSuccess(this.recipe);
       },
       error: () => console.log("error")
     })
+  }
+
+  private openSnackbarSuccess(recipe: Recipe): void {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      data: {
+        message: `Recipe ${recipe.name} has been deleted!`
+      }
+    });
   }
 
   public toggleFavorite(): void {
