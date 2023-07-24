@@ -24,6 +24,7 @@ public class Recipe {
     private String name;
     private String description;
     private int preparationTime;
+    private boolean favorite;
 
     @ManyToMany
     @JoinTable(

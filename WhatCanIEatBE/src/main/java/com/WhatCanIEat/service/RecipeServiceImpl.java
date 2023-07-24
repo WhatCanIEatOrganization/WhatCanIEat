@@ -36,4 +36,14 @@ public class RecipeServiceImpl implements RecipeService{
         Random rand = new Random();
         return recipesList.get(rand.nextInt(recipesList.size()));
     }
+
+    @Override
+    public Recipe modifyRecipe(Recipe recipe) {
+        System.out.println(recipe);
+        Recipe recipeToModify = recipeRepository.findById(recipe.getId()).get();
+        recipeToModify.setFavorite(recipe.isFavorite());
+        Recipe x = recipeRepository.save(recipeToModify);
+        System.out.println(x);
+        return x;
+    }
 }

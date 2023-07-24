@@ -52,4 +52,12 @@ public class RecipeController {
                 .status(HttpStatus.OK)
                 .body(recipe);
     }
+
+    @PatchMapping
+    public ResponseEntity<Recipe> modifyRecipe(@RequestBody Recipe recipe) {
+        Recipe patched = recipeService.modifyRecipe(recipe);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(patched);
+    }
 }
