@@ -15,7 +15,7 @@
                     </mat-form-field>  
                     <mat-form-field>
                         <mat-label>Preparation time</mat-label>
-                        <input matInput type="number" formControlName="preparationTime" placeholder="Set time in minutes">
+                        <input min="0" matInput type="number" formControlName="preparationTime" placeholder="Set time in minutes">
                     </mat-form-field> 
                 </div>
                 <div class="stepper-button">
@@ -94,7 +94,7 @@
                 <div class="buttons-container">
                     <button mat-raised-button matStepperPrevious>Back</button>
                     <button mat-raised-button class="add" (click)="addStepInput()">Add Step</button>
-                    <button mat-raised-button (click)="stepper.reset()">Create Recipe</button>
+                    <button mat-raised-button (click)="createRecipe()">Create Recipe</button>
                 </div>
             </form>
         </mat-step>

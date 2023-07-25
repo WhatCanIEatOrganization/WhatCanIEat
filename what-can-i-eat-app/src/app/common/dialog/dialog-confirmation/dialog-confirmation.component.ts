@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 
-export interface IngredientData {
-  ingredient: Ingredient;
+export interface ConfirmationData {
+  objectType: string;
+  objectName: string;
 }
 
 @Component({
@@ -15,7 +16,7 @@ export class DialogConfirmationComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<DialogConfirmationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IngredientData
+    @Inject(MAT_DIALOG_DATA) public data: ConfirmationData
   ) { }
 
   ngOnInit(): void {

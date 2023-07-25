@@ -1,5 +1,11 @@
 export interface Ingredient {
+    id: number;
     name: string;
     amount: number;
-    amountType: string;
+    unitMeasure: string;
+}
+
+export interface IngredientsListPayload {
+    recipeId: number,
+    ingredientsList: Ingredient[];
 }

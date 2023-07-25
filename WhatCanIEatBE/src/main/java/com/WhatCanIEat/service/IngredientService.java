@@ -10,4 +10,6 @@ public interface IngredientService {
     List<Ingredient> getIngredientList();
 
     void deleteIngredient(int ingredientId);
+
+    Ingredient modifyIngredient(Ingredient ingredient);
 }

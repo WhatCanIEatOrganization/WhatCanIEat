@@ -1,11 +1,19 @@
 <div class="container">
     <div>
-        <div class="container-title">
-            <span>Ingredients List</span>
+        <div class="container-title text">
+            <h1>Ingredients List</h1>
         </div>
-        <div *ngFor="let ingredient of ingredientList">
-            <app-ingredient-item [ingredient]="ingredient"></app-ingredient-item>
-        </div>
+        <cdk-virtual-scroll-viewport  style="height: 300px" itemSize="1" *ngIf="!isLoading && !ingredientsListEmpty">
+            <ng-container *cdkVirtualFor="let ingredient of ingredientList">
+                <app-ingredient-item [ingredient]="ingredient" (removeIngredient)="getIngredientList()" (modifyIngredient)="modifyIngredient($event)"></app-ingredient-item>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <div *ngIf="isLoading">
+        <mat-spinner diameter="30" style="margin:0 auto;"></mat-spinner>
+    </div>
+    <div *ngIf="ingredientsListEmpty && !isLoading" class="center text">
+        <h2>You didn't add any ingredients!</h2>
     </div>
     <div class="buttons-container center">
         <div class="center">
@@ -15,7 +23,7 @@
             </button>
         </div>
         <div class="center">
-            <button mat-raised-button color="secondary">Generate Recipe <mat-icon>change_circle</mat-icon></button>
-        </div>
+            <button mat-raised-button color="secondary" [disabled]="ingredientsListEmpty">Generate Recipe <mat-icon>change_circle</mat-icon></button>
+        </div>  
     </div>
 </div>

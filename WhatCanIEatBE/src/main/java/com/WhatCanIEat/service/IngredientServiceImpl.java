@@ -3,9 +3,11 @@ package com.WhatCanIEat.service;
 import com.WhatCanIEat.model.Ingredient;
 import com.WhatCanIEat.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class IngredientServiceImpl implements IngredientService {
     @Autowired
     IngredientRepository ingredientRepository;
@@ -23,5 +25,11 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public void deleteIngredient(int ingredientId) {
         ingredientRepository.deleteById(ingredientId);
+    }
+
+    @Override
+    public Ingredient modifyIngredient(Ingredient ingredient) {
+        ingredientRepository.deleteById(ingredient.getId());
+        return ingredientRepository.save(ingredient);
     }
 }

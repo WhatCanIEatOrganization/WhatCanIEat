@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/model/recipe/recipe';
-import { RecipesViewFullService } from './recipes-view-full.service';
+import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 
 @Component({
   selector: 'app-recipes-view-full',
@@ -9,14 +9,25 @@ import { RecipesViewFullService } from './recipes-view-full.service';
 })
 export class RecipesViewFullComponent implements OnInit {
   recipesList: Recipe[] = [];
+  isLoading = true;
 
   constructor(
-    private recipesViewFullService: RecipesViewFullService,
+    private recipeService: RecipeService,
   ) { }
 
   ngOnInit(): void {
-    this.recipesList = this.recipesViewFullService.createDummyRecipes();
-  }  onRecipeCardClick(): void {
-    console.log("here");
+    this.getRecipeList();
+  }  
+
+  getRecipeList(): void {
+    this.recipeService.getRecipeList().subscribe({
+      next: (recipes) => {
+        this.recipesList = recipes;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { RecipesHistoryViewService } from './recipes-history-view.service';
+import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 
 @Component({
   selector: 'app-recipes-history',
@@ -8,14 +9,28 @@ import { RecipesHistoryViewService } from './recipes-history-view.service';
   styleUrls: ['./recipes-history.component.scss']
 })
 export class RecipesHistoryComponent implements OnInit {
-  recipesList: Recipe[] = [];
+  recipe!: Recipe;
+  isLoading: boolean = true;
 
   constructor(
-    public recipesHistoryViewService: RecipesHistoryViewService,
+    private recipeService: RecipeService,
   ) { }
 
   ngOnInit(): void {
-    this.recipesList = this.recipesHistoryViewService.createDummyRecipes();
+    this.getRandomRecipe();
   }
 
+  getRandomRecipe(): void {
+    this.recipeService.getRandomRecipe().subscribe({
+      next: (recipe) => {
+        this.recipe = recipe;
+        this.isLoading = false;
+
+      },
+      error: () => {
+        console.log("error");
+        this.isLoading = true;
+      }
+    })
+  }
 }
