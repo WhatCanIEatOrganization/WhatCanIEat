@@ -5,7 +5,9 @@ import com.WhatCanIEat.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -45,5 +47,11 @@ public class RecipeServiceImpl implements RecipeService{
         Recipe x = recipeRepository.save(recipeToModify);
         System.out.println(x);
         return x;
+    }
+
+    @Override
+    public Recipe getRecipeById(int recipeId) {
+        Optional<Recipe> recipeOptional = this.recipeRepository.findById(recipeId);
+        return recipeOptional.orElse(null);
     }
 }
