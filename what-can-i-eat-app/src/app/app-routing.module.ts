@@ -6,7 +6,8 @@ import { RecipesViewFullComponent } from './pages/recipes-view-full/recipes-view
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
-  { path: 'add', component: RecipeCreatorComponent },
+  { path: 'recipe/add', component: RecipeCreatorComponent },
+  { path: 'recipe/modify', component: RecipeCreatorComponent },
   { path: 'browse', component: RecipesViewFullComponent },
 ];
 

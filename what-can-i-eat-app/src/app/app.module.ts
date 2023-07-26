@@ -32,7 +32,6 @@ import { MatMenuModule } from '@angular/material/menu';
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +47,7 @@ import { MatMenuModule } from '@angular/material/menu';
     RecipesViewFullComponent,
     RecipeItemCardComponent,
     RecipeItemOnClickComponent,
-    SnackbarSuccessComponent
+    SnackbarSuccessComponent,
   ],
   imports: [
     BrowserModule,

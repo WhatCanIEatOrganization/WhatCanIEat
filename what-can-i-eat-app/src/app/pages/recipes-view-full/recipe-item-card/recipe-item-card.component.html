@@ -22,7 +22,9 @@
     </div>
 </div>
 <mat-menu #editRecipeMenu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item 
+        [routerLink]="['/recipe/modify']"
+        [queryParams]="{ recipeId: recipe.id }">
         <mat-icon>create</mat-icon>
         <span>Edit</span>
     </button>
