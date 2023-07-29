@@ -26,8 +26,7 @@ public class Ingredient {
     private String description;
     private String imageUrl;
     private String wikipediaUrl;
-    private int amount;
-    private String unitMeasure;
+    private Category foodCategory;
 
     @ManyToMany(mappedBy = "ingredients")
     private Set<Recipe> recipes = new HashSet<>();
