@@ -28,8 +28,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SnackbarSuccessComponent } from './common/dialog/snackbar-success/snackbar-success.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ImagesSlideShowComponent } from './pages/images-slide-show/images-slide-show.component';
 import { MatMenuModule } from '@angular/material/menu';
-
 
 
 @NgModule({
@@ -48,6 +48,7 @@ import { MatMenuModule } from '@angular/material/menu';
     RecipeItemCardComponent,
     RecipeItemOnClickComponent,
     SnackbarSuccessComponent,
+    ImagesSlideShowComponent
   ],
   imports: [
     BrowserModule,
