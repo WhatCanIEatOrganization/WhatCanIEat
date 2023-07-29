@@ -45,6 +45,14 @@ public class RecipeController {
         return HttpStatus.NO_CONTENT;
     }
 
+    @GetMapping("/{recipeId}")
+    public ResponseEntity<Recipe> getRecipeById(@PathVariable int recipeId) {
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(recipe);
+    }
+
     @GetMapping("/rng")
     public ResponseEntity<Recipe> randomRecipe() {
         Recipe recipe = recipeService.getRandomRecipe();

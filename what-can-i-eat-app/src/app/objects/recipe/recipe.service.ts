@@ -10,7 +10,9 @@ import { environment } from 'src/environments/environment';
 export class RecipeService {
   apiURL = environment.apiURL;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    ) { }
 
   getRecipeList(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>(`${this.apiURL}/recipe`);
@@ -31,5 +33,9 @@ export class RecipeService {
 
   getRandomRecipe(): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiURL}/recipe/rng`);
+  }
+
+  getRecipeById(recipeId: number): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.apiURL}/recipe/${recipeId}`);
   }
 }
