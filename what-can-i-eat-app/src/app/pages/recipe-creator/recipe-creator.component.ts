@@ -6,6 +6,7 @@ import { HttpResponse } from '@angular/common/http';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -15,6 +16,7 @@ import { IngredientService } from 'src/app/objects/ingredient/ingredient.service
 export class RecipeCreatorComponent implements OnInit {
   MeasureUnit = MeasureUnit;
   selectedUnit: string = MeasureUnit.Gram;
+  passedRecipeId: number | undefined;
   
   generalInformationForm = new FormGroup({
     recipeName: new FormControl('', Validators.required),
@@ -33,12 +35,35 @@ export class RecipeCreatorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, 
     private recipeService: RecipeService,
-    private ingredientsService: IngredientService
+    private ingredientsService: IngredientService,
+    private activatedRoute: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
+    this.setRecipeByUrlId();
     this.addIngredientInput();
     this.addStepInput();
+  }
+
+  setFormsWithRecipeInfo(recipe: Recipe): void {
+    this.generalInformationForm.setValue({
+      recipeName: recipe.name,
+      description: recipe.description,
+      preparationTime: recipe.preparationTime,
+    });
+  }
+
+  // need any tip how to solve this better 
+  setRecipeByUrlId(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const recipeId = params['recipeId'];
+      if(recipeId != undefined) {
+        this.recipeService.getRecipeById(recipeId).subscribe((val) => {
+          this.setFormsWithRecipeInfo(val);
+          this.passedRecipeId = val.id!;
+        })
+      }
+    });
   }
 
   get ingredientsAsFormArray(): any {
@@ -75,7 +100,7 @@ export class RecipeCreatorComponent implements OnInit {
 
   public createRecipe() {
     let recipe: Recipe = {
-      id: 0,
+      id: this.passedRecipeId,
       name: this.generalInformationForm.value.recipeName!,
       description: this.generalInformationForm.value.description!,
       preparationTime: this.generalInformationForm.value.preparationTime!,

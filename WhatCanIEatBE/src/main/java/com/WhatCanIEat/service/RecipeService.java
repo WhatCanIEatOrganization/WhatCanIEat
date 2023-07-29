@@ -15,4 +15,6 @@ public interface RecipeService {
     Recipe getRandomRecipe();
 
     Recipe modifyRecipe(Recipe recipe);
+
+    Recipe getRecipeById(int recipeId);
 }

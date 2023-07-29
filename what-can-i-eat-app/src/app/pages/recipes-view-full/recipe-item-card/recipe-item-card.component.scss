@@ -18,6 +18,7 @@
 }
 
 .title-dots {
+    height: 40px;
     font-weight: 800;
     letter-spacing: 1px;
     font-size: 20px;
@@ -32,6 +33,11 @@ svg {
     height: 30px;
     width: 30px;
     fill: rgba(0, 0, 0, 0.705);
+}
+
+svg:hover {
+    cursor: pointer;
+    border-bottom: solid rgba(85, 85, 85, 0.705) 2px;
 }
 
 .svgs {
