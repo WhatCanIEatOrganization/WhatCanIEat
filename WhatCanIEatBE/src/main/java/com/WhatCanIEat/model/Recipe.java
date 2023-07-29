@@ -33,9 +33,4 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     Set<Ingredient> ingredients = new HashSet<>();
-
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        ingredient.addRecipe(this);
-    }
 }
