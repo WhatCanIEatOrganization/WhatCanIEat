@@ -1,0 +1,8 @@
+<div>
+    <div class="title">
+        <span>Your Favorite Recipes</span>
+    </div>
+    <div class="recipes">
+        <app-recipe-favorite-item *ngFor="let recipe of recipesList" [recipe]="recipe"></app-recipe-favorite-item>
+    </div>
+</div>
