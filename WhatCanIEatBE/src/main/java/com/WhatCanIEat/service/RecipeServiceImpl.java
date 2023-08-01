@@ -1,5 +1,6 @@
 package com.WhatCanIEat.service;
 
+import com.WhatCanIEat.model.Ingredient;
 import com.WhatCanIEat.model.Recipe;
 import com.WhatCanIEat.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class RecipeServiceImpl implements RecipeService{
+public class RecipeServiceImpl implements RecipeService {
 
 
     @Autowired
@@ -19,7 +20,7 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     public Recipe addNewRecipe(Recipe recipe) {
-       return recipeRepository.save(recipe);
+        return recipeRepository.save(recipe);
     }
 
     @Override
@@ -37,6 +38,11 @@ public class RecipeServiceImpl implements RecipeService{
         List<Recipe> recipesList = recipeRepository.findAll();
         Random rand = new Random();
         return recipesList.get(rand.nextInt(recipesList.size()));
+    }
+
+    @Override
+    public Recipe addIngredientsToRecipe(List<Ingredient> ingredients) {
+        return null;
     }
 
     @Override
