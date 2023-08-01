@@ -60,4 +60,10 @@ public class RecipeController {
                 .status(HttpStatus.OK)
                 .body(patched);
     }
+
+    @GetMapping("/favorite")
+    public ResponseEntity<List<Recipe>> getFavoriteRecipes() {
+        List<Recipe> favoriteRecipes = recipeService.getFavoriteRecipes();
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
+    }
 }

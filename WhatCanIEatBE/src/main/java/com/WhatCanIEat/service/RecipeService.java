@@ -10,6 +10,7 @@ public interface RecipeService {
     Recipe addNewRecipe(Recipe recipe);
 
     List<Recipe> getRecipesList();
+    List<Recipe> getFavoriteRecipes();
 
     void deleteRecipe(int recipeId);
 
