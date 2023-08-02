@@ -14,8 +14,13 @@ import java.util.List;
 @RequestMapping("/recipe")
 public class RecipeController {
 
+
+    private final RecipeServiceImpl recipeService;
+
     @Autowired
-    private RecipeServiceImpl recipeService;
+    public RecipeController(RecipeServiceImpl recipeService) {
+        this.recipeService = recipeService;
+    }
 
     @PostMapping
     public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe requestRecipe) {

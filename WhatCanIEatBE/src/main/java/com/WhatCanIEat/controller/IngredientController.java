@@ -8,13 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController {
+
+    private final IngredientServiceImpl ingredientService;
+
     @Autowired
-    private IngredientServiceImpl ingredientService;
+    public IngredientController(IngredientServiceImpl ingredientService) {
+        this.ingredientService = ingredientService;
+    }
 
     @PostMapping
     public ResponseEntity<Ingredient> addNewIngredient(@RequestBody Ingredient requestIngredient) {
