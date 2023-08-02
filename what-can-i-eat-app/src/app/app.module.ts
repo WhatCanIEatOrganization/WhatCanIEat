@@ -30,6 +30,8 @@ import { SnackbarSuccessComponent } from './common/dialog/snackbar-success/snack
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImagesSlideShowComponent } from './pages/images-slide-show/images-slide-show.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { RecipesFavoriteComponent } from './pages/home-page/recipes-favorite/recipes-favorite.component';
+import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { MatMenuModule } from '@angular/material/menu';
     RecipeItemCardComponent,
     RecipeItemOnClickComponent,
     SnackbarSuccessComponent,
-    ImagesSlideShowComponent
+    ImagesSlideShowComponent,
+    RecipesFavoriteComponent,
+    RecipeFavoriteItemComponent
   ],
   imports: [
     BrowserModule,
