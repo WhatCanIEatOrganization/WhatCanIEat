@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,18 +22,12 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
-
     private int amount;
-
     private String unitMeasure;
-
-    @ManyToMany(mappedBy = "ingredients")
-    private Set<Recipe> recipes = new HashSet<>();
-
-    public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-    }
+    private String description;
+    private String imageUrl;
+    private String wikipediaUrl;
+    private Category foodCategory;
 
 }

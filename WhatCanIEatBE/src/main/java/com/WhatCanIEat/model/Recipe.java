@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,16 +27,11 @@ public class Recipe {
     private int preparationTime;
     private boolean favorite;
 
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_ingredients",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    Set<Ingredient> ingredients = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id")
+    private List<Ingredient> ingredients;
 
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        ingredient.addRecipe(this);
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id")
+    private List<PreparationStep> preparationSteps;
 }
