@@ -40,35 +40,6 @@ export class RecipeService {
   }
 
   getFavoriteRecipes(): Observable<Recipe[]> {
-    let rcp: Recipe = {
-      name: 'Lasagna',
-      description: 'Smthth',
-      preparationTime: 30,
-      favorite: true,
-      ingredientList: []
-    }
-
-    let rcp2: Recipe = {
-      name: 'Tortilla',
-      description: '',
-      preparationTime: 2,
-      favorite: true,
-      ingredientList: []
-    }
-
-    let rcp3: Recipe = {
-      name: 'Pizza',
-      description: 'x',
-      preparationTime: 1,
-      favorite: false,
-      ingredientList: []
-    }
-
-    let list: Recipe[] = [];
-    list.push(rcp);
-    list.push(rcp2);
-    list.push(rcp3);
-    // return this.http.get<Recipe[]>(`${this.apiURL}/recipe/favorite`);
-    return of(list);
+    return this.http.get<Recipe[]>(`${this.apiURL}/recipe/favorite`);
   }
 }

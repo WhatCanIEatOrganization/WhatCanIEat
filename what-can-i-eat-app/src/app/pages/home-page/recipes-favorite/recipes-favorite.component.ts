@@ -22,8 +22,8 @@ export class RecipesFavoriteComponent implements OnInit {
   getFavoriteRecipes(): void {
     this.recipesService.getFavoriteRecipes().subscribe({
       next: (val) => {
+        this.recipesList = val.slice(0, 3);
         this.isLoading = false;
-        this.recipesList = val;
       },
       error: () => {
         console.log("Error");
