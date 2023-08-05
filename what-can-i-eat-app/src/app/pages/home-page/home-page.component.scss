@@ -34,11 +34,11 @@ button {
   color: #FFFFFF;
 }
 
-.ingredients-recipes {
+.homepage-row {
   padding-top: 15px;
   display: flex;
   flex-direction: row;
-  gap: 5vw;
+  gap: 2vw;
 }
 
 .content-container {
@@ -54,4 +54,8 @@ button {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.featured {
+  width: 600px;
 }
