@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="container-title text">
+        <h1>Featured meal of the day</h1>
+    </div>
+    <div *ngIf="!isLoading" class="row" (click)="onRecipeCardClick()">
+        <div>
+            <img src="/assets/images/comfort_food_placeholder.png">
+        </div>
+        <div class="recipe-details">
+            <div class="text">
+                <h2><strong>{{recipe.name}}</strong></h2>
+            </div>
+            <div class="time-amount">
+                <div class="text">
+                    <span>Preparation time: {{recipe.preparationTime}}</span>
+                </div>
+                <div class="text">
+                    <span>Ingredients amount: {{ingredientsAmount}}</span>
+                </div>
+            </div>
+            <div class=text-color>
+                <span>{{recipe.description}}</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isLoading">
+        <mat-spinner diameter="30" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>

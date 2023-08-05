@@ -32,6 +32,7 @@ import { ImagesSlideShowComponent } from './pages/images-slide-show/images-slide
 import { MatMenuModule } from '@angular/material/menu';
 import { RecipesFavoriteComponent } from './pages/home-page/recipes-favorite/recipes-favorite.component';
 import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
+import { FeaturedMealComponent } from './pages/home-page/featured-meal/featured-meal.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/
     SnackbarSuccessComponent,
     ImagesSlideShowComponent,
     RecipesFavoriteComponent,
-    RecipeFavoriteItemComponent
+    RecipeFavoriteItemComponent,
+    FeaturedMealComponent
   ],
   imports: [
     BrowserModule,
