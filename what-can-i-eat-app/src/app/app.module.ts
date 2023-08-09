@@ -33,6 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RecipesFavoriteComponent } from './pages/home-page/recipes-favorite/recipes-favorite.component';
 import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
 import { FeaturedMealComponent } from './pages/home-page/featured-meal/featured-meal.component';
+import { DailyTipComponent } from './pages/home-page/daily-tip/daily-tip.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { FeaturedMealComponent } from './pages/home-page/featured-meal/featured-
     ImagesSlideShowComponent,
     RecipesFavoriteComponent,
     RecipeFavoriteItemComponent,
-    FeaturedMealComponent
+    FeaturedMealComponent,
+    DailyTipComponent
   ],
   imports: [
     BrowserModule,
