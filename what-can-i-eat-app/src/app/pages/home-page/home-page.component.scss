@@ -42,7 +42,7 @@ button {
 }
 
 .content-container {
-  height: 440px;
+  height: 535px;
   width: 405px;
 }
 
@@ -56,6 +56,16 @@ button {
   flex-direction: row;
 }
 
-.featured {
+.wide-container {
   width: 600px;
+}
+
+.daily-tip {
+  height: 190px;
+}
+
+.tip-featured {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
 }
