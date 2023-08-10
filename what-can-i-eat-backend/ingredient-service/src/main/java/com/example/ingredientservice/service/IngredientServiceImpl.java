@@ -1,4 +1,4 @@
-package com.recipeservice.service;
+package com.example.ingredientservice.service;
 
 import com.recipeservice.model.Ingredient;
 import com.recipeservice.repository.IngredientRepository;

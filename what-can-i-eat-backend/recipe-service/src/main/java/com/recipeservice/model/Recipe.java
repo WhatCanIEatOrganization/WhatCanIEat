@@ -23,11 +23,8 @@ public class Recipe {
     private String description;
     private int preparationTime;
     private boolean favorite;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_id")
-    private List<Ingredient> ingredients;
-
+    @ElementCollection
+    private List<Integer> ingredientsId;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     private List<PreparationStep> preparationSteps;

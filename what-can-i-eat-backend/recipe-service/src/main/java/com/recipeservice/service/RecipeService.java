@@ -1,6 +1,5 @@
 package com.recipeservice.service;
 
-import com.recipeservice.model.Ingredient;
 import com.recipeservice.model.Recipe;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public interface RecipeService {
     void deleteRecipe(int recipeId);
 
     Recipe getRandomRecipe();
-    Recipe addIngredientsToRecipe(List<Ingredient> ingredients);
 
     Recipe modifyRecipe(Recipe recipe);
 }

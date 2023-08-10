@@ -1,6 +1,6 @@
 package com.recipeservice.service;
 
-import com.recipeservice.model.Ingredient;
+
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +43,10 @@ public class RecipeServiceImpl implements RecipeService {
         return recipesList.get(rand.nextInt(recipesList.size()));
     }
 
-    @Override
-    public Recipe addIngredientsToRecipe(List<Ingredient> ingredients) {
-        return null;
-    }
+//    @Override
+//    public Recipe addIngredientsToRecipe(List<Ingredient> ingredients) {
+//        return null;
+//    }
 
     @Override
     public Recipe modifyRecipe(Recipe recipe) {

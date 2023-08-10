@@ -1,4 +1,4 @@
-package com.recipeservice.model;
+package com.example.ingredientservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
