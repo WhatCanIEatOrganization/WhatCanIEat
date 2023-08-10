@@ -3,7 +3,7 @@
         <div class="container-title text">
             <h1>Ingredients List</h1>
         </div>
-        <cdk-virtual-scroll-viewport  style="height: 300px" itemSize="1" *ngIf="!isLoading && !ingredientsListEmpty">
+        <cdk-virtual-scroll-viewport  style="height: 375px" itemSize="1" *ngIf="!isLoading && !ingredientsListEmpty">
             <ng-container *cdkVirtualFor="let ingredient of ingredientList">
                 <app-ingredient-item [ingredient]="ingredient" (removeIngredient)="getIngredientList()" (modifyIngredient)="modifyIngredient($event)"></app-ingredient-item>
             </ng-container>
