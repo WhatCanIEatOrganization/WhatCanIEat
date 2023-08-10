@@ -1,6 +1,7 @@
 package com.example.ingredientservice.service;
 
-import com.recipeservice.model.Ingredient;
+
+import com.example.ingredientservice.model.Ingredient;
 
 import java.util.List;
 
