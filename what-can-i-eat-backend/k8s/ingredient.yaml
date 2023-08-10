@@ -32,7 +32,10 @@ kind: Service
 metadata:
   name: ingredient-service
 spec:
+  type: NodePort
   ports:
     - port: 8081
+      targetPort: 8081
+      nodePort: 30081  # Opcjonalnie: możesz określić konkretny port NodePort, w przeciwnym razie zostanie on przydzielony automatycznie
   selector:
     app: ingredient-service
