@@ -30,6 +30,7 @@ public class IngredientController {
 
     @GetMapping
     public ResponseEntity<List<Ingredient>> ingredientList() {
+        System.out.println("test");
         List<Ingredient> ingredientList = ingredientService.getIngredientList();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
