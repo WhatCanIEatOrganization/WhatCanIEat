@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "preparationSteps")
-public class PreparationStep {
+@Table(name = "recipe_tags")
+public class RecipeTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,7 +17,5 @@ public class PreparationStep {
     @JsonIgnore
     private Recipe recipe;
 
-    private String step;
-
-    // Getters, setters, konstruktory, itp.
+    private String tag;
 }

@@ -1,6 +1,5 @@
 package com.recipeservice.controller;
 
-import com.recipeservice.dto.CreateRecipeIngredientsListDTO;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +24,9 @@ public class RecipeController {
     @PostMapping
     public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe requestRecipe) {
         Recipe savedRecipe = recipeService.addNewRecipe(requestRecipe);
-
        return ResponseEntity
                .status(HttpStatus.CREATED)
                .body(savedRecipe);
-    }
-
-    @PostMapping("/list")
-    public HttpStatus addRecipeIngredientsList(@RequestBody CreateRecipeIngredientsListDTO recipeIngredientsListDTO) {
-        return HttpStatus.OK;
     }
 
     @GetMapping
@@ -66,9 +59,9 @@ public class RecipeController {
                 .body(patched);
     }
 
-    @GetMapping("/favorite")
-    public ResponseEntity<List<Recipe>> getFavoriteRecipes() {
-        List<Recipe> favoriteRecipes = recipeService.getFavoriteRecipes();
-        return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
-    }
+//    @GetMapping("/favorite")
+//    public ResponseEntity<List<Recipe>> getFavoriteRecipes() {
+//        List<Recipe> favoriteRecipes = recipeService.getFavoriteRecipes();
+//        return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
+//    }
 }

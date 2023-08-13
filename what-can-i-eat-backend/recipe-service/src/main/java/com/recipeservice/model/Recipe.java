@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@Entity(name = "recipes")
-@Table
+@Entity
+@Table(name = "recipes")
 public class Recipe {
 
     @Id
@@ -21,11 +22,34 @@ public class Recipe {
     private int id;
     private String name;
     private String description;
-    private int preparationTime;
     private boolean favorite;
-    @ElementCollection
-    private List<Integer> ingredientsId;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_id")
-    private List<PreparationStep> preparationSteps;
+
+
+
+    // fields from import
+    private String source;
+    private Integer preptime;
+    private Integer waittime;
+    private Integer cooktime;
+    private Integer servings;
+    private String comments;
+    private Integer calories;
+    private Integer fat;
+    private Integer satfat;
+    private Integer carbs;
+    private Integer fiber;
+    private Integer sugar;
+    private Integer protein;
+    private String instructions;
+
+    // relations
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PreparationStep> preparationSteps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RecipeIngredient> ingredients = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RecipeTag> tags = new ArrayList<>();
 }
