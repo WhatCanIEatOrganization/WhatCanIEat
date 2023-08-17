@@ -2,9 +2,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-images-slide-show',
-  templateUrl: './images-slide-show.component.html',
-  styleUrls: ['./images-slide-show.component.scss'],
+  selector: 'app-advert-banner',
+  templateUrl: './advert-banner.component.html',
+  styleUrls: ['./advert-banner.component.scss'],
   animations: [
     trigger('carouselAnimation', [
       transition('* => *', [
@@ -17,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
     ])
   ]
 })
-export class ImagesSlideShowComponent implements OnInit {
+export class AdvertBannerComponent implements OnInit {
   slides: string[] = [];
   imgSource!: string;
   animate = true;

@@ -6,10 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
-import { HomePageComponent } from './pages/home-page/home-page.component';
+import { FeedPageComponent } from './pages/feed-page/feed-page.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RecipesHistoryComponent } from './pages/home-page/recipes-history/recipes-history.component';
 import { RecipeCreatorComponent } from './pages/recipe-creator/recipe-creator.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NavBarComponent } from './common/nav-bar/nav-bar.component';
@@ -22,27 +21,26 @@ import { RecipeItemOnClickComponent } from './pages/recipes-view-full/recipe-ite
 import { MatSelectModule } from '@angular/material/select';
 import { IngredientItemComponent } from './objects/ingredient/ingredient-item/ingredient-item.component';
 import { RecipeItemComponent } from './objects/recipe/recipe-item/recipe-item.component';
-import { IngredientListViewComponent } from './pages/home-page/ingredient-list-view/ingredient-list-view.component';
+import { IngredientsListComponent } from './pages/feed-page/ingredients-list/ingredients-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SnackbarSuccessComponent } from './common/dialog/snackbar-success/snackbar-success.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ImagesSlideShowComponent } from './pages/images-slide-show/images-slide-show.component';
+import { AdvertBannerComponent } from './pages/feed-page/advert-banner/advert-banner.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { RecipesFavoriteComponent } from './pages/home-page/recipes-favorite/recipes-favorite.component';
-import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
-import { FeaturedMealComponent } from './pages/home-page/featured-meal/featured-meal.component';
-import { DailyTipComponent } from './pages/home-page/daily-tip/daily-tip.component';
+import { RecipesFavoriteComponent } from './pages/feed-page/recipes-favorite/recipes-favorite.component';
+import { RecipeFavoriteItemComponent } from './pages/feed-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
+import { FeaturedMealComponent } from './pages/feed-page/featured-meal/featured-meal.component';
+import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
-    IngredientListViewComponent,
+    FeedPageComponent,
+    IngredientsListComponent,
     IngredientItemComponent,
-    RecipesHistoryComponent,
     RecipeItemComponent,
     RecipeCreatorComponent,
     NavBarComponent,
@@ -52,7 +50,7 @@ import { DailyTipComponent } from './pages/home-page/daily-tip/daily-tip.compone
     RecipeItemCardComponent,
     RecipeItemOnClickComponent,
     SnackbarSuccessComponent,
-    ImagesSlideShowComponent,
+    AdvertBannerComponent,
     RecipesFavoriteComponent,
     RecipeFavoriteItemComponent,
     FeaturedMealComponent,

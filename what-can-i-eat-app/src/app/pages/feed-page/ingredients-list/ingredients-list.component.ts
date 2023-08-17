@@ -2,21 +2,19 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IngredientCreatorComponent } from 'src/app/objects/ingredient/ingredient-creator/ingredient-creator.component';
-import { concatMap, map, mergeMap } from 'rxjs/operators'
+import { concatMap } from 'rxjs/operators'
 import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
-import { HttpResponse } from '@angular/common/http';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
-import { Recipe } from 'src/app/model/recipe/recipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
-  selector: 'app-ingredient-list-view',
-  templateUrl: './ingredient-list-view.component.html',
-  styleUrls: ['./ingredient-list-view.component.scss']
+  selector: 'app-ingredients-list',
+  templateUrl: './ingredients-list.component.html',
+  styleUrls: ['./ingredients-list.component.scss']
 })
-export class IngredientListViewComponent implements OnInit {
+export class IngredientsListComponent implements OnInit {
   @Input() ingredientList: Ingredient[] = [];
   ingredientsListEmpty: boolean = true;
   isLoading: boolean = false;
