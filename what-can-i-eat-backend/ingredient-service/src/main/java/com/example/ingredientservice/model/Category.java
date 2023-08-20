@@ -1,27 +1,21 @@
 package com.example.ingredientservice.model;
 
 public enum Category {
-    HerbsAndSpices,
+    Spices,
     Vegetables,
+    Oils,
+    Dairy,
+    Meat,
+    Seafood,
+    Grains,
+    Bakery,
     Fruits,
+    Herbs,
+    Sweets,
+    Condiments,
+    Flavorings,
     Nuts,
-    CerealsAndCerealProducts,
-    Pulses,
-    Teas,
-    Gourds,
-    CoffeeAndCoffeeProducts,
-    Soy,
-    CocoaAndCocoaProducts,
-    Beverages,
-    AquaticFoods,
-    AnimalFoods,
-    MilkProducts,
-    Eggs,
-    Confectioneries,
-    BakingGoods,
-    Dishes,
-    SnackFoods,
-    BabyFoods,
-    Unclassified,
-    FatsAndOils
-    }
+    Seeds,
+    Vege,
+    Legumes;
+}

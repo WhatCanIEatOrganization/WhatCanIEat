@@ -19,13 +19,10 @@ public class Ingredient {
 
         @Column(nullable = false, unique = true)
         private String name;
-
-        private String name_scientific;
         private String description;
-        private String wikipedia_id;
-        private String picture_file_name;
-        private String picture_content_type;
-        private String food_group;
+        private String imageUrl;
+        @Enumerated(EnumType.STRING)
+        private Category category;
 
         //old fields
 //        private int amount;

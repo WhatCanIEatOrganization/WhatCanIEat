@@ -19,5 +19,4 @@ public class PreparationStep {
 
     private String step;
 
-    // Getters, setters, konstruktory, itp.
 }
