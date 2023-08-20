@@ -22,7 +22,8 @@ public class Ingredient {
         private String description;
         private String imageUrl;
         @Enumerated(EnumType.STRING)
-        private Category category;
+        @Column(name = "category")
+        private IngredientCategory ingredientCategory;
 
         //old fields
 //        private int amount;

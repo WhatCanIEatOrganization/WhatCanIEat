@@ -1,4 +1,8 @@
 package com.example.ingredientservice.dto;
 
-public record IngredientDto(int id, String name, String description, String foodGroup, int amount, String unitMeasure, String imageUrl) {
+import com.example.ingredientservice.model.IngredientCategory;
+import lombok.Builder;
+
+@Builder
+public record IngredientDto(int id, String name, String description, String imageUrl, IngredientCategory ingredientCategory) {
 }

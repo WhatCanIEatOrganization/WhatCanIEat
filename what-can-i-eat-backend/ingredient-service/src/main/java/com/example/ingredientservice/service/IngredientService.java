@@ -1,16 +1,18 @@
 package com.example.ingredientservice.service;
 
 
+import com.example.ingredientservice.dto.IngredientDto;
 import com.example.ingredientservice.model.Ingredient;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IngredientService {
-    Ingredient addNewIngredient(Ingredient ingredient);
+    IngredientDto addNewIngredient(IngredientDto ingredient);
 
-    List<Ingredient> getIngredientList();
+    List<IngredientDto> getIngredientList();
 
     void deleteIngredient(int ingredientId);
 
-    Ingredient modifyIngredient(Ingredient ingredient);
+    Optional<IngredientDto> getIngredientById(int ingredientId);
 }

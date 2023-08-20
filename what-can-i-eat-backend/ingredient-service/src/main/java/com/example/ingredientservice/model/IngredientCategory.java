@@ -1,6 +1,6 @@
 package com.example.ingredientservice.model;
 
-public enum Category {
+public enum IngredientCategory {
     Spices,
     Vegetables,
     Oils,
