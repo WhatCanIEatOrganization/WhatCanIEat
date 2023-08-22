@@ -12,16 +12,18 @@ public class IngredientMapper {
                 .description(ingredient.getDescription())
                 .imageUrl(ingredient.getImageUrl())
                 .ingredientCategory(ingredient.getIngredientCategory())
+                .amountWithUnit(ingredient.getAmountWithUnit())
                 .build();
     }
 
     public static Ingredient mapToEntity(IngredientDto ingredientDto){
         Ingredient ingredient = new Ingredient();
-        ingredient.setId(ingredient.getId());
-        ingredient.setName(ingredient.getName());
-        ingredient.setDescription(ingredient.getDescription());
-        ingredient.setImageUrl(ingredient.getImageUrl());
-        ingredient.setIngredientCategory(ingredient.getIngredientCategory());
+        ingredient.setId(ingredientDto.id());
+        ingredient.setName(ingredientDto.name());
+        ingredient.setDescription(ingredientDto.description());
+        ingredient.setImageUrl(ingredientDto.imageUrl());
+        ingredient.setIngredientCategory(ingredientDto.ingredientCategory());
+        ingredient.setAmountWithUnit(ingredientDto.amountWithUnit());
         return ingredient;
     }
 }

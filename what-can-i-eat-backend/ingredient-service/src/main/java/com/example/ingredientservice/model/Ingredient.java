@@ -24,6 +24,8 @@ public class Ingredient {
         @Enumerated(EnumType.STRING)
         @Column(name = "category")
         private IngredientCategory ingredientCategory;
+        @Column(name = "amount_unit")
+        private String amountWithUnit;
 
         //old fields
 //        private int amount;

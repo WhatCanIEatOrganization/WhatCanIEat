@@ -48,7 +48,7 @@ public class Recipe {
     private List<PreparationStep> preparationSteps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<IngredientWithAmount> ingredientWithAmounts = new ArrayList<>();
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RecipeTag> tags = new ArrayList<>();
