@@ -1,5 +1,6 @@
 package com.recipeservice.mapper;
 
+import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeIngredientDto;
 import com.recipeservice.model.RecipeIngredient;
 import org.mapstruct.Mapper;
@@ -14,4 +15,6 @@ public interface RecipeIngredientMapper {
     RecipeIngredientDto recipeIngredientToRecipeIngredientDto(RecipeIngredient recipeIngredient);
 
     RecipeIngredient recipeIngredientDtoToRecipeIngredient(RecipeIngredientDto recipeIngredientDto);
+
+    RecipeIngredientDto ingredientDtoToRecipeIngredientDto(IngredientDto ingredientDto);
 }
