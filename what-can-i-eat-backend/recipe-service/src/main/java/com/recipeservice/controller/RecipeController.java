@@ -1,5 +1,6 @@
 package com.recipeservice.controller;
 
+import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,14 @@ public class RecipeController {
        return ResponseEntity
                .status(HttpStatus.CREATED)
                .body(savedRecipe);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable Integer id){
+        RecipeDto recipeDto = recipeService.getRecipeById(id);
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(recipeDto);
     }
 
     @GetMapping

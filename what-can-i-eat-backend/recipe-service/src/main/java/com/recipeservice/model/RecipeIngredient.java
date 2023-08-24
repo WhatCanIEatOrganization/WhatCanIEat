@@ -7,17 +7,14 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "recipe_ingredients")
-public class IngredientWithAmount {
+public class RecipeIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
-    private String amount;
-
     @Column(name = "ingredient")
-    private String ingredientWithAmount;
+    private String completeIngredientData;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")

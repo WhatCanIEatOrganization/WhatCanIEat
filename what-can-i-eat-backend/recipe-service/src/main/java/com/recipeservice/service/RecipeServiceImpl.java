@@ -1,12 +1,16 @@
 package com.recipeservice.service;
 
 
+import com.recipeservice.dto.RecipeDto;
+import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -47,6 +51,12 @@ public class RecipeServiceImpl implements RecipeService {
 //    public Recipe addIngredientsToRecipe(List<Ingredient> ingredients) {
 //        return null;
 //    }
+
+    public RecipeDto getRecipeById(int id) {
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        return RecipeMapper.INSTANCE.recipeToRecipeDto(recipe.get());
+    }
+
 
     @Override
     public Recipe modifyRecipe(Recipe recipe) {
