@@ -1,10 +1,7 @@
 package com.example.ingredientservice.controller;
 
 import com.example.ingredientservice.dto.IngredientDto;
-import com.example.ingredientservice.mapper.IngredientMapper;
-import com.example.ingredientservice.model.Ingredient;
 import com.example.ingredientservice.service.IngredientServiceImpl;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +39,7 @@ public class IngredientController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(ingredient);
+                    .build();
         }
     }
 

@@ -13,6 +13,7 @@ public class IngredientMapper {
                 .imageUrl(ingredient.getImageUrl())
                 .ingredientCategory(ingredient.getIngredientCategory())
                 .amountWithUnit(ingredient.getAmountWithUnit())
+                .completeIngredientData(ingredient.getCompleteIngredientData())
                 .build();
     }
 

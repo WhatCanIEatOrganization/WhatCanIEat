@@ -26,6 +26,12 @@ public class Ingredient {
         private IngredientCategory ingredientCategory;
         @Column(name = "amount_unit")
         private String amountWithUnit;
+        @Transient
+        private String completeIngredientData;
+        @PostLoad
+        public void fillCompleteIngredientData() {
+                this.completeIngredientData = name + " - " + amountWithUnit;
+        }
 
         //old fields
 //        private int amount;
