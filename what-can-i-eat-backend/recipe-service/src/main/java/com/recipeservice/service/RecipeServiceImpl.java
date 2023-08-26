@@ -3,15 +3,19 @@ package com.recipeservice.service;
 
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
+import com.recipeservice.model.Ingredient;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -21,18 +25,31 @@ public class RecipeServiceImpl implements RecipeService {
     RecipeRepository recipeRepository;
 
     @Override
-    public Recipe addNewRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
+    @Transactional
+    public RecipeDto addNewRecipe(Recipe recipe) {
+        for(Ingredient ingredient : recipe.getIngredients()) {
+            ingredient.setRecipe(recipe);
+        }
+        recipeRepository.save(recipe);
+        return RecipeMapper.INSTANCE.recipeToRecipeDto(recipe);
     }
 
     @Override
-    public List<Recipe> getRecipesList() {
-        return recipeRepository.findAll();
+    public List<RecipeDto> getRecipesList() {
+        return recipeRepository
+                .findAll()
+                .stream()
+                .map(RecipeMapper.INSTANCE::recipeToRecipeDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Recipe> getFavoriteRecipes() {
-        return recipeRepository.findAllByFavorite(true);
+    public List<RecipeDto> getFavoriteRecipes() {
+        return recipeRepository
+                .findAllByFavorite(true)
+                .stream()
+                .map(RecipeMapper.INSTANCE::recipeToRecipeDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -41,10 +58,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe getRandomRecipe() {
+    public RecipeDto getRandomRecipe() {
         List<Recipe> recipesList = recipeRepository.findAll();
         Random rand = new Random();
-        return recipesList.get(rand.nextInt(recipesList.size()));
+        return RecipeMapper.INSTANCE.recipeToRecipeDto(recipesList.get(rand.nextInt(recipesList.size())));
     }
 
 //    @Override
@@ -52,18 +69,4 @@ public class RecipeServiceImpl implements RecipeService {
 //        return null;
 //    }
 
-    public RecipeDto getRecipeById(int id) {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
-        return RecipeMapper.INSTANCE.recipeToRecipeDto(recipe.get());
-    }
-
-
-    @Override
-    public Recipe modifyRecipe(Recipe recipe) {
-        System.out.println(recipe);
-        Recipe recipeToModify = recipeRepository.findById(recipe.getId()).get();
-        Recipe x = recipeRepository.save(recipeToModify);
-        System.out.println(x);
-        return x;
-    }
 }

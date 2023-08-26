@@ -1,14 +1,20 @@
 package com.recipeservice.controller;
 
+import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
+import com.recipeservice.mapper.IngredientMapper;
+import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/recipe")
@@ -16,31 +22,23 @@ public class RecipeController {
 
 
     private final RecipeServiceImpl recipeService;
+    private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    public RecipeController(RecipeServiceImpl recipeService) {
+    public RecipeController(RecipeServiceImpl recipeService, WebClient.Builder webClientBuilder) {
         this.recipeService = recipeService;
+        this.webClientBuilder = webClientBuilder;
     }
 
     @PostMapping
-    public ResponseEntity<Recipe> addNewRecipe(@RequestBody Recipe requestRecipe) {
-        Recipe savedRecipe = recipeService.addNewRecipe(requestRecipe);
-       return ResponseEntity
-               .status(HttpStatus.CREATED)
-               .body(savedRecipe);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable Integer id){
-        RecipeDto recipeDto = recipeService.getRecipeById(id);
-        return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .body(recipeDto);
+    public ResponseEntity<RecipeDto> addNewRecipe(@RequestBody RecipeDto recipeDto) {
+        recipeService.addNewRecipe(RecipeMapper.INSTANCE.recipeDtoToRecipe(recipeDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(recipeDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<Recipe>> recipeList() {
-        List<Recipe> recipeList = recipeService.getRecipesList();
+    public ResponseEntity<List<RecipeDto>> recipeList() {
+        List<RecipeDto> recipeList = recipeService.getRecipesList();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(recipeList);
@@ -53,24 +51,16 @@ public class RecipeController {
     }
 
     @GetMapping("/rng")
-    public ResponseEntity<Recipe> randomRecipe() {
-        Recipe recipe = recipeService.getRandomRecipe();
+    public ResponseEntity<RecipeDto> randomRecipe() {
+        RecipeDto recipe = recipeService.getRandomRecipe();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipe);
     }
 
-    @PatchMapping
-    public ResponseEntity<Recipe> modifyRecipe(@RequestBody Recipe recipe) {
-        Recipe patched = recipeService.modifyRecipe(recipe);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(patched);
+    @GetMapping("/favorite")
+    public ResponseEntity<List<RecipeDto>> getFavoriteRecipes() {
+        List<RecipeDto> favoriteRecipes = recipeService.getFavoriteRecipes();
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
     }
-
-//    @GetMapping("/favorite")
-//    public ResponseEntity<List<Recipe>> getFavoriteRecipes() {
-//        List<Recipe> favoriteRecipes = recipeService.getFavoriteRecipes();
-//        return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
-//    }
 }

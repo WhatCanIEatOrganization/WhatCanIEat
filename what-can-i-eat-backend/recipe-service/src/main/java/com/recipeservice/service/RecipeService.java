@@ -1,19 +1,19 @@
 package com.recipeservice.service;
 
+import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.model.Recipe;
 
 import java.util.List;
 
 public interface RecipeService {
 
-    Recipe addNewRecipe(Recipe recipe);
+    RecipeDto addNewRecipe(Recipe recipe);
 
-    List<Recipe> getRecipesList();
-    List<Recipe> getFavoriteRecipes();
+    List<RecipeDto> getRecipesList();
+    List<RecipeDto> getFavoriteRecipes();
 
     void deleteRecipe(int recipeId);
 
-    Recipe getRandomRecipe();
+    RecipeDto getRandomRecipe();
 
-    Recipe modifyRecipe(Recipe recipe);
 }
