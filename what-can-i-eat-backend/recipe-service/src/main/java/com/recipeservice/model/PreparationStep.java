@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "preparationSteps")
+@Table(name = "preparationsteps")
 public class PreparationStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

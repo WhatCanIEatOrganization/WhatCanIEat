@@ -41,10 +41,10 @@ public class Recipe {
 
     // relations
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     private List<PreparationStep> preparationSteps = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     private List<Ingredient> ingredients = new ArrayList<>();
 
 }

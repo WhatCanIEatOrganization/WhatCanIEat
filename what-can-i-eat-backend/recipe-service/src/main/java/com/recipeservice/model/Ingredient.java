@@ -16,7 +16,7 @@ public class Ingredient {
     @Column(name = "ingredient")
     private String completeIngredientData;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
     private Recipe recipe;

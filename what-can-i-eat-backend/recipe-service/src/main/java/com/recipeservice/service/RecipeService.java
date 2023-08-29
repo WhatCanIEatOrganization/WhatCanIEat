@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RecipeService {
 
-    RecipeDto addNewRecipe(Recipe recipe);
+    RecipeDto addNewRecipe(RecipeDto recipe);
 
     List<RecipeDto> getRecipesList();
     List<RecipeDto> getFavoriteRecipes();
@@ -15,5 +15,7 @@ public interface RecipeService {
     void deleteRecipe(int recipeId);
 
     RecipeDto getRandomRecipe();
+
+    Recipe getRecipeById(int id);
 
 }
