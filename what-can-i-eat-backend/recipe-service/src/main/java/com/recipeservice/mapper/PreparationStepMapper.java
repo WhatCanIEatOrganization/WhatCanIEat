@@ -10,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface PreparationStepMapper {
 
     PreparationStepMapper INSTANCE = Mappers.getMapper(PreparationStepMapper.class);
-
     PreparationStepDto preparationStepToPreparationStepDto(PreparationStep preparationStep);
 
     PreparationStep preparationStepDtoToPreparationStep(PreparationStepDto preparationStepDto);

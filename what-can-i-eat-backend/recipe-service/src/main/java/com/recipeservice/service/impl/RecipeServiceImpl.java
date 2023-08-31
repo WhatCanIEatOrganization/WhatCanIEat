@@ -1,18 +1,15 @@
-package com.recipeservice.service;
+package com.recipeservice.service.impl;
 
 
-import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.PreparationStepDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.mapper.IngredientMapper;
 import com.recipeservice.mapper.PreparationStepMapper;
 import com.recipeservice.mapper.RecipeMapper;
-import com.recipeservice.model.Ingredient;
 import com.recipeservice.model.PreparationStep;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.repository.IngredientRepository;
 import com.recipeservice.repository.PreparationStepRepository;
 import com.recipeservice.repository.RecipeRepository;
+import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,19 +25,17 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
 
     private final PreparationStepRepository preparationStepRepository;
-    private final IngredientRepository ingredientRepository;
+
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, PreparationStepRepository preparationStepRepository, IngredientRepository ingredientRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, PreparationStepRepository preparationStepRepository) {
         this.recipeRepository = recipeRepository;
         this.preparationStepRepository = preparationStepRepository;
-        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
     public RecipeDto addNewRecipe(RecipeDto recipeDto) {
         Recipe savedRecipe = saveRecipe(recipeDto);
         savePreparationSteps(recipeDto, savedRecipe);
-        saveIngredients(recipeDto, savedRecipe);
         return RecipeMapper.INSTANCE.recipeToRecipeDto(savedRecipe);
     }
 
@@ -57,13 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-    private void saveIngredients(RecipeDto recipeDto, Recipe savedRecipe) {
-        for (IngredientDto ingredientDto : recipeDto.ingredients()) {
-            Ingredient ingredient = IngredientMapper.INSTANCE.mapIngredientDtoToIngredient(ingredientDto);
-            ingredient.setRecipe(savedRecipe);
-            ingredientRepository.save(ingredient);
-        }
-    }
+
 
     @Override
     public List<RecipeDto> getRecipesList() {

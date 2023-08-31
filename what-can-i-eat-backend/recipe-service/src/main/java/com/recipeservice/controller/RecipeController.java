@@ -1,14 +1,8 @@
 package com.recipeservice.controller;
 
-import com.recipeservice.dto.PreparationStepDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.mapper.PreparationStepMapper;
-import com.recipeservice.mapper.RecipeMapper;
-import com.recipeservice.model.PreparationStep;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.repository.IngredientRepository;
-import com.recipeservice.repository.PreparationStepRepository;
-import com.recipeservice.service.RecipeServiceImpl;
+import com.recipeservice.service.impl.RecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

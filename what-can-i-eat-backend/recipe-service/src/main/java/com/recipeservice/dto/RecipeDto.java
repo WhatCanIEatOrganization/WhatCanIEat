@@ -13,5 +13,5 @@ public record RecipeDto(
         Integer cooktime,
         Integer calories,
         List<PreparationStepDto> preparationSteps,
-        List<IngredientDto> ingredients
+        List<Integer> ingredients
 ) {}

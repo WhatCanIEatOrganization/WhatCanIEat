@@ -39,12 +39,12 @@ public class Recipe {
     private Integer protein;
     private String instructions;
 
-    // relations
-
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     private List<PreparationStep> preparationSteps = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "recipe_ingredients", joinColumns = @JoinColumn(name = "recipe_id"))
+    @Column(name = "ingredient_id")
+    private List<Integer> ingredients = new ArrayList<>();
 
 }
