@@ -3,7 +3,6 @@ package com.recipeservice.mapper;
 import com.recipeservice.dto.PreparationStepDto;
 import com.recipeservice.model.PreparationStep;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper

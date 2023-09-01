@@ -46,5 +46,10 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Ingredient> ingredient = ingredientRepository.findById(ingredientId);
         return ingredient.map(IngredientMapper::mapToDto);
     }
+    @Override
+    public List<IngredientDto> findIngredientsById(List<Integer> ids) {
+        List<Ingredient> ingredients = ingredientRepository.findAllById(ids);
+        return ingredients.stream().map(IngredientMapper::mapToDto).collect(Collectors.toList());
+    }
 
 }

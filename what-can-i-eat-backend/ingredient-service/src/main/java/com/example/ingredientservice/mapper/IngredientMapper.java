@@ -11,7 +11,6 @@ public class IngredientMapper {
                 .name(ingredient.getName())
                 .description(ingredient.getDescription())
                 .imageUrl(ingredient.getImageUrl())
-                .ingredientCategory(ingredient.getIngredientCategory())
                 .amountWithUnit(ingredient.getAmountWithUnit())
                 .completeIngredientData(ingredient.getCompleteIngredientData())
                 .build();
@@ -23,7 +22,6 @@ public class IngredientMapper {
         ingredient.setName(ingredientDto.name());
         ingredient.setDescription(ingredientDto.description());
         ingredient.setImageUrl(ingredientDto.imageUrl());
-        ingredient.setIngredientCategory(ingredientDto.ingredientCategory());
         ingredient.setAmountWithUnit(ingredientDto.amountWithUnit());
         return ingredient;
     }

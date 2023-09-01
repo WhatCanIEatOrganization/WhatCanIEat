@@ -21,9 +21,6 @@ public class Ingredient {
         private String name;
         private String description;
         private String imageUrl;
-        @Enumerated(EnumType.STRING)
-        @Column(name = "category")
-        private IngredientCategory ingredientCategory;
         @Column(name = "amount_unit")
         private String amountWithUnit;
         @Transient

@@ -1,4 +1,4 @@
-package com.example.ingredientservice.dto;
+package com.recipeservice.dto;
 
 import lombok.Builder;
 

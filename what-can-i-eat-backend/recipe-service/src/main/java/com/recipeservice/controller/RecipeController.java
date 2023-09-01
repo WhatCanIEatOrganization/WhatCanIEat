@@ -1,5 +1,6 @@
 package com.recipeservice.controller;
 
+import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.impl.RecipeServiceImpl;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -17,14 +17,13 @@ public class RecipeController {
 
 
     private final RecipeServiceImpl recipeService;
-    private final WebClient.Builder webClientBuilder;
+
 
 
 
     @Autowired
-    public RecipeController(RecipeServiceImpl recipeService, WebClient.Builder webClientBuilder) {
+    public RecipeController(RecipeServiceImpl recipeService) {
         this.recipeService = recipeService;
-        this.webClientBuilder = webClientBuilder;
     }
 
     @PostMapping
@@ -64,5 +63,11 @@ public class RecipeController {
     public ResponseEntity<List<RecipeDto>> getFavoriteRecipes() {
         List<RecipeDto> favoriteRecipes = recipeService.getFavoriteRecipes();
         return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
+    }
+
+    @GetMapping("/ingredients")
+    public List<IngredientDto> getIngredientsByIds(@RequestParam List<Integer> ids) {
+        System.out.println("dupa");
+        return recipeService.getIngredientsByIds(ids);
     }
 }

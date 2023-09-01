@@ -1,17 +1,18 @@
 package com.recipeservice.service.impl;
 
 
-import com.recipeservice.dto.PreparationStepDto;
+import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.mapper.PreparationStepMapper;
 import com.recipeservice.mapper.RecipeMapper;
-import com.recipeservice.model.PreparationStep;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.repository.PreparationStepRepository;
 import com.recipeservice.repository.RecipeRepository;
+import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Random;
@@ -24,32 +25,37 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
 
-    private final PreparationStepRepository preparationStepRepository;
+    private final PreparationStepService preparationStepService;
+    private final WebClient webClient;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, PreparationStepRepository preparationStepRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, PreparationStepService preparationStepService, WebClient.Builder webClientBuilder) {
         this.recipeRepository = recipeRepository;
-        this.preparationStepRepository = preparationStepRepository;
+        this.preparationStepService = preparationStepService;
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
+    }
+
+    public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
+        Mono<List<IngredientDto>> ingredientDtos = this.webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/ingredient")
+                        .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<>() {});
+        return ingredientDtos.block();
     }
 
     @Override
     public RecipeDto addNewRecipe(RecipeDto recipeDto) {
         Recipe savedRecipe = saveRecipe(recipeDto);
-        savePreparationSteps(recipeDto, savedRecipe);
+        preparationStepService.savePreparationSteps(recipeDto, savedRecipe);
         return RecipeMapper.INSTANCE.recipeToRecipeDto(savedRecipe);
     }
 
     private Recipe saveRecipe(RecipeDto recipeDto) {
         Recipe mappedRecipe = RecipeMapper.INSTANCE.recipeDtoToRecipe(recipeDto);
         return recipeRepository.save(mappedRecipe);
-    }
-
-    private void savePreparationSteps(RecipeDto recipeDto, Recipe savedRecipe) {
-        for (PreparationStepDto stepDto : recipeDto.preparationSteps()) {
-            PreparationStep step = PreparationStepMapper.INSTANCE.preparationStepDtoToPreparationStep(stepDto);
-            step.setRecipe(savedRecipe);
-            preparationStepRepository.save(step);
-        }
     }
 
 
