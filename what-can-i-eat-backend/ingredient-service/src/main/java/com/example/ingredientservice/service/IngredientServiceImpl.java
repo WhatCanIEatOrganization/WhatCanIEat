@@ -23,8 +23,19 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientDto addNewIngredient(IngredientDto ingredientDto) {
-        Ingredient ingredient = ingredientRepository.save(IngredientMapper.mapToEntity(ingredientDto));
+        ingredientRepository.save(IngredientMapper.mapToEntity(ingredientDto));
         return ingredientDto;
+    }
+
+
+    public List<IngredientDto> addNewIngredients(List<IngredientDto> ingredientsDto) {
+        List<Ingredient> ingredients = ingredientsDto.stream()
+                .map(IngredientMapper::mapToEntity)
+                .collect(Collectors.toList());
+        ingredientRepository.saveAll(ingredients);
+        return ingredients.stream()
+                .map(IngredientMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

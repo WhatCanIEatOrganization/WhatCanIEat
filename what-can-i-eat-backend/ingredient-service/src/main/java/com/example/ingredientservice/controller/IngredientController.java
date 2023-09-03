@@ -43,6 +43,12 @@ public class IngredientController {
         }
     }
 
+    @PostMapping("/batch")
+    public ResponseEntity<List<IngredientDto>> addNewIngredients(@RequestBody List<IngredientDto> ingredientDtos) {
+        List<IngredientDto> savedIngredients = ingredientService.addNewIngredients(ingredientDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedIngredients);
+    }
+
 //    @GetMapping
 //    public ResponseEntity<List<IngredientDto>> ingredientList() {
 //        List<IngredientDto> ingredientList = ingredientService.getIngredientList();

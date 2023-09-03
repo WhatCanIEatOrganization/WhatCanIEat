@@ -10,7 +10,9 @@ import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -36,21 +38,41 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
-        Mono<List<IngredientDto>> ingredientDtos = this.webClient.get()
+        Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/ingredient")
                         .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
                         .build())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<>() {});
-        return ingredientDtos.block();
+        return ingredientsDto.block();
     }
 
     @Override
     public RecipeDto addNewRecipe(RecipeDto recipeDto) {
         Recipe savedRecipe = saveRecipe(recipeDto);
+        updateRecipeWithNewIngredients(savedRecipe, recipeDto.newIngredients());
         preparationStepService.savePreparationSteps(recipeDto, savedRecipe);
         return RecipeMapper.INSTANCE.recipeToRecipeDto(savedRecipe);
+    }
+
+    private void updateRecipeWithNewIngredients(Recipe savedRecipe, List<IngredientDto> newIngredients) {
+        List<IngredientDto> addedIngredients = addIngredientsToRecipe(newIngredients);
+        savedRecipe.setIngredients(addedIngredients.stream().map(IngredientDto::id).collect(Collectors.toList()));
+    }
+
+    private List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> newIngredients) {
+        return addIngredientsToIngredientService(newIngredients);
+    }
+
+    public List<IngredientDto> addIngredientsToIngredientService(List<IngredientDto> ingredientDtos) {
+        return this.webClient.post()
+                .uri("/ingredient/batch")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(ingredientDtos))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<IngredientDto>>() {})
+                .block();
     }
 
     private Recipe saveRecipe(RecipeDto recipeDto) {
@@ -95,9 +117,5 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findById(id).get();
     }
 
-//    @Override
-//    public Recipe addIngredientsToRecipe(List<Ingredient> ingredients) {
-//        return null;
-//    }
 
 }

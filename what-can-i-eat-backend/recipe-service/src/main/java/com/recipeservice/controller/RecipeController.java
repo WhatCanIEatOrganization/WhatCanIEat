@@ -67,7 +67,6 @@ public class RecipeController {
 
     @GetMapping("/ingredients")
     public List<IngredientDto> getIngredientsByIds(@RequestParam List<Integer> ids) {
-        System.out.println("dupa");
         return recipeService.getIngredientsByIds(ids);
     }
 }
