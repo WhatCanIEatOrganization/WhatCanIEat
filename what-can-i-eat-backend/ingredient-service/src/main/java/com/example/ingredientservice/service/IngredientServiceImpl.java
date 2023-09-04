@@ -39,15 +39,6 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public List<IngredientDto> getIngredientList() {
-        return ingredientRepository
-                .findAll()
-                .stream()
-                .map(IngredientMapper::mapToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public void deleteIngredient(int ingredientId) {
         ingredientRepository.deleteById(ingredientId);
     }

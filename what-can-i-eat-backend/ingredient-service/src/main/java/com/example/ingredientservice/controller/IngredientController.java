@@ -44,21 +44,13 @@ public class IngredientController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<IngredientDto>> addNewIngredients(@RequestBody List<IngredientDto> ingredientDtos) {
+    public ResponseEntity<List<IngredientDto>> addIngredients(@RequestBody List<IngredientDto> ingredientDtos) {
         List<IngredientDto> savedIngredients = ingredientService.addNewIngredients(ingredientDtos);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedIngredients);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<IngredientDto>> ingredientList() {
-//        List<IngredientDto> ingredientList = ingredientService.getIngredientList();
-//        return ResponseEntity
-//                .status(HttpStatus.CREATED)
-//                .body(ingredientList);
-//    }
-
     @GetMapping
-    public  ResponseEntity<List<IngredientDto>> getIngredients(@RequestParam List<Integer> ids) {
+    public  ResponseEntity<List<IngredientDto>> getIngredientsByIds(@RequestParam List<Integer> ids) {
         List<IngredientDto> ingredientList =  ingredientService.findIngredientsById(ids);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

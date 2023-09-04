@@ -37,17 +37,6 @@ public class RecipeServiceImpl implements RecipeService {
         this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
     }
 
-    public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
-        Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/ingredient")
-                        .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
-                        .build())
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<>() {});
-        return ingredientsDto.block();
-    }
-
     @Override
     public RecipeDto addNewRecipe(RecipeDto recipeDto) {
         Recipe savedRecipe = saveRecipe(recipeDto);
@@ -65,7 +54,7 @@ public class RecipeServiceImpl implements RecipeService {
         return addIngredientsToIngredientService(newIngredients);
     }
 
-    public List<IngredientDto> addIngredientsToIngredientService(List<IngredientDto> ingredientDtos) {
+    private List<IngredientDto> addIngredientsToIngredientService(List<IngredientDto> ingredientDtos) {
         return this.webClient.post()
                 .uri("/ingredient/batch")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,6 +104,17 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe getRecipeById(int id) {
         return recipeRepository.findById(id).get();
+    }
+
+    public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
+        Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/ingredient")
+                        .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<>() {});
+        return ingredientsDto.block();
     }
 
 

@@ -29,11 +29,4 @@ public class Ingredient {
         public void fillCompleteIngredientData() {
                 this.completeIngredientData = name + " - " + amountWithUnit;
         }
-
-        //old fields
-//        private int amount;
-//        private String unitMeasure;
-//        private String imageUrl;
-
-
 }
