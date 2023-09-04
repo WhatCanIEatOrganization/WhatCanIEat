@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recipe-service
+spec:
+  selector:
+    matchLabels:
+      app: recipe-service
+  template:
+    metadata:
+      labels:
+        app: recipe-service
+    spec:
+      containers:
+        - image: recipe-service:recipe
+          name: recipe-service
+          env:
+            - name: DATABASE_HOST
+              value: mysql
+            - name: DATABASE_PORT
+              value: "3306"
+            - name: DATABASE_USER
+              value: root
+            - name: DATABASE_PASSWORD
+              value: superuser
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recipe-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080  # Opcjonalnie: możesz określić konkretny port NodePort, w przeciwnym razie zostanie on przydzielony automatycznie
+  selector:
+    app: recipe-service
