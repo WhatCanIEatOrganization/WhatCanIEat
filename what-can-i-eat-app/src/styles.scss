@@ -53,8 +53,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: row;
 }
 
+.box-shadow {
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-@font-face {
-  font-family: 'Lobster';
-  src: url('../assets/Lobster-Regular.ttf');
+.text-color {
+  color: #49454F;
 }

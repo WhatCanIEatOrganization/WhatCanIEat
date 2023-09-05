@@ -12,10 +12,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;  
+  gap: 40px;
 }
 
 .main-container {
-  background-image: url("/assets/images/background2.jpg");
+  // background-image: url("/assets/images/background2.jpg");
   background-color: #F2F6F7;
   background-size: contain;
   background-repeat: no-repeat;
@@ -33,19 +34,38 @@ button {
   color: #FFFFFF;
 }
 
-.ingredients-recipes {
+.homepage-row {
   padding-top: 15px;
   display: flex;
   flex-direction: row;
-  gap: 5vw;
+  gap: 2vw;
 }
 
 .content-container {
-  height: 440px;
+  height: 535px;
   width: 405px;
+}
+
+.slide-show {
+  height: 230px;
+  width: calc(5vw + 812px);
 }
 
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.wide-container {
+  width: 600px;
+}
+
+.daily-tip {
+  height: 190px;
+}
+
+.tip-featured {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
 }

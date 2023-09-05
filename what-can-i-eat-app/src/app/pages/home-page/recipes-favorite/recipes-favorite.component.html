@@ -1,0 +1,8 @@
+<div>
+    <div class="container-title text">
+        <h1>Your Favorite Recipes</h1>
+    </div>
+    <div class="recipes">
+        <app-recipe-favorite-item *ngFor="let recipe of recipesList" [recipe]="recipe"></app-recipe-favorite-item>
+    </div>
+</div>

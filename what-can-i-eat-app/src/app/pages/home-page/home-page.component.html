@@ -1,13 +1,21 @@
 <div class="main-container">
-  <div class="ingredients-recipes">
+  <div class="homepage-row">
     <div class="content-container">
       <app-ingredient-list-view [ingredientList]="ingredientList"></app-ingredient-list-view>
     </div>
-    <div class="content-container">
-      <app-recipes-history></app-recipes-history>
+    <div class="wide-container tip-featured">
+      <div>
+        <app-featured-meal></app-featured-meal>
+      </div>
+      <div class="daily-tip">
+        <app-daily-tip></app-daily-tip>
+      </div>
     </div>
   </div>
+  <div>
+    <app-recipes-favorite></app-recipes-favorite>
+  </div>
+  <div class="slide-show">
+    <app-images-slide-show></app-images-slide-show>
+  </div>
 </div>
-<!-- <div>
-  <button mat-raised-button color="secondary" [routerLink]="['/add']">Create Recipe</button>
-</div> -->

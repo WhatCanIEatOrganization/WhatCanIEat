@@ -28,7 +28,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SnackbarSuccessComponent } from './common/dialog/snackbar-success/snackbar-success.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { ImagesSlideShowComponent } from './pages/images-slide-show/images-slide-show.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { RecipesFavoriteComponent } from './pages/home-page/recipes-favorite/recipes-favorite.component';
+import { RecipeFavoriteItemComponent } from './pages/home-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
+import { FeaturedMealComponent } from './pages/home-page/featured-meal/featured-meal.component';
+import { DailyTipComponent } from './pages/home-page/daily-tip/daily-tip.component';
 
 
 @NgModule({
@@ -46,7 +51,12 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/mater
     RecipesViewFullComponent,
     RecipeItemCardComponent,
     RecipeItemOnClickComponent,
-    SnackbarSuccessComponent
+    SnackbarSuccessComponent,
+    ImagesSlideShowComponent,
+    RecipesFavoriteComponent,
+    RecipeFavoriteItemComponent,
+    FeaturedMealComponent,
+    DailyTipComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +77,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/mater
     HttpClientModule,
     MatProgressSpinnerModule,
     ScrollingModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
