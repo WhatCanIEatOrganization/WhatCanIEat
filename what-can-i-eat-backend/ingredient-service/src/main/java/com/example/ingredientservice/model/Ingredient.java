@@ -29,4 +29,6 @@ public class Ingredient {
         public void fillCompleteIngredientData() {
                 this.completeIngredientData = name + " - " + amountWithUnit;
         }
+        @Column(name = "Tags")
+        private String tags;
 }

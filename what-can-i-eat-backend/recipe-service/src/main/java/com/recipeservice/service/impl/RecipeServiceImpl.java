@@ -5,7 +5,9 @@ import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
+import com.recipeservice.model.RecipeTag;
 import com.recipeservice.repository.RecipeRepository;
+import com.recipeservice.repository.RecipeTagRepository;
 import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 
 import java.util.List;
 import java.util.Random;
@@ -26,13 +29,16 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     private final RecipeRepository recipeRepository;
+    private final RecipeTagRepository recipeTagRepository;
 
     private final PreparationStepService preparationStepService;
     private final WebClient webClient;
 
+
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, PreparationStepService preparationStepService, WebClient.Builder webClientBuilder) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagRepository recipeTagRepository, PreparationStepService preparationStepService, WebClient.Builder webClientBuilder) {
         this.recipeRepository = recipeRepository;
+        this.recipeTagRepository = recipeTagRepository;
         this.preparationStepService = preparationStepService;
         this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
     }
@@ -42,12 +48,23 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe savedRecipe = saveRecipe(recipeDto);
         updateRecipeWithNewIngredients(savedRecipe, recipeDto.newIngredients());
         preparationStepService.savePreparationSteps(recipeDto, savedRecipe);
+        saveTagsToDatabase(recipeDto.newIngredients(), savedRecipe);
         return RecipeMapper.INSTANCE.recipeToRecipeDto(savedRecipe);
     }
 
     private void updateRecipeWithNewIngredients(Recipe savedRecipe, List<IngredientDto> newIngredients) {
         List<IngredientDto> addedIngredients = addIngredientsToRecipe(newIngredients);
         savedRecipe.setIngredients(addedIngredients.stream().map(IngredientDto::id).collect(Collectors.toList()));
+    }
+
+
+    private void saveTagsToDatabase(List<IngredientDto> ingredientsDto, Recipe recipe) {
+        for (IngredientDto ingredientDto : ingredientsDto) {
+            RecipeTag recipeTag = new RecipeTag();
+            recipeTag.setRecipe(recipe);
+            recipeTag.setTag(ingredientDto.name());
+            recipeTagRepository.save(recipeTag);
+        }
     }
 
     private List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> newIngredients) {
