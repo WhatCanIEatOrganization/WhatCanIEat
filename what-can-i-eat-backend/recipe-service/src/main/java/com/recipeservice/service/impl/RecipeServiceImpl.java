@@ -86,6 +86,12 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.save(mappedRecipe);
     }
 
+    @Override
+    public List<Recipe> getRecipesByIngredients(List<String> tags) {
+        long count = tags.size();
+        List<Integer> recipeIds = recipeRepository.findRecipeIdsByTags(tags, count);
+        return recipeRepository.findAllById(recipeIds);
+    }
 
 
     @Override
