@@ -42,6 +42,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     private List<PreparationStep> preparationSteps = new ArrayList<>();
 
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<RecipeTag> tags = new ArrayList<>();
+
     @ElementCollection
     @CollectionTable(name = "recipe_ingredients", joinColumns = @JoinColumn(name = "recipe_id"))
     @Column(name = "ingredient_id")

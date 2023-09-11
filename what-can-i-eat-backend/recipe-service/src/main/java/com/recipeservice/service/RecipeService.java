@@ -17,5 +17,6 @@ public interface RecipeService {
     RecipeDto getRandomRecipe();
 
     Recipe getRecipeById(int id);
+    List<Recipe> getRecipesByIngredients(List<String> ingredients);
 
 }
