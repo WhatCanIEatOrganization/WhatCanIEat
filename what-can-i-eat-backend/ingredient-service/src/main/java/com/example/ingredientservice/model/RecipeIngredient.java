@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "ingredients")
 public class RecipeIngredient extends AbstractIngredient {
 

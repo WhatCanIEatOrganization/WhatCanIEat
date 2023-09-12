@@ -10,7 +10,6 @@ public class RecipeIngredientMapper {
                 .id(recipeIngredient.getId())
                 .name(recipeIngredient.getName())
                 .description(recipeIngredient.getDescription())
-                .imageUrl(recipeIngredient.getImageUrl())
                 .amountWithUnit(recipeIngredient.getAmountWithUnit())
                 .build();
     }
@@ -20,7 +19,6 @@ public class RecipeIngredientMapper {
         recipeIngredient.setId(recipeIngredientDto.id());
         recipeIngredient.setName(recipeIngredientDto.name());
         recipeIngredient.setDescription(recipeIngredientDto.description());
-        recipeIngredient.setImageUrl(recipeIngredientDto.imageUrl());
         recipeIngredient.setAmountWithUnit(recipeIngredientDto.amountWithUnit());
         return recipeIngredient;
     }
