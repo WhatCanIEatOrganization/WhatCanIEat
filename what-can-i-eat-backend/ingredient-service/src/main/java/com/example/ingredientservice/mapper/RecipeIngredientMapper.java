@@ -12,7 +12,6 @@ public class RecipeIngredientMapper {
                 .description(recipeIngredient.getDescription())
                 .imageUrl(recipeIngredient.getImageUrl())
                 .amountWithUnit(recipeIngredient.getAmountWithUnit())
-                .completeIngredientData(recipeIngredient.getCompleteIngredientData())
                 .build();
     }
 
