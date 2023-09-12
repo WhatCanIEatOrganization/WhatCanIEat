@@ -1,18 +1,12 @@
 package com.example.ingredientservice.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 @Entity
 @Table(name = "ingredients")
-public class Ingredient {
+public class RecipeIngredient {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
@@ -29,6 +23,4 @@ public class Ingredient {
         public void fillCompleteIngredientData() {
                 this.completeIngredientData = name + " - " + amountWithUnit;
         }
-        @Column(name = "Tags")
-        private String tags;
 }
