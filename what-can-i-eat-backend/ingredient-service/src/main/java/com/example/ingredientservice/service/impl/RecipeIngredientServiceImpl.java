@@ -1,9 +1,10 @@
-package com.example.ingredientservice.service;
+package com.example.ingredientservice.service.impl;
 
 import com.example.ingredientservice.dto.RecipeIngredientDto;
 import com.example.ingredientservice.mapper.RecipeIngredientMapper;
 import com.example.ingredientservice.model.RecipeIngredient;
 import com.example.ingredientservice.repository.RecipeIngredientRepository;
+import com.example.ingredientservice.service.RecipeIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

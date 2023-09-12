@@ -1,7 +1,7 @@
 package com.example.ingredientservice.controller;
 
 import com.example.ingredientservice.dto.RecipeIngredientDto;
-import com.example.ingredientservice.service.RecipeIngredientServiceImpl;
+import com.example.ingredientservice.service.impl.RecipeIngredientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
