@@ -2,7 +2,6 @@ package com.example.ingredientservice.service.impl;
 
 import com.example.ingredientservice.dto.BasicIngredientDto;
 import com.example.ingredientservice.mapper.BasicIngredientMapper;
-import com.example.ingredientservice.mapper.RecipeIngredientMapper;
 import com.example.ingredientservice.model.BasicIngredient;
 import com.example.ingredientservice.repository.BasicIngredientRepository;
 import com.example.ingredientservice.service.BasicIngredientService;
