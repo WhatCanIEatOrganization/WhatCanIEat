@@ -38,7 +38,7 @@ public class RecipeController {
     public ResponseEntity<List<RecipeDto>> recipeList() {
         List<RecipeDto> recipeList = recipeService.getRecipesList();
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.FOUND)
                 .body(recipeList);
     }
 
