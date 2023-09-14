@@ -1,8 +1,7 @@
-package com.example.ingredientservice.service.impl;
+package com.example.fridgeservice.service;
 
 
-import com.example.ingredientservice.repository.FridgeIngredientRepository;
-import com.example.ingredientservice.service.FridgeIngredientService;
+import com.example.fridgeservice.repository.FridgeIngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

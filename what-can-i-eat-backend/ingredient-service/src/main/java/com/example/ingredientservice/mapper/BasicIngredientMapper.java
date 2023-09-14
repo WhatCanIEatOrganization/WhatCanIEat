@@ -14,12 +14,17 @@ public class BasicIngredientMapper {
         return entity;
     }
 
+    // do poprawy gdy legacy null to imageurl tez null
     public static BasicIngredientDto entityToDto(BasicIngredient entity) {
+        Integer legacyId = null;
+        if (entity.getLegacyId() != null) {
+            legacyId = entity.getLegacyId();
+        }
         return new BasicIngredientDto(
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
-                entity.getLegacyId(),
+                legacyId,
                 null
         );
     }

@@ -1,4 +1,4 @@
-package com.example.ingredientservice.dto;
+package com.example.fridgeservice.dto;
 
 import java.time.Instant;
 

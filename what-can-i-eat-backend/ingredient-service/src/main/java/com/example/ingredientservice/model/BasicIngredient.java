@@ -11,7 +11,7 @@ import lombok.Setter;
 public class BasicIngredient extends AbstractIngredient {
 
     @Column(name = "legacy_id")
-    private int legacyId;
+    private Integer legacyId;
 
     @Transient
     private String imageUrl;

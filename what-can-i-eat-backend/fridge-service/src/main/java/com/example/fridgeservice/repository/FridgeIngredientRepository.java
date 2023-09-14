@@ -1,6 +1,6 @@
-package com.example.ingredientservice.repository;
+package com.example.fridgeservice.repository;
 
-import com.example.ingredientservice.model.FridgeIngredient;
+import com.example.fridgeservice.model.FridgeIngredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
