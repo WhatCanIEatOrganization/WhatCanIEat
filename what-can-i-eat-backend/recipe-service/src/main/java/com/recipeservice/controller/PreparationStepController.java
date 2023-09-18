@@ -1,8 +1,15 @@
 package com.recipeservice.controller;
 
+import com.recipeservice.dto.PreparationStepDto;
+import com.recipeservice.model.PreparationStep;
 import com.recipeservice.service.PreparationStepService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PreparationStepController {
@@ -12,5 +19,21 @@ public class PreparationStepController {
     public PreparationStepController(PreparationStepService preparationStepService) {
         this.preparationStepService = preparationStepService;
     }
+
+    @GetMapping
+    public ResponseEntity<?> getPreparationStepById(Integer recipeId) {
+        List<PreparationStepDto> preparationStepDto = preparationStepService.getPreparationStepsByRecipeId(recipeId);
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(preparationStepDto);
+    }
+
+    @PutMapping("/{preparationStepId}")
+    public ResponseEntity<PreparationStepDto> updatePreparationStep(@PathVariable Integer preparationStepId, @RequestBody PreparationStepDto preparationStepDto) {
+        Optional<PreparationStepDto> preparationStep = preparationStepService.updatePreparationStep(preparationStepId, preparationStepDto);
+        return preparationStep.map(step -> ResponseEntity.status(HttpStatus.OK).body(step))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(preparationStepDto));
+    }
+
 
 }
