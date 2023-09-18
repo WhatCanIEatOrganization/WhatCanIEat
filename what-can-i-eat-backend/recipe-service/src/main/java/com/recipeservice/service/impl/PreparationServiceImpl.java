@@ -37,9 +37,15 @@ public class PreparationServiceImpl implements PreparationStepService {
         return preparationStepDto;
     }
 
+
     @Override
-    public Optional<PreparationStepDto> updatePreparationStep(PreparationStepDto preparationStep) {
-        return null;
+    public Optional<PreparationStepDto> updatePreparationStep(Integer preparationStepId, PreparationStepDto preparationStepDto) {
+        return preparationStepRepository.findById(preparationStepId)
+                .map(existingStep -> {
+                    existingStep.setStep(preparationStepDto.step());
+                    PreparationStep savedStep = preparationStepRepository.save(existingStep);
+                    return PreparationStepMapper.INSTANCE.preparationStepToPreparationStepDto(savedStep);
+                });
     }
 
     @Override
@@ -55,5 +61,12 @@ public class PreparationServiceImpl implements PreparationStepService {
             preparationStepRepository.save(stepEntity);
         });
         return recipeDto.preparationSteps();
+    }
+
+    @Override
+    public Optional<PreparationStepDto> getPreparationStepById(Integer id) {
+        Optional<PreparationStep> preparationStep = preparationStepRepository.findById(id);
+        return preparationStep.map(PreparationStepMapper.INSTANCE::preparationStepToPreparationStepDto);
+
     }
 }
