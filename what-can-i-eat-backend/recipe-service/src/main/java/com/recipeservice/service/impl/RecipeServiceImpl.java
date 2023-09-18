@@ -11,6 +11,7 @@ import com.recipeservice.repository.RecipeTagRepository;
 import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final PreparationStepService preparationStepService;
     private final WebClient webClient;
+    @Value("${ingredient.service.url}")
+    private String ingredientServiceUrl;
 
 
     @Autowired
@@ -40,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
         this.recipeRepository = recipeRepository;
         this.recipeTagRepository = recipeTagRepository;
         this.preparationStepService = preparationStepService;
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
+        this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
     @Override
@@ -129,6 +132,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findById(id).get();
     }
 
+    @Override
     public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
         Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder

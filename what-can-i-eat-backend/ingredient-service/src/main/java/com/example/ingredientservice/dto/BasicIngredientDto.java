@@ -8,6 +8,8 @@ public record BasicIngredientDto(
         String imageUrl) {
 
     public BasicIngredientDto {
-        imageUrl = "https://foodb.ca/system/foods/pictures/" + legacyId + "/full/" + legacyId + ".png";
+        if(legacyId != null){
+            imageUrl = "https://foodb.ca/system/foods/pictures/" + legacyId + "/full/" + legacyId + ".png";
+        }
     }
 }
