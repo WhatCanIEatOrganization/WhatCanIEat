@@ -28,6 +28,18 @@ public class PreparationStepController {
                 .body(preparationStepDto);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deletePreparationStep(Integer id){
+        preparationStepService.deletePreparationStep(id);
+        return ResponseEntity.status(HttpStatus.OK).body(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<PreparationStepDto> addPreparationStep(@RequestBody PreparationStepDto preparationStepDto){
+        preparationStepService.addPreparationStep(preparationStepDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(preparationStepDto);
+    }
+
     @PutMapping("/{preparationStepId}")
     public ResponseEntity<PreparationStepDto> updatePreparationStep(@PathVariable Integer preparationStepId, @RequestBody PreparationStepDto preparationStepDto) {
         Optional<PreparationStepDto> preparationStep = preparationStepService.updatePreparationStep(preparationStepId, preparationStepDto);
