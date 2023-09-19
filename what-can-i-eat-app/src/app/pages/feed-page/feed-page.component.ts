@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/model/ingredient/ingredient';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  selector: 'app-feed-page',
+  templateUrl: './feed-page.component.html',
+  styleUrls: ['./feed-page.component.scss']
 })
-export class HomePageComponent implements OnInit {
+export class FeedPageComponent implements OnInit {
   value = '';
   ingredientList: Ingredient[] = [];
   secondStep = false;

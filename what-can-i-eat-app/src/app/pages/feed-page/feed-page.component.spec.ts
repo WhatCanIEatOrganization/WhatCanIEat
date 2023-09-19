@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecipesHistoryComponent } from './recipes-history.component';
+import { FeedPageComponent } from './feed-page.component';
 
-describe('RecipesHistoryComponent', () => {
-  let component: RecipesHistoryComponent;
-  let fixture: ComponentFixture<RecipesHistoryComponent>;
+describe('HomePageComponent', () => {
+  let component: FeedPageComponent;
+  let fixture: ComponentFixture<FeedPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecipesHistoryComponent ]
+      declarations: [ FeedPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RecipesHistoryComponent);
+    fixture = TestBed.createComponent(FeedPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
