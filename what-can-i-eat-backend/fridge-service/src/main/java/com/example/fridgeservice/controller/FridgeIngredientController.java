@@ -1,7 +1,7 @@
-package com.example.ingredientservice.controller;
+package com.example.fridgeservice.controller;
 
 
-import com.example.ingredientservice.service.FridgeIngredientService;
+import com.example.fridgeservice.service.FridgeIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
