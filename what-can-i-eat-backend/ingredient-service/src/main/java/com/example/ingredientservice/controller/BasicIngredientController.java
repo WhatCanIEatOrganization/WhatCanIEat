@@ -8,11 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/ingredient")
 public class BasicIngredientController {
 
     private final BasicIngredientService ingredientService;
@@ -51,11 +53,9 @@ public class BasicIngredientController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getAllBasicIngredients(){
-        List<BasicIngredientDto> recipeList = ingredientService.getAllBasicIngredients();
-        return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .body(recipeList);
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<String> getHardcodedIngredients() {
+        String json = "[{ \"id\": 21, \"name\": \"Asparagus\", \"amount\": 100, \"unitMeasure\": \"g\" }, { \"id\": 22, \"name\": \"Carrot\", \"amount\": 200, \"unitMeasure\": \"g\" }]";
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 }
