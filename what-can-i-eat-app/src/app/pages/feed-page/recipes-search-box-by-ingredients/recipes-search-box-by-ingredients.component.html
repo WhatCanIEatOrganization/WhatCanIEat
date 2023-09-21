@@ -1,0 +1,19 @@
+<div>
+    <div class="box-shadow container">
+        <div>
+            <mat-label>Search</mat-label>
+            <input matInput [formControl]="searchControl" placeholder="Input ingredients you have." [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" requireSelection>
+                <mat-option *ngFor="let ingredient of apiIngredientsFiltered | async" [value]="ingredient" >
+                    {{ingredient}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div>
+            <button (click)="addIngredient()">Add</button>
+        </div>
+    </div>
+    <div>
+        <p *ngFor="let ing of chosenIngredients"><button (click)="removeIng(ing)">x</button> {{ing}}</p>
+    </div>
+</div>
