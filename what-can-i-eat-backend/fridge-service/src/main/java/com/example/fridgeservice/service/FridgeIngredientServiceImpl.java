@@ -25,7 +25,7 @@ public class FridgeIngredientServiceImpl implements FridgeIngredientService {
 
     public Optional<BasicIngredientDto> searchIngredient(String name) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/ingredient/name/{ingredientName}").build(name))
+                .uri(uriBuilder -> uriBuilder.path("/basic/name/{ingredientName}").build(name))
                 .retrieve()
                 .bodyToMono(BasicIngredientDto.class)
                 .blockOptional();

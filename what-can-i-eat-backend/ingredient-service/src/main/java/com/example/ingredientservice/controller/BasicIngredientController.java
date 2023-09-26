@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/ingredient")
+@RestController
+@RequestMapping("/basic-ingredients")
 public class BasicIngredientController {
 
     private final BasicIngredientService ingredientService;
@@ -24,31 +26,25 @@ public class BasicIngredientController {
 
 
     @GetMapping("/{ingredientId}")
-    public ResponseEntity<?> getRecipeIngredientById(@PathVariable int ingredientId){
+    public ResponseEntity<BasicIngredientDto> getRecipeIngredientById(@PathVariable int ingredientId){
         Optional<BasicIngredientDto> ingredient = ingredientService.getBasicIngredientById(ingredientId);
-        if(ingredient.isPresent()){
-            return ResponseEntity
-                    .status(HttpStatus.FOUND)
-                    .body(ingredient.get());
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
+        return ingredient.map(basicIngredientDto -> ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(basicIngredientDto))
+                .orElseGet(() -> ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build());
     }
 
     @GetMapping("/name/{ingredientName}")
-    public ResponseEntity<?> getBasicIngredientByName(@PathVariable String ingredientName){
+    public ResponseEntity<BasicIngredientDto> getBasicIngredientByName(@PathVariable String ingredientName){
         Optional<BasicIngredientDto> ingredient = ingredientService.getBasicIngredientByName(ingredientName);
-        if(ingredient.isPresent()){
-            return ResponseEntity
-                    .status(HttpStatus.FOUND)
-                    .body(ingredient.get());
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
+        return ingredient.map(basicIngredientDto -> ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(basicIngredientDto))
+                .orElseGet(() -> ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build());
     }
 
     @GetMapping(produces = "application/json")
