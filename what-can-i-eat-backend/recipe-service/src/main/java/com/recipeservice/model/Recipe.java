@@ -31,15 +31,9 @@ public class Recipe {
     private Integer servings;
     private String comments;
     private Integer calories;
-    private Integer fat;
-    private Integer satfat;
-    private Integer carbs;
-    private Integer fiber;
-    private Integer sugar;
-    private Integer protein;
     private String instructions;
 
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<PreparationStep> preparationSteps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

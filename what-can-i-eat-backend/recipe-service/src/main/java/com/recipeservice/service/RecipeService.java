@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface RecipeService {
 
-    RecipeDto addNewRecipe(RecipeDto recipe);
-
     List<RecipeDto> getRecipesList();
     List<RecipeDto> getFavoriteRecipes();
 
