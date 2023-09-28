@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -128,8 +129,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe getRecipeById(int id) {
-        return recipeRepository.findById(id).get();
+    public Optional<RecipeDto> getRecipeById(int id) {
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        return recipe.map(RecipeMapper.INSTANCE::recipeToRecipeDto);
     }
 
     @Override

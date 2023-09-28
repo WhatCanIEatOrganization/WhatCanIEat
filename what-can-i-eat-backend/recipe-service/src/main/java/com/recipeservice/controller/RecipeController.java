@@ -11,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("/api/recipes")
 public class RecipeController {
 
 
@@ -49,8 +50,14 @@ public class RecipeController {
     }
 
     @GetMapping("/{recipeId}")
-    public Recipe getRecipeById(@PathVariable int recipeId){
-        return recipeService.getRecipeById(recipeId);
+    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable int recipeId){
+        Optional<RecipeDto> recipeDto = recipeService.getRecipeById(recipeId);
+        return recipeDto.map(dto -> ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(dto))
+                .orElseGet(() -> ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build());
     }
 
     @GetMapping("/rng")

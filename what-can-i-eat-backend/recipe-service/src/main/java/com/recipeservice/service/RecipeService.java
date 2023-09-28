@@ -5,6 +5,7 @@ import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.model.Recipe;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RecipeService {
 
@@ -17,7 +18,7 @@ public interface RecipeService {
 
     RecipeDto getRandomRecipe();
 
-    Recipe getRecipeById(int id);
+    Optional<RecipeDto> getRecipeById(int id);
     List<Recipe> getRecipesByIngredients(List<String> ingredients);
     List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds);
 
