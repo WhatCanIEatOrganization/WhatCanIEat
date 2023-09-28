@@ -1,11 +1,11 @@
 package com.recipeservice.service.impl;
 
 
+import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.model.RecipeTag;
 import com.recipeservice.repository.RecipeRepository;
 import com.recipeservice.repository.RecipeTagRepository;
 import com.recipeservice.service.PreparationStepService;
@@ -35,59 +35,37 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final PreparationStepService preparationStepService;
     private final WebClient webClient;
-    @Value("${ingredient.service.url}")
-    private String ingredientServiceUrl;
 
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagRepository recipeTagRepository, PreparationStepService preparationStepService, WebClient.Builder webClientBuilder) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagRepository recipeTagRepository, PreparationStepService preparationStepService, WebClient.Builder webClientBuilder, @Value("${ingredient.service.url}") String ingredientServiceUrl) {
         this.recipeRepository = recipeRepository;
         this.recipeTagRepository = recipeTagRepository;
         this.preparationStepService = preparationStepService;
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
-    @Override
-    public RecipeDto addNewRecipe(RecipeDto recipeDto) {
-        Recipe savedRecipe = saveRecipe(recipeDto);
-        updateRecipeWithNewIngredients(savedRecipe, recipeDto.newIngredients());
-        preparationStepService.savePreparationSteps(recipeDto, savedRecipe);
-        saveTagsToDatabase(recipeDto.newIngredients(), savedRecipe);
-        return RecipeMapper.INSTANCE.recipeToRecipeDto(savedRecipe);
-    }
-
-    private void updateRecipeWithNewIngredients(Recipe savedRecipe, List<IngredientDto> newIngredients) {
-        List<IngredientDto> addedIngredients = addIngredientsToRecipe(newIngredients);
-        savedRecipe.setIngredients(addedIngredients.stream().map(IngredientDto::id).collect(Collectors.toList()));
+    public RecipeDto addNewRecipe(CreateRecipeDto recipeDto) {
+        List<IngredientDto> addedIngredients = addIngredientsToIngredientService(recipeDto.ingredients());
+        List<Integer> ingredientIds = addedIngredients.stream()
+                .map(IngredientDto::id)
+                .collect(Collectors.toList());
+        Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(recipeDto);
+        newRecipe.setIngredients(ingredientIds);
+        Recipe savedRecipe = recipeRepository.save(newRecipe);
+        return RecipeMapper.toDto(savedRecipe);
     }
 
 
-    private void saveTagsToDatabase(List<IngredientDto> ingredientsDto, Recipe recipe) {
-        for (IngredientDto ingredientDto : ingredientsDto) {
-            RecipeTag recipeTag = new RecipeTag();
-            recipeTag.setRecipe(recipe);
-            recipeTag.setTag(ingredientDto.name());
-            recipeTagRepository.save(recipeTag);
-        }
-    }
-
-    private List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> newIngredients) {
-        return addIngredientsToIngredientService(newIngredients);
-    }
 
     private List<IngredientDto> addIngredientsToIngredientService(List<IngredientDto> ingredientDtos) {
         return this.webClient.post()
-                .uri("/ingredient/batch")
+                .uri("/api/recipe-ingredients/batch")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(ingredientDtos))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<IngredientDto>>() {})
                 .block();
-    }
-
-    private Recipe saveRecipe(RecipeDto recipeDto) {
-        Recipe mappedRecipe = RecipeMapper.INSTANCE.recipeDtoToRecipe(recipeDto);
-        return recipeRepository.save(mappedRecipe);
     }
 
     @Override
@@ -103,7 +81,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository
                 .findAll()
                 .stream()
-                .map(RecipeMapper.INSTANCE::recipeToRecipeDto)
+                .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -112,7 +90,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository
                 .findAllByFavorite(true)
                 .stream()
-                .map(RecipeMapper.INSTANCE::recipeToRecipeDto)
+                .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -125,13 +103,13 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDto getRandomRecipe() {
         List<Recipe> recipesList = recipeRepository.findAll();
         Random rand = new Random();
-        return RecipeMapper.INSTANCE.recipeToRecipeDto(recipesList.get(rand.nextInt(recipesList.size())));
+        return RecipeMapper.toDto(recipesList.get(rand.nextInt(recipesList.size())));
     }
 
     @Override
     public Optional<RecipeDto> getRecipeById(int id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
-        return recipe.map(RecipeMapper.INSTANCE::recipeToRecipeDto);
+        return recipe.map(RecipeMapper::toDto);
     }
 
     @Override

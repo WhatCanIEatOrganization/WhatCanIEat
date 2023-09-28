@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/recipe-ingredients")
+@RequestMapping("/api/recipe-ingredients")
 public class RecipeIngredientController {
 
     private final RecipeIngredientServiceImpl ingredientService;
