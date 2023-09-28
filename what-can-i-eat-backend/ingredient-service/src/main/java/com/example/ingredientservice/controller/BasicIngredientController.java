@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/basic-ingredients")
+@RequestMapping("/api/basic-ingredients")
 public class BasicIngredientController {
 
     private final BasicIngredientService ingredientService;
