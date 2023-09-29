@@ -2,14 +2,28 @@ package com.recipeservice.mapper;
 
 import com.recipeservice.dto.PreparationStepDto;
 import com.recipeservice.model.PreparationStep;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
-public interface PreparationStepMapper {
+public class PreparationStepMapper {
 
-    PreparationStepMapper INSTANCE = Mappers.getMapper(PreparationStepMapper.class);
-    PreparationStepDto preparationStepToPreparationStepDto(PreparationStep preparationStep);
+    public static PreparationStepDto toDto(PreparationStep preparationStep) {
+        if (preparationStep == null) {
+            return null;
+        }
 
-    PreparationStep preparationStepDtoToPreparationStep(PreparationStepDto preparationStepDto);
+        return new PreparationStepDto(
+                preparationStep.getId(),
+                preparationStep.getStep()
+        );
+    }
+
+    public static PreparationStep toEntity(PreparationStepDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        PreparationStep preparationStep = new PreparationStep();
+        preparationStep.setId(dto.id());
+        preparationStep.setStep(dto.step());
+        return preparationStep;
+    }
 }

@@ -45,6 +45,7 @@ public class RecipeServiceImpl implements RecipeService {
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
+    @Override
     public RecipeDto addNewRecipe(CreateRecipeDto recipeDto) {
         List<IngredientDto> addedIngredients = addIngredientsToIngredientService(recipeDto.ingredients());
         List<Integer> ingredientIds = addedIngredients.stream()
