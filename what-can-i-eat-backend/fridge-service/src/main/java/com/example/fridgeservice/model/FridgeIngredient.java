@@ -24,6 +24,8 @@ public class FridgeIngredient {
 
     @Column(name = "amount_with_unit")
     private String amountWithUnit;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     public int getId() {
         return id;
@@ -63,5 +65,13 @@ public class FridgeIngredient {
 
     public void setAmountWithUnit(String amountWithUnit) {
         this.amountWithUnit = amountWithUnit;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

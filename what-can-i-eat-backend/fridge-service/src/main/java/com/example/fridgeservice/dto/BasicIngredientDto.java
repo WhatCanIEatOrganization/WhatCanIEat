@@ -6,3 +6,5 @@ public record BasicIngredientDto(Integer id,
                                  Integer legacyId,
                                  String imageUrl) {
 }
+
+

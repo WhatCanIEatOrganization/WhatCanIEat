@@ -28,7 +28,7 @@ public class BasicIngredientController {
     public ResponseEntity<BasicIngredientDto> getRecipeIngredientById(@PathVariable int ingredientId){
         Optional<BasicIngredientDto> ingredient = ingredientService.getBasicIngredientById(ingredientId);
         return ingredient.map(basicIngredientDto -> ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(basicIngredientDto))
                 .orElseGet(() -> ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -39,7 +39,7 @@ public class BasicIngredientController {
     public ResponseEntity<BasicIngredientDto> getBasicIngredientByName(@PathVariable String ingredientName){
         Optional<BasicIngredientDto> ingredient = ingredientService.getBasicIngredientByName(ingredientName);
         return ingredient.map(basicIngredientDto -> ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(basicIngredientDto))
                 .orElseGet(() -> ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
