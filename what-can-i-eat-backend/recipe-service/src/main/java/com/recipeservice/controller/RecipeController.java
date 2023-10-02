@@ -5,12 +5,15 @@ import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
+import com.recipeservice.service.PexelsService;
+import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.impl.RecipeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,17 +21,20 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/recipes")
+@CrossOrigin
 public class RecipeController {
 
 
-    private final RecipeServiceImpl recipeService;
+    private final RecipeService recipeService;
+    private final PexelsService pexelsService;
 
 
 
 
     @Autowired
-    public RecipeController(RecipeServiceImpl recipeService) {
+    public RecipeController(RecipeServiceImpl recipeService, PexelsService pexelsService) {
         this.recipeService = recipeService;
+        this.pexelsService = pexelsService;
     }
 
     @PostMapping
@@ -98,5 +104,12 @@ public class RecipeController {
                 .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(foundRecipeDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/addImage/{recipeName}")
+    public Mono<String> addImageToRecipe(@PathVariable String recipeName) {
+        return pexelsService.fetchImageForRecipe(recipeName)
+                .doOnNext(url -> System.out.println("Wygenerowany URL: " + url))
+                .map(imageUrl -> "Obrazek dla przepisu " + recipeName + " został zaktualizowany na: " + imageUrl);
     }
 }

@@ -1,9 +1,7 @@
-package com.example.fridgeservice.controller;
+package com.example.ingredientservice.controller;
 
-
-import com.example.fridgeservice.dto.BasicIngredientDto;
-import com.example.fridgeservice.dto.FridgeIngredientDto;
-import com.example.fridgeservice.service.FridgeIngredientService;
+import com.example.ingredientservice.dto.FridgeIngredientDto;
+import com.example.ingredientservice.service.FridgeIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/fridge")
+@CrossOrigin
 public class FridgeController {
 
     private final FridgeIngredientService ingredientService;
@@ -21,13 +20,6 @@ public class FridgeController {
         this.ingredientService = ingredientService;
     }
 
-
-    @GetMapping("/search")
-    public ResponseEntity<BasicIngredientDto> searchIngredient(@RequestParam String name) {
-        return ingredientService.searchBasicIngredient(name)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
     @PostMapping
     public ResponseEntity<FridgeIngredientDto> addFridgeIngredient(@RequestBody FridgeIngredientDto fridgeIngredientDto) {

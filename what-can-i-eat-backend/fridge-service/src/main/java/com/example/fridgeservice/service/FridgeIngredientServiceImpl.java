@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FridgeIngredientServiceImpl implements FridgeIngredientService {
@@ -58,6 +60,15 @@ public class FridgeIngredientServiceImpl implements FridgeIngredientService {
             FridgeIngredient newIngredient = FridgeIngredientMapper.dtoToFridgeIngredient(fridgeIngredientDto);
             return FridgeIngredientMapper.fridgeIngredientToDto(ingredientRepository.save(newIngredient));
         }
+    }
+
+    @Override
+    public List<FridgeIngredientDto> getAllFridgeIngredients() {
+        List<FridgeIngredient> ingredients = ingredientRepository.findAll();
+        return ingredients
+                .stream()
+                .map(FridgeIngredientMapper::fridgeIngredientToDto)
+                .collect(Collectors.toList());
     }
 
 
