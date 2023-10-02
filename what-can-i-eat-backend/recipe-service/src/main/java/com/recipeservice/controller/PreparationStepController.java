@@ -1,7 +1,6 @@
 package com.recipeservice.controller;
 
 import com.recipeservice.dto.PreparationStepDto;
-import com.recipeservice.model.PreparationStep;
 import com.recipeservice.service.PreparationStepService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class PreparationStepController {
     private final PreparationStepService preparationStepService;
 
