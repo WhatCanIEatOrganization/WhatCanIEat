@@ -20,7 +20,7 @@ public class Recipe {
     private String name;
     private String description;
     private boolean favorite;
-
+    private String imageUrl;
 
 
     // fields from import

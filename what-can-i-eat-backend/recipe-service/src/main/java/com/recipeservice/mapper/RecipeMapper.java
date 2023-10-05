@@ -27,6 +27,7 @@ public class RecipeMapper {
                 recipe.getWaittime(),
                 recipe.getCooktime(),
                 recipe.getCalories(),
+                recipe.getImageUrl(),
                 recipe.getPreparationSteps().stream()
                         .map(PreparationStepMapper::toDto)
                         .collect(Collectors.toList()),
@@ -48,6 +49,7 @@ public class RecipeMapper {
         recipe.setWaittime(dto.waittime());
         recipe.setCooktime(dto.cooktime());
         recipe.setCalories(dto.calories());
+        recipe.setImageUrl(dto.imageUrl());
         recipe.setPreparationSteps(dto.preparationSteps().stream()
                 .map(PreparationStepMapper::toEntity)
                 .collect(Collectors.toList()));
@@ -68,6 +70,7 @@ public class RecipeMapper {
         recipe.setWaittime(dto.waittime());
         recipe.setCooktime(dto.cooktime());
         recipe.setCalories(dto.calories());
+        recipe.setImageUrl(dto.imageUrl());
         recipe.setPreparationSteps(dto.preparationSteps().stream()
                 .map(stepDto -> {
                     PreparationStep step = PreparationStepMapper.toEntity(stepDto);
