@@ -20,15 +20,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/recipes/")
 @CrossOrigin
 public class RecipeController {
 
 
     private final RecipeService recipeService;
     private final PexelsService pexelsService;
-
-
 
 
     @Autowired
@@ -53,26 +51,26 @@ public class RecipeController {
                 .body(recipeList);
     }
 
-    @DeleteMapping("/{recipeId}")
+    @DeleteMapping("{recipeId}")
     @Operation(summary = "Delete a recipe", description = "Delete a specific recipe based on its ID.")
     public HttpStatus deleteRecipe(@PathVariable int recipeId) {
         recipeService.deleteRecipe(recipeId);
         return HttpStatus.NO_CONTENT;
     }
 
-    @GetMapping("/{recipeId}")
+    @GetMapping("{recipeId}")
     @Operation(summary = "Get recipe by ID", description = "Retrieve details of a specific recipe based on its ID.")
-    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable int recipeId){
+    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable int recipeId) {
         Optional<RecipeDto> recipeDto = recipeService.getRecipeById(recipeId);
         return recipeDto.map(dto -> ResponseEntity
-                .status(HttpStatus.OK)
-                .body(dto))
+                        .status(HttpStatus.OK)
+                        .body(dto))
                 .orElseGet(() -> ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .build());
+                        .status(HttpStatus.NOT_FOUND)
+                        .build());
     }
 
-    @GetMapping("/rng")
+    @GetMapping("rng")
     @Operation(summary = "Get random recipe", description = "Retrieve a random recipe from the system.")
     public ResponseEntity<RecipeDto> randomRecipe() {
         RecipeDto recipe = recipeService.getRandomRecipe();
@@ -81,22 +79,21 @@ public class RecipeController {
                 .body(recipe);
     }
 
-    @GetMapping("/favorite")
+    @GetMapping("favorite")
     @Operation(summary = "Get favorite recipes", description = "Retrieve a list of recipes marked as favorites.")
     public ResponseEntity<List<RecipeDto>> getFavoriteRecipes() {
         List<RecipeDto> favoriteRecipes = recipeService.getFavoriteRecipes();
         return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
     }
 
-    @GetMapping("/ingredients")
+    @GetMapping("ingredients")
     @Operation(summary = "Get ingredients by IDs", description = "Retrieve a list of ingredients based on provided IDs.")
     public List<IngredientDto> getIngredientsByIds(@RequestParam List<Integer> ids) {
         return recipeService.getIngredientsByIds(ids);
     }
 
 
-
-    @GetMapping("/search")
+    @GetMapping("search")
     @Operation(summary = "Search recipes by ingredients", description = "Retrieve a list of recipes that match the provided ingredients.")
     public ResponseEntity<List<RecipeDto>> searchRecipesByIngredients(@RequestParam List<String> ingredients) {
         List<Recipe> foundRecipes = recipeService.getRecipesByIngredients(ingredients);
@@ -106,10 +103,8 @@ public class RecipeController {
         return new ResponseEntity<>(foundRecipeDtos, HttpStatus.OK);
     }
 
-    @GetMapping("/addImage/{recipeName}")
-    public Mono<String> addImageToRecipe(@PathVariable String recipeName) {
-        return pexelsService.fetchImageForRecipe(recipeName)
-                .doOnNext(url -> System.out.println("Wygenerowany URL: " + url))
-                .map(imageUrl -> "Obrazek dla przepisu " + recipeName + " został zaktualizowany na: " + imageUrl);
+    @GetMapping("addImages")
+    public List<Recipe> addImagesToRecipe() {
+        return recipeService.updateRecipeImages();
     }
 }
