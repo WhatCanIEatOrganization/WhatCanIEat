@@ -11,6 +11,7 @@ public record CreateRecipeDto(int id,
                               Integer waittime,
                               Integer cooktime,
                               Integer calories,
+                              String imageUrl,
                               List<PreparationStepDto> preparationSteps,
                               List<IngredientDto> ingredients) {
 }
