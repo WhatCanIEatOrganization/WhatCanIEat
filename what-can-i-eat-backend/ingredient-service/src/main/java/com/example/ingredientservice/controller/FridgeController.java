@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/fridge")
+@RequestMapping("/api/v2/fridge")
 @CrossOrigin
 public class FridgeController {
 

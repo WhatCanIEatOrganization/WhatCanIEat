@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/basic-ingredients")
+@RequestMapping("/api/v2/basic-ingredients")
 @CrossOrigin
 public class BasicIngredientController {
 

@@ -65,7 +65,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     private List<IngredientDto> addIngredientsToIngredientService(List<IngredientDto> ingredientDtos) {
         return this.webClient.post()
-                .uri("/api/recipe-ingredients/batch")
+                .uri("/api/v2/recipe-ingredients/batch")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(ingredientDtos))
                 .retrieve()
@@ -121,7 +121,7 @@ public class RecipeServiceImpl implements RecipeService {
     public List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds) {
         Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/ingredient")
+                        .path("/api/v2/recipe-ingredients")
                         .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
                         .build())
                 .retrieve()
@@ -137,10 +137,9 @@ public class RecipeServiceImpl implements RecipeService {
                 String imageUrl = pexelsService.fetchImageForRecipe(recipe.getName()).block();
                 recipe.setImageUrl(imageUrl);
                 recipeRepository.save(recipe);
-                // Opóźnienie 1 sekundy (1000 milisekund) między żądaniami
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Przywróć przerwanie
+                Thread.currentThread().interrupt();
             }
         }
         return recipes;

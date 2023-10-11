@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/v1/recipes")
 @CrossOrigin
 public class RecipeController {
 
@@ -42,7 +42,7 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     @Operation(summary = "Get all recipes", description = "Retrieve a list of all recipes present in the system.")
     public ResponseEntity<List<RecipeDto>> recipeList() {
         List<RecipeDto> recipeList = recipeService.getRecipesList();
