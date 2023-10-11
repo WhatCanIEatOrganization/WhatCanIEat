@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/recipe-ingredients")
+@RequestMapping("/api/v2/recipe-ingredients")
 @CrossOrigin
 public class RecipeIngredientController {
 
