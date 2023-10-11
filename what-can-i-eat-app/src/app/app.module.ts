@@ -33,6 +33,8 @@ import { RecipesFavoriteComponent } from './pages/feed-page/recipes-favorite/rec
 import { RecipeFavoriteItemComponent } from './pages/feed-page/recipes-favorite/recipe-favorite-item/recipe-favorite-item.component';
 import { FeaturedMealComponent } from './pages/feed-page/featured-meal/featured-meal.component';
 import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.component';
+import { RecipesSearchBoxByIngredientsComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-box-by-ingredients.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.compone
     RecipesFavoriteComponent,
     RecipeFavoriteItemComponent,
     FeaturedMealComponent,
-    DailyTipComponent
+    DailyTipComponent,
+    RecipesSearchBoxByIngredientsComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.compone
     MatProgressSpinnerModule,
     ScrollingModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
