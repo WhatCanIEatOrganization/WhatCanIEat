@@ -28,18 +28,24 @@ public class PreparationServiceImpl implements PreparationStepService {
     @Override
     public List<PreparationStepDto> getPreparationStepsByRecipeId(Integer recipeId) {
         List<PreparationStep> preparationSteps = preparationStepRepository.findByRecipeId(recipeId);
-        return preparationSteps.stream().map(PreparationStepMapper.INSTANCE::preparationStepToPreparationStepDto).collect(Collectors.toList());
+        return preparationSteps.stream().map(PreparationStepMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public PreparationStepDto addPreparationStep(PreparationStepDto preparationStepDto) {
-        preparationStepRepository.save(PreparationStepMapper.INSTANCE.preparationStepDtoToPreparationStep(preparationStepDto));
+        preparationStepRepository.save(PreparationStepMapper.toEntity(preparationStepDto));
         return preparationStepDto;
     }
 
+
     @Override
-    public Optional<PreparationStepDto> updatePreparationStep(PreparationStepDto preparationStep) {
-        return null;
+    public Optional<PreparationStepDto> updatePreparationStep(Integer preparationStepId, PreparationStepDto preparationStepDto) {
+        return preparationStepRepository.findById(preparationStepId)
+                .map(existingStep -> {
+                    existingStep.setStep(preparationStepDto.step());
+                    PreparationStep savedStep = preparationStepRepository.save(existingStep);
+                    return PreparationStepMapper.toDto(savedStep);
+                });
     }
 
     @Override
@@ -50,10 +56,17 @@ public class PreparationServiceImpl implements PreparationStepService {
     @Override
     public List<PreparationStepDto> savePreparationSteps(RecipeDto recipeDto, Recipe savedRecipe) {
         recipeDto.preparationSteps().forEach(step -> {
-            PreparationStep stepEntity = PreparationStepMapper.INSTANCE.preparationStepDtoToPreparationStep(step);
+            PreparationStep stepEntity = PreparationStepMapper.toEntity(step);
             stepEntity.setRecipe(savedRecipe);
             preparationStepRepository.save(stepEntity);
         });
         return recipeDto.preparationSteps();
+    }
+
+    @Override
+    public Optional<PreparationStepDto> getPreparationStepById(Integer id) {
+        Optional<PreparationStep> preparationStep = preparationStepRepository.findById(id);
+        return preparationStep.map(PreparationStepMapper::toDto);
+
     }
 }

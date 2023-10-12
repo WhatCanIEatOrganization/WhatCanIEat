@@ -12,7 +12,9 @@ public interface PreparationStepService {
 
         List<PreparationStepDto> getPreparationStepsByRecipeId(Integer recipeId);
         PreparationStepDto addPreparationStep(PreparationStepDto preparationStep);
-        Optional<PreparationStepDto> updatePreparationStep(PreparationStepDto preparationStep);
+        Optional<PreparationStepDto> updatePreparationStep(Integer id, PreparationStepDto preparationStep);
         void deletePreparationStep(Integer stepId);
         List<PreparationStepDto> savePreparationSteps(RecipeDto recipeDto, Recipe savedRecipe);
+
+        Optional<PreparationStepDto> getPreparationStepById(Integer id);
 }

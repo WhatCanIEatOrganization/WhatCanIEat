@@ -12,7 +12,7 @@ public record RecipeDto(
         Integer waittime,
         Integer cooktime,
         Integer calories,
+        String imageUrl,
         List<PreparationStepDto> preparationSteps,
-        List<IngredientDto> newIngredients,
         List<Integer> ingredients
 ) {}

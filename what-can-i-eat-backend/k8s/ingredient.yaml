@@ -36,6 +36,6 @@ spec:
   ports:
     - port: 8081
       targetPort: 8081
-      nodePort: 30081  # Opcjonalnie: możesz określić konkretny port NodePort, w przeciwnym razie zostanie on przydzielony automatycznie
+      nodePort: 30081
   selector:
     app: ingredient-service

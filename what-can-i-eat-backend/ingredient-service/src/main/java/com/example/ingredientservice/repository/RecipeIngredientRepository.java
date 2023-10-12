@@ -1,9 +1,9 @@
 package com.example.ingredientservice.repository;
 
-import com.example.ingredientservice.model.Ingredient;
+import com.example.ingredientservice.model.RecipeIngredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IngredientRepository extends JpaRepository<Ingredient, Integer> {
+public interface RecipeIngredientRepository extends JpaRepository<RecipeIngredient, Integer> {
 }

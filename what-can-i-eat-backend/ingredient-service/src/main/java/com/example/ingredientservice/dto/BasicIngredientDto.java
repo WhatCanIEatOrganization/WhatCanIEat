@@ -1,13 +1,15 @@
 package com.example.ingredientservice.dto;
 
 public record BasicIngredientDto(
-        int id,
+        Integer id,
         String name,
         String description,
-        int legacyId,
+        Integer legacyId,
         String imageUrl) {
 
     public BasicIngredientDto {
-        imageUrl = "https://foodb.ca/system/foods/pictures/" + legacyId + "/full/" + legacyId + ".png";
+        if(legacyId != null){
+            imageUrl = "https://foodb.ca/system/foods/pictures/" + legacyId + "/full/" + legacyId + ".png";
+        }
     }
 }
