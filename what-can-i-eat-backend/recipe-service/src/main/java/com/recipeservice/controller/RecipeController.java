@@ -3,19 +3,15 @@ package com.recipeservice.controller;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeService;
-import com.recipeservice.service.impl.RecipeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;               
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
@@ -49,9 +45,11 @@ public class RecipeController {
 
     @DeleteMapping("/{recipeId}")
     @Operation(summary = "Delete a recipe", description = "Delete a specific recipe based on its ID.")
-    public HttpStatus deleteRecipe(@PathVariable int recipeId) {
+    public ResponseEntity<Void> deleteRecipe(@PathVariable int recipeId) {
         recipeService.deleteRecipe(recipeId);
-        return HttpStatus.NO_CONTENT;
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @GetMapping("/{recipeId}")
@@ -92,11 +90,8 @@ public class RecipeController {
     @GetMapping("/search")
     @Operation(summary = "Search recipes by ingredients", description = "Retrieve a list of recipes that match the provided ingredients.")
     public ResponseEntity<List<RecipeDto>> searchRecipesByIngredients(@RequestParam List<String> ingredients) {
-        List<Recipe> foundRecipes = recipeService.getRecipesByIngredients(ingredients);
-        List<RecipeDto> foundRecipeDtos = foundRecipes.stream()
-                .map(RecipeMapper::toDto)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(foundRecipeDtos, HttpStatus.OK);
+        List<RecipeDto> foundRecipes = recipeService.getRecipesByIngredients(ingredients);
+        return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
     }
 
     @GetMapping("/addImages")

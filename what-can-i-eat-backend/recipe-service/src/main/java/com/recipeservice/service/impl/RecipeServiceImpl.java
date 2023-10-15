@@ -66,10 +66,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getRecipesByIngredients(List<String> tags) {
+    public List<RecipeDto> getRecipesByIngredients(List<String> tags) {
         long count = tags.size();
         List<Integer> recipeIds = recipeRepository.findRecipeIdsByTags(tags, count);
-        return recipeRepository.findAllById(recipeIds);
+        return recipeRepository
+                .findAllById(recipeIds)
+                .stream()
+                .map(RecipeMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
