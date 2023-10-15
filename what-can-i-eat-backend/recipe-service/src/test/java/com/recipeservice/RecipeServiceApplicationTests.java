@@ -1,4 +1,4 @@
-package com.WhatCanIEat;
+package com.recipeservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

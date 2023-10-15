@@ -5,15 +5,13 @@ import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.service.PexelsService;
 import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.impl.RecipeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.*;               
 
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +24,11 @@ public class RecipeController {
 
 
     private final RecipeService recipeService;
-    private final PexelsService pexelsService;
 
 
     @Autowired
-    public RecipeController(RecipeServiceImpl recipeService, PexelsService pexelsService) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.pexelsService = pexelsService;
     }
 
     @PostMapping

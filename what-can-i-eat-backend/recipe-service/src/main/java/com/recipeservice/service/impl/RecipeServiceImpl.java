@@ -7,9 +7,7 @@ import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
-import com.recipeservice.repository.RecipeTagRepository;
 import com.recipeservice.service.PexelsService;
-import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -33,18 +30,13 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     private final RecipeRepository recipeRepository;
-    private final RecipeTagRepository recipeTagRepository;
-
-    private final PreparationStepService preparationStepService;
     private final PexelsService pexelsService;
     private final WebClient webClient;
 
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagRepository recipeTagRepository, PreparationStepService preparationStepService, PexelsService pexelsService, WebClient.Builder webClientBuilder, @Value("${ingredient.service.url}") String ingredientServiceUrl) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, PexelsService pexelsService, WebClient.Builder webClientBuilder, @Value("${ingredient.service.url}") String ingredientServiceUrl) {
         this.recipeRepository = recipeRepository;
-        this.recipeTagRepository = recipeTagRepository;
-        this.preparationStepService = preparationStepService;
         this.pexelsService = pexelsService;
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
