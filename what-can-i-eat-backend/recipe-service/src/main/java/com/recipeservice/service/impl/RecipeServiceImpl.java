@@ -9,6 +9,7 @@ import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
 import com.recipeservice.service.PexelsService;
 import com.recipeservice.service.RecipeService;
+import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -31,25 +32,29 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final PexelsService pexelsService;
+    private final RecipeTagService recipeTagService;
     private final WebClient webClient;
 
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, PexelsService pexelsService, WebClient.Builder webClientBuilder, @Value("${ingredient.service.url}") String ingredientServiceUrl) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, PexelsService pexelsService, RecipeTagService recipeTagService, WebClient.Builder webClientBuilder,
+                             @Value("${ingredient.service.url}") String ingredientServiceUrl) {
         this.recipeRepository = recipeRepository;
         this.pexelsService = pexelsService;
+        this.recipeTagService = recipeTagService;
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
     @Override
-    public RecipeDto addNewRecipe(CreateRecipeDto recipeDto) {
-        List<IngredientDto> addedIngredients = addIngredientsToIngredientService(recipeDto.ingredients());
+    public RecipeDto addNewRecipe(CreateRecipeDto createRecipeDto) {
+        Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(createRecipeDto);
+        List<IngredientDto> addedIngredients = addIngredientsToIngredientService(createRecipeDto.ingredients());
         List<Integer> ingredientIds = addedIngredients.stream()
                 .map(IngredientDto::id)
                 .collect(Collectors.toList());
-        Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(recipeDto);
         newRecipe.setIngredients(ingredientIds);
         Recipe savedRecipe = recipeRepository.save(newRecipe);
+        recipeTagService.generateRecipeTags(createRecipeDto);
         return RecipeMapper.toDto(savedRecipe);
     }
 

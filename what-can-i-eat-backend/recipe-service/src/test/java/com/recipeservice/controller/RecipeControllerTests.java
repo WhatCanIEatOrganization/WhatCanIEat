@@ -34,6 +34,7 @@ public class RecipeControllerTests {
     MockMvc mockMvc;
 
     RecipeDto sampleRecipeDto;
+    RecipeDto secondSampleRecipeDto;
 
 
     @BeforeEach
@@ -42,6 +43,20 @@ public class RecipeControllerTests {
                 1,
                 "name",
                 "description",
+                true,
+                "source",
+                10,
+                10,
+                10,
+                200,
+                "imageUrl",
+                Collections.emptyList(),
+                Collections.emptyList()
+        );
+        secondSampleRecipeDto = new RecipeDto(
+                2,
+                "name2",
+                "description2",
                 true,
                 "source",
                 10,
@@ -121,7 +136,7 @@ public class RecipeControllerTests {
 
     @Test
     public void getRecipesListShouldReturn200WithRecipeList() throws Exception {
-        when(recipeService.getRecipesList()).thenReturn(Arrays.asList(sampleRecipeDto, sampleRecipeDto));
+        when(recipeService.getRecipesList()).thenReturn(Arrays.asList(sampleRecipeDto, secondSampleRecipeDto));
 
         mockMvc
                 .perform(MockMvcRequestBuilders
@@ -131,7 +146,7 @@ public class RecipeControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
     }
 
 
@@ -178,18 +193,13 @@ public class RecipeControllerTests {
 
     @Test
     public void searchRecipesByIngredients_ShouldReturnListOfRecipes() throws Exception {
-        // Assume that RecipeDto has fields: id, name, description
-        List<RecipeDto> expectedRecipes = List.of(sampleRecipeDto, sampleRecipeDto);
-
-        // Define behavior
-        when(recipeService.getRecipesByIngredients(List.of("name", "name"))).thenReturn(expectedRecipes);
-
-        // Perform request and validate response
+        List<RecipeDto> expectedRecipes = List.of(sampleRecipeDto, secondSampleRecipeDto);
+        when(recipeService.getRecipesByIngredients(List.of("name", "name2"))).thenReturn(expectedRecipes);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/search")
-                        .param("ingredients", "name,name")
+                        .param("ingredients", "name,name2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
     }
 }
