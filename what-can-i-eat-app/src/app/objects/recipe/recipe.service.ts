@@ -15,7 +15,7 @@ export class RecipeService {
     ) { }
 
   getRecipeList(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(`${this.apiURL}/recipe`);
+    return this.http.get<Recipe[]>(`${this.apiURL}/v1/recipes`);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
