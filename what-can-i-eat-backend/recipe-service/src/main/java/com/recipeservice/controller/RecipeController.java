@@ -90,7 +90,7 @@ public class RecipeController {
     @GetMapping("/search")
     @Operation(summary = "Search recipes by ingredients", description = "Retrieve a list of recipes that match the provided ingredients.")
     public ResponseEntity<List<RecipeDto>> searchRecipesByIngredients(@RequestParam List<String> ingredients) {
-        List<RecipeDto> foundRecipes = recipeService.getRecipesByIngredients(ingredients);
+        List<RecipeDto> foundRecipes = recipeService.searchRecipesByTags(ingredients);
         return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
     }
 

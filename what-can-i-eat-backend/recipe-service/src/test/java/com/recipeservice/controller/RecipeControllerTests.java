@@ -194,7 +194,7 @@ public class RecipeControllerTests {
     @Test
     public void searchRecipesByIngredients_ShouldReturnListOfRecipes() throws Exception {
         List<RecipeDto> expectedRecipes = List.of(sampleRecipeDto, secondSampleRecipeDto);
-        when(recipeService.getRecipesByIngredients(List.of("name", "name2"))).thenReturn(expectedRecipes);
+        when(recipeService.searchRecipesByTags(List.of("name", "name2"))).thenReturn(expectedRecipes);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/search")
                         .param("ingredients", "name,name2")
                         .contentType(MediaType.APPLICATION_JSON))

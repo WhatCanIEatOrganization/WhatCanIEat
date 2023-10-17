@@ -71,9 +71,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<RecipeDto> getRecipesByIngredients(List<String> tags) {
+    public List<RecipeDto> searchRecipesByTags(List<String> tags) {
         long count = tags.size();
-        List<Integer> recipeIds = recipeRepository.findRecipeIdsByTags(tags, count);
+        List<Integer> recipeIds = recipeRepository.findRecipesIdsByTags(tags, count);
         return recipeRepository
                 .findAllById(recipeIds)
                 .stream()

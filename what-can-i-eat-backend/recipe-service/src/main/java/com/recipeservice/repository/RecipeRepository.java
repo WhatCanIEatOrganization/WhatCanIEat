@@ -15,6 +15,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
             "WHERE tag IN (:tags)\n" +
             "GROUP BY recipe_id\n" +
             "HAVING COUNT(DISTINCT tag) = :count", nativeQuery = true)
-    List<Integer> findRecipeIdsByTags(@Param("tags") List<String> tags, @Param("count") long count);
+    List<Integer> findRecipesIdsByTags(@Param("tags") List<String> tags, @Param("count") long count);
 
 }
