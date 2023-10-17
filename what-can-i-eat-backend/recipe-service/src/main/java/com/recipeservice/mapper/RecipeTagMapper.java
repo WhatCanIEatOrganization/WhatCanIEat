@@ -1,6 +1,7 @@
 package com.recipeservice.mapper;
 
 import com.recipeservice.dto.RecipeTagDto;
+import com.recipeservice.model.Recipe;
 import com.recipeservice.model.RecipeTag;
 
 public class RecipeTagMapper {
@@ -10,11 +11,17 @@ public class RecipeTagMapper {
         return new RecipeTagDto(tag.getId(), tag.getTag());
     }
 
-    public static RecipeTag toEntity(RecipeTagDto tagDto) {
+    public static RecipeTag toEntity(RecipeTagDto tagDto, Integer recipeId) {
         if (tagDto == null) return null;
         RecipeTag tag = new RecipeTag();
-        tag.setId(tagDto.id());
         tag.setTag(tagDto.tag());
+
+        if (recipeId != null) {
+            Recipe recipeReference = new Recipe();
+            recipeReference.setId(recipeId);
+            tag.setRecipe(recipeReference);
+        }
+
         return tag;
     }
 }

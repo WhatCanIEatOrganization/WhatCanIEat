@@ -22,10 +22,10 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     }
 
     @Override
-    public List<RecipeTagDto> generateRecipeTags(CreateRecipeDto createRecipeDto) {
+    public List<RecipeTagDto> generateRecipeTags(CreateRecipeDto createRecipeDto, Integer recipeId) {
         return extractTags(createRecipeDto)
                 .stream()
-                .map(tag -> RecipeTagMapper.toEntity(new RecipeTagDto(null, tag)))
+                .map(tag -> RecipeTagMapper.toEntity(new RecipeTagDto(null, tag), recipeId))
                 .map(recipeTagRepository::save)
                 .map(RecipeTagMapper::toDto)
                 .collect(Collectors.toList());
@@ -37,6 +37,7 @@ public class RecipeTagServiceImpl implements RecipeTagService {
                 .map(IngredientDto::name)
                 .collect(Collectors.toList());
         tags.addAll(Arrays.asList(createRecipeDto.name().split(" ")));
+        tags.forEach(System.out::println);
         return tags;
     }
 

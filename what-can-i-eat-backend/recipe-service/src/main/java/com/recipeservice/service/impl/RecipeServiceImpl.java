@@ -33,7 +33,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final PexelsService pexelsService;
     private final RecipeTagService recipeTagService;
-    private final WebClient webClient;
+    final WebClient webClient;
 
 
     @Autowired
@@ -54,7 +54,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList());
         newRecipe.setIngredients(ingredientIds);
         Recipe savedRecipe = recipeRepository.save(newRecipe);
-        recipeTagService.generateRecipeTags(createRecipeDto);
+        recipeTagService.generateRecipeTags(createRecipeDto, savedRecipe.getId());
         return RecipeMapper.toDto(savedRecipe);
     }
 
