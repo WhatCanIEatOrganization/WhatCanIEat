@@ -16,22 +16,11 @@ export interface Ingredient {
 export class RecipesSearchBoxByIngredientsComponent implements OnInit {
   filteredOptions!: Observable<Ingredient[]>;
   myControl = new FormControl<string | Ingredient>('');
-  options: Ingredient[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
+  options: Ingredient[] = [{name: 'Tomato'}, {name: 'Pasta'}, {name: 'Onion'}];
   formGroup!: FormGroup;
 
-
-
-
-
-
-  
-  // chosenIngredients: string[] = ["tomatos"];
-  // apiIngredients: string[] = ["tomatos", "pasta", "potatos"];
-  // apiIngredientsFiltered!: Observable<string[]>;
-  // searchControl = new FormControl();
-  // isFoundInDatabase = false;
-  // isNoMoreSearchIngredients = false;
-  // isDisabled = true;
+  searchArr: Ingredient[] = [];
+  isDisabled = true;
 
   constructor() { }
 
@@ -41,20 +30,14 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
+      debounceTime(350),
       startWith(''),
       map(value => {
+        this.isDisabled = typeof value === 'string';
         const name = typeof value === 'string' ? value : value?.name;
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
-
-    
-    
-    // this.apiIngredientsFiltered = this.searchControl.valueChanges.pipe(
-    //   debounceTime(350),
-    //   startWith(''), 
-    //   map(value => this._filter(value)),
-    // );
   }
 
   private _filter(name: string): Ingredient[] {
@@ -65,34 +48,21 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
 
 
   addIngredient(): void {
-    // if(this.chosenIngredients.length > 5) {
-    //   this.isNoMoreSearchIngredients = true;
-    //   this.searchControl = new FormControl();
-    // } else {
-    //   this.apiIngredientsFiltered.subscribe(val => console.log(val));
-    //   this.chosenIngredients.push(this.searchControl.value);
-    //   this.searchControl = new FormControl();
-    //   this.ngOnInit();
-    // };
+    let controlAsIngredient = this.myControl.value as Ingredient;
+
+    this.searchArr.indexOf(controlAsIngredient) < 0 ? this.searchArr.push(controlAsIngredient) : console.log("show error");
+    
+    this.myControl = new FormControl<string | Ingredient>('');
+    this.ngOnInit();
   }
 
-  removeIng(ingToRemove: string): void {
-    // this.chosenIngredients.splice(this.chosenIngredients.indexOf(ingToRemove), 1);
+  removeIng(ingToRemove: Ingredient): void {
+    this.searchArr.splice(this.searchArr.indexOf(ingToRemove), 1);
   }
-
-  // private _filter(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-  //   if(value.length < 2) {
-  //     this.isDisabled = true;
-  //     return []
-  //   } else {
-  //     this.isDisabled = false;
-  //     return this.apiIngredients.filter(ing => ing.toLowerCase().includes(filterValue));
-  //   }
-  // }
 
   check(): void {
     console.log(typeof this.myControl.value === "object");
+    this.addIngredient();
   }
 
   displayFn(ingredient: Ingredient): string {
