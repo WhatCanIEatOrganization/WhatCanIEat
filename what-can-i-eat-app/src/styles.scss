@@ -60,3 +60,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-color {
   color: #49454F;
 }
+
+.disable-scroll {
+  overflow: hidden;
+}

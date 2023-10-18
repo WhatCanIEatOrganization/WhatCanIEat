@@ -80,7 +80,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ScrollingModule,
     MatSnackBarModule,
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
