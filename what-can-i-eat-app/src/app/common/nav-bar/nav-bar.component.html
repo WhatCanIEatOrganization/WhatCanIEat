@@ -34,7 +34,7 @@
     </div>
     <div class="flex-row center-content user menu-icons" >
         <mat-icon (click)="toggleMenu()" *ngIf="!showMenu" _ngcontent-ng-c617914705="" role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color menu-icon" aria-hidden="true" data-mat-icon-type="font">menu</mat-icon>
-        <mat-icon (click)="toggleMenu()" *ngIf="showMenu" class="mat-icon-no-color menu-icon close-icon">close</mat-icon>
+        <mat-icon (click)="toggleMenu()" *ngIf="showMenu" class="mat-icon-no-color menu-icon">close</mat-icon>
     </div>
 </div>
 <ul *ngIf="showMenu && showMenuButton" class="overlay-menu-container title-links menu-list" (click)="toggleMenu()" [@enterAnimation]>
@@ -49,5 +49,13 @@
     <li class="menu-link">
         <mat-icon>chevron_right</mat-icon>
         <a [routerLink]="['/browse']">Browse Recipes</a>
+    </li>
+    <li class="menu-link">
+        <mat-icon>chevron_right</mat-icon>
+        <a [routerLink]="['/']">Register</a>
+    </li>
+    <li class="menu-link">
+        <mat-icon>chevron_right</mat-icon>
+        <a [routerLink]="['/']">Login</a>
     </li>
 </ul>

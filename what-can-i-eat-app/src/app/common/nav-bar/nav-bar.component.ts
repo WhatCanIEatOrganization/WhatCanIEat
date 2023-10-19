@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { BreakpointObserver, BreakpointState, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, Renderer2 } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -23,6 +23,7 @@ import { Observable, map } from 'rxjs';
   ],
 })
 export class NavBarComponent implements OnInit {
+  @Output() showMenuOverlay = new EventEmitter<boolean>();
   mobileQuery!: MediaQueryList;
   showMenuButton = false;
   showMenu = false;
@@ -51,9 +52,11 @@ export class NavBarComponent implements OnInit {
     if(this.showMenu) {
       this.renderer.removeClass(document.body, 'disable-scroll');
       this.showMenu = false;
+      this.showMenuOverlay.emit(false);
     } else {
       this.renderer.addClass(document.body, 'disable-scroll');
       this.showMenu = true;
+      this.showMenuOverlay.emit(true);
     }    
   }
 }

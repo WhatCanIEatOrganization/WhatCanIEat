@@ -62,5 +62,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .disable-scroll {
+  height: 100%;
   overflow: hidden;
+  overflow-x: hidden;
 }

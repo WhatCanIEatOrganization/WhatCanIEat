@@ -7,6 +7,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  menuOverlay = false;
   title = 'what-can-i-eat-app';
   apiURL = environment.apiURL;
+
+  toggleMenuOverlay(toggle: boolean): void {
+    this.menuOverlay = toggle;
+  }
 }
