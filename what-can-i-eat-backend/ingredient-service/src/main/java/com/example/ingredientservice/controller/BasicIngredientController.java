@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -44,9 +45,9 @@ public class BasicIngredientController {
                 .build());
     }
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<String> getHardcodedIngredients() {
-        String json = "[{ \"id\": 21, \"name\": \"Asparagus\", \"amount\": 100, \"unitMeasure\": \"g\" }, { \"id\": 22, \"name\": \"Carrot\", \"amount\": 200, \"unitMeasure\": \"g\" }]";
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<BasicIngredientDto>> getBasicIngredients() {
+        List<BasicIngredientDto> ingredientDtoList = ingredientService.getAllBasicIngredients();
+        return new ResponseEntity<>(ingredientDtoList, HttpStatus.OK);
     }
 }
