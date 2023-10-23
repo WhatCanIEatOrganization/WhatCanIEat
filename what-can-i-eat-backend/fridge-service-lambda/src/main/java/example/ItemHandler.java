@@ -1,8 +1,8 @@
 package example;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.model.*;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.*;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -12,10 +12,12 @@ import java.util.Map;
 
 public class ItemHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 
-  private final AmazonDynamoDB dynamoDb;
+  private final DynamoDbClient dynamoDb;
 
   public ItemHandler() {
-    dynamoDb = AmazonDynamoDBClientBuilder.defaultClient();
+    this.dynamoDb = DynamoDbClient.builder()
+            .httpClient(ApacheHttpClient.builder().build())
+            .build();
   }
 
   @Override
@@ -24,12 +26,13 @@ public class ItemHandler implements RequestHandler<Map<String, Object>, Map<Stri
     Map<String, Object> response = new HashMap<>();
 
     Map<String, AttributeValue> item = new HashMap<>();
-    item.put("id", new AttributeValue("1"));
-    item.put("name", new AttributeValue("TestName"));
+    item.put("id", AttributeValue.builder().s("1").build());
+    item.put("name", AttributeValue.builder().s("TestName").build());
 
-    PutItemRequest putItemRequest = new PutItemRequest()
-            .withTableName("fridge-service")
-            .withItem(item);
+    PutItemRequest putItemRequest = PutItemRequest.builder()
+            .tableName("fridge-service")
+            .item(item)
+            .build();
 
     try {
       dynamoDb.putItem(putItemRequest);
@@ -42,19 +45,20 @@ public class ItemHandler implements RequestHandler<Map<String, Object>, Map<Stri
     }
 
     Map<String, AttributeValue> key = new HashMap<>();
-    key.put("id", new AttributeValue("1"));
+    key.put("id", AttributeValue.builder().s("1").build());
 
-    GetItemRequest getItemRequest = new GetItemRequest()
-            .withTableName("fridge-service")
-            .withKey(key);
+    GetItemRequest getItemRequest = GetItemRequest.builder()
+            .tableName("fridge-service")
+            .key(key)
+            .build();
 
     try {
-      GetItemResult getItemResult = dynamoDb.getItem(getItemRequest);
+      Map<String, AttributeValue> returnedItem = dynamoDb.getItem(getItemRequest).item();
 
-      if (getItemResult.getItem() != null) {
+      if (returnedItem != null && !returnedItem.isEmpty()) {
         logger.log("Successfully retrieved sample item.");
         response.put("statusCode", 200);
-        response.put("body", "Retrieved item: " + getItemResult.getItem().toString());
+        response.put("body", "Retrieved item: " + returnedItem.toString());
       } else {
         logger.log("Sample item not found.");
         response.put("statusCode", 404);
