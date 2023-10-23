@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
@@ -18,7 +18,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
   isIngredientListLoading: boolean = true;
   searchArr: BasicIngredient[] = [];
   isDisabled: boolean = true;
-  inputError: boolean = true;
+  inputError: boolean = false;
 
   constructor(
     private ingredientService : IngredientService,
@@ -30,7 +30,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
     });
     
     this.formGroup = new FormGroup({
-      myControl: new FormControl<string | BasicIngredient>('')
+      myControl: new FormControl<string | BasicIngredient>(''),
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -62,7 +62,11 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
       }
     });
 
-    isFound ? console.log("Ingredient already added!") : this.searchArr.push(controlAsIngredient);
+    isFound ? this.inputError = true : this.searchArr.push(controlAsIngredient);
+
+    setTimeout(() => {
+      this.inputError = false;
+    }, 3500);
     
     this.myControl = new FormControl<string | BasicIngredient>('');
     this.ngOnInit();

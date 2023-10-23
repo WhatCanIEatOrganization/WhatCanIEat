@@ -6,6 +6,7 @@
 
 .main-container {
     padding-top: 20px;
+    width: 600px;
 }
 
 .center-in-row {
@@ -89,6 +90,15 @@ input {
 }
 
 .ings-for-search, .bar, input, .input-invalid {
+    width: 65vw;
+    max-width: 440px;
+}
+
+.buttons-gap {
+    gap: 1vw;
+}
+
+.bar-width {
     width: 65vw;
     max-width: 440px;
 }

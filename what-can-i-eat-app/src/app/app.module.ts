@@ -36,7 +36,6 @@ import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.compone
 import { RecipesSearchBoxByIngredientsComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-box-by-ingredients.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-
 @NgModule({
   declarations: [
     AppComponent,
