@@ -1,67 +1,27 @@
-.example-form {
-    min-width: 350px;
-    max-width: 400px;
-    width: 100%;
-}
-  
-.example-full-width {
-    width: 100%;
-}
-
 .main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;  
   gap: 40px;
 }
 
-.main-container {
-  // background-image: url("/assets/images/background2.jpg");
-  background-color: #F2F6F7;
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 100vh;
-  box-shadow: inset -20px 10px 20px 0px white;
-}
-
-.table {
-  width: 400px;
-}
-
-button {
-  background-color: #50A4A4;
-  border-radius: 100px;
-  color: #FFFFFF;
-}
-
 .homepage-row {
-  padding-top: 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 2vw;
+  gap: 3vh; 
+  width: 85vw;
 }
 
-.content-container {
+.center-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredients-container {
   height: 535px;
-  width: 405px;
+  width: inherit;
 }
 
 .slide-show {
   height: 230px;
-  width: calc(5vw + 812px);
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.wide-container {
-  width: 600px;
-}
-
-.daily-tip {
-  height: 190px;
+  width: 85vw;
 }
 
 .tip-featured {
@@ -69,3 +29,23 @@ button {
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (min-width: 768px) {
+  .homepage-row {
+    flex-direction: row;
+  }
+
+  .ingredients-container {
+    max-width: 405px;
+  }
+
+  .wide-container {
+    max-width: 600px;
+  }
+
+  .slide-show {
+    min-width: 680px;
+    max-width: 1000px;
+  }
+} 
+
