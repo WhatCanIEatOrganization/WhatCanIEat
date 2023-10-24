@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
-
-export interface Ingredient {
-  name: string;
-}
-
+import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
+import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 
 @Component({
   selector: 'app-recipes-search-box-by-ingredients',
@@ -14,23 +11,30 @@ export interface Ingredient {
 })
 
 export class RecipesSearchBoxByIngredientsComponent implements OnInit {
-  filteredOptions!: Observable<Ingredient[]>;
-  myControl = new FormControl<string | Ingredient>('');
-  options: Ingredient[] = [{name: 'Tomato'}, {name: 'Pasta'}, {name: 'Onion'}];
+  filteredOptions!: Observable<BasicIngredient[]>;
+  myControl = new FormControl<string | BasicIngredient>('');
+  options: BasicIngredient[] = [];
   formGroup!: FormGroup;
+  isIngredientListLoading: boolean = true;
+  searchArr: BasicIngredient[] = [];
+  isDisabled: boolean = true;
+  inputError: boolean = false;
 
-  searchArr: Ingredient[] = [];
-  isDisabled = true;
-
-  constructor() { }
+  constructor(
+    private ingredientService : IngredientService,
+  ) { }
 
   ngOnInit(): void {
+    this.ingredientService.getIngredientTagsList().subscribe(value => {
+      this.options = value;
+    });
+    
     this.formGroup = new FormGroup({
-      myControl: new FormControl<string | Ingredient>('')
+      myControl: new FormControl<string | BasicIngredient>(''),
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      debounceTime(350),
+      debounceTime(150),
       startWith(''),
       map(value => {
         this.isDisabled = typeof value === 'string';
@@ -40,7 +44,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
     );
   }
 
-  private _filter(name: string): Ingredient[] {
+  private _filter(name: string): BasicIngredient[] {
     const filterValue = name.toLowerCase();
 
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
@@ -48,24 +52,31 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
 
 
   addIngredient(): void {
-    let controlAsIngredient = this.myControl.value as Ingredient;
+    let controlAsIngredient = this.myControl.value as BasicIngredient;
 
-    this.searchArr.indexOf(controlAsIngredient) < 0 ? this.searchArr.push(controlAsIngredient) : console.log("show error");
+    let isFound: boolean = false;
+
+    this.searchArr.forEach(el => {
+      if(el.name === controlAsIngredient.name) {
+        isFound = true;
+      }
+    });
+
+    isFound ? this.inputError = true : this.searchArr.push(controlAsIngredient);
+
+    setTimeout(() => {
+      this.inputError = false;
+    }, 3500);
     
-    this.myControl = new FormControl<string | Ingredient>('');
+    this.myControl = new FormControl<string | BasicIngredient>('');
     this.ngOnInit();
   }
 
-  removeIng(ingToRemove: Ingredient): void {
+  removeIng(ingToRemove: BasicIngredient): void {
     this.searchArr.splice(this.searchArr.indexOf(ingToRemove), 1);
   }
 
-  check(): void {
-    console.log(typeof this.myControl.value === "object");
-    this.addIngredient();
-  }
-
-  displayFn(ingredient: Ingredient): string {
+  displayFn(ingredient: BasicIngredient): string {
     return ingredient && ingredient.name ? ingredient.name : '';
   }
 }
