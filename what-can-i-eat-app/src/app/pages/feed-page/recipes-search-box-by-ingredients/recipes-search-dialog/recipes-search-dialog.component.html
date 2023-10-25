@@ -1,0 +1,9 @@
+<div class="container">
+    <button class="not-mobile-buttons" (click)="lowerIndex()" mat-raised-button color="secondary"><mat-icon class="icon">chevron_left</mat-icon></button>
+    <app-recipe-item-card *ngFor="let recipe of recipesToShow" [recipe]="recipe"></app-recipe-item-card>
+    <button class="not-mobile-buttons" (click)="increaseIndex()" mat-raised-button color="secondary"><mat-icon class="icon">chevron_right</mat-icon></button>
+    <div class="mobile-buttons">
+        <button (click)="lowerIndex()" mat-raised-button color="secondary"><mat-icon class="icon">chevron_left</mat-icon></button>
+        <button (click)="increaseIndex()" mat-raised-button color="secondary"><mat-icon class="icon">chevron_right</mat-icon></button>
+    </div>
+</div>

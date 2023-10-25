@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+button {
+    background-color: #50A4A4;
+    border-radius: 100px;
+    color: #FFFFFF;
+    height: 50px;
+}
+
+.mobile-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.not-mobile-buttons {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    button {
+        height: 130px;
+    }
+
+    .container {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        padding: 20px;
+        gap: 2vw;
+    }
+
+    .icon {
+        transform: scale(1.5);
+    }
+
+    .not-mobile-buttons {
+        display: block;
+    }
+
+    .mobile-buttons {
+        display: none;
+    }
+}
