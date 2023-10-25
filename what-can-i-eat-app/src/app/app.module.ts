@@ -35,6 +35,7 @@ import { FeaturedMealComponent } from './pages/feed-page/featured-meal/featured-
 import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.component';
 import { RecipesSearchBoxByIngredientsComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-box-by-ingredients.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-dialog/recipes-search-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     FeaturedMealComponent,
     DailyTipComponent,
     RecipesSearchBoxByIngredientsComponent,
+    RecipesSearchDialogComponent,
   ],
   imports: [
     BrowserModule,

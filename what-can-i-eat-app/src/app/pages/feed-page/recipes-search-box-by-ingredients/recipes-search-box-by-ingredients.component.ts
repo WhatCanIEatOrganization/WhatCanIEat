@@ -3,6 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
+import { RecipeService } from 'src/app/objects/recipe/recipe.service';
+import { RecipesSearchDialogComponent } from './recipes-search-dialog/recipes-search-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 
 @Component({
   selector: 'app-recipes-search-box-by-ingredients',
@@ -22,6 +26,8 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
 
   constructor(
     private ingredientService : IngredientService,
+    private recipeService: RecipeService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -78,5 +84,20 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
 
   displayFn(ingredient: BasicIngredient): string {
     return ingredient && ingredient.name ? ingredient.name : '';
+  }
+
+  searchRecipes(): void {
+    this.recipeService.getRecipesByIngredients().subscribe((recipesFound) => {
+      this.onRecipeCardClick(recipesFound);
+    });
+  };
+
+  onRecipeCardClick(recipesFound: RecipeItemApi[]): void {
+    const dialogRef = this.dialog.open(RecipesSearchDialogComponent, {
+      panelClass: 'custom-modalbox',
+      data: {
+        recipesFound
+      }
+    });
   }
 }
