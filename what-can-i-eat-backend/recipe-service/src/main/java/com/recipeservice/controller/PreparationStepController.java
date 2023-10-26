@@ -21,7 +21,7 @@ public class PreparationStepController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPreparationStepById(Integer recipeId) {
+    public ResponseEntity<List<PreparationStepDto>> getPreparationStepById(Integer recipeId) {
         List<PreparationStepDto> preparationStepDto = preparationStepService.getPreparationStepsByRecipeId(recipeId);
         return ResponseEntity
                 .status(HttpStatus.FOUND)
@@ -29,9 +29,11 @@ public class PreparationStepController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deletePreparationStep(Integer id){
+    public ResponseEntity<Void> deletePreparationStep(Integer id){
         preparationStepService.deletePreparationStep(id);
-        return ResponseEntity.status(HttpStatus.OK).body(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @PostMapping

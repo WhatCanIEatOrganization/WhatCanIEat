@@ -28,7 +28,7 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
         return recipeIngredientDto;
     }
 
-
+    @Override
     public List<RecipeIngredientDto> addNewIngredients(List<RecipeIngredientDto> ingredientsDto) {
         List<RecipeIngredient> recipeIngredients = ingredientsDto.stream()
                 .map(RecipeIngredientMapper::mapToEntity)
