@@ -7,11 +7,35 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { RecipesSearchDialogComponent } from './recipes-search-dialog/recipes-search-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-recipes-search-box-by-ingredients',
   templateUrl: './recipes-search-box-by-ingredients.component.html',
-  styleUrls: ['./recipes-search-box-by-ingredients.component.scss']
+  styleUrls: ['./recipes-search-box-by-ingredients.component.scss'],
+  animations: [
+    trigger(
+      'inOutAnimation', 
+      [
+        transition(
+          ':enter', 
+          [
+            style({ opacity: 0 }),
+            animate('0.3s ease-out', 
+                    style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave', 
+          [
+            style({ opacity: 1 }),
+            animate('0.3s ease-in', 
+                    style({  opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 
 export class RecipesSearchBoxByIngredientsComponent implements OnInit {
@@ -20,7 +44,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
   options: BasicIngredient[] = [];
   formGroup!: FormGroup;
   isIngredientListLoading: boolean = true;
-  searchArr: BasicIngredient[] = [];
+  searchArr: string[] = [];
   isDisabled: boolean = true;
   inputError: boolean = false;
 
@@ -40,10 +64,10 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      debounceTime(150),
+      // debounceTime(150),
       startWith(''),
       map(value => {
-        this.isDisabled = typeof value === 'string';
+        this.isDisabled = value === '';
         const name = typeof value === 'string' ? value : value?.name;
         return name ? this._filter(name as string) : this.options.slice();
       }),
@@ -58,12 +82,14 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
 
 
   addIngredient(): void {
-    let controlAsIngredient = this.myControl.value as BasicIngredient;
+
+    let controlAsIngredient: string;
+    typeof this.myControl.value === 'string' ? controlAsIngredient = this.myControl.value : controlAsIngredient = this.myControl.value!.name;
 
     let isFound: boolean = false;
 
     this.searchArr.forEach(el => {
-      if(el.name === controlAsIngredient.name) {
+      if(el === controlAsIngredient) {
         isFound = true;
       }
     });
@@ -78,7 +104,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
     this.ngOnInit();
   }
 
-  removeIng(ingToRemove: BasicIngredient): void {
+  removeIng(ingToRemove: string): void {
     this.searchArr.splice(this.searchArr.indexOf(ingToRemove), 1);
   }
 
@@ -87,7 +113,7 @@ export class RecipesSearchBoxByIngredientsComponent implements OnInit {
   }
 
   searchRecipes(): void {
-    this.recipeService.getRecipesByIngredients().subscribe((recipesFound) => {
+    this.recipeService.getRecipesByIngredients(this.searchArr).subscribe((recipesFound) => {
       this.onRecipeCardClick(recipesFound);
     });
   };

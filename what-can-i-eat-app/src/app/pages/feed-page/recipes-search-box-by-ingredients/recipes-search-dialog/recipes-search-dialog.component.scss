@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 15px;
+    padding: 10px;
 }
 
 button {
@@ -17,7 +18,7 @@ button {
     justify-content: space-around;
 }
 
-.not-mobile-buttons {
+.wide-screen-buttons {
     display: none;
 }
 
@@ -39,7 +40,7 @@ button {
         transform: scale(1.5);
     }
 
-    .not-mobile-buttons {
+    .wide-screen-buttons {
         display: block;
     }
 

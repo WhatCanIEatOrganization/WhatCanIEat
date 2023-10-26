@@ -44,9 +44,9 @@ export class RecipeService {
     return this.http.get<Recipe[]>(`${this.apiURL}/recipe/favorite`);
   }
 
-  getRecipesByIngredients(): Observable<RecipeItemApi[]> {
+  getRecipesByIngredients(searchFor: string[]): Observable<RecipeItemApi[]> {
     let ingredients = new HttpParams();
-    ingredients = ingredients.append("ingredients", "potato");
+    ingredients = ingredients.append("ingredients", searchFor.join(', '));
 
     return this.http.get<RecipeItemApi[]>(`${this.apiURL}/v1/recipes/search`, {params:ingredients});
   }
