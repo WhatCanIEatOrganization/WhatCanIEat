@@ -95,7 +95,7 @@ public class RecipeController {
     }
 
     @GetMapping("/addImages")
-    public List<Recipe> addImagesToRecipe() {
+    public List<Recipe> addImagesToRecipes() {
         return recipeService.updateRecipeImages();
     }
 }
