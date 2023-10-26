@@ -7,6 +7,7 @@ import { filter, concatMap } from 'rxjs';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
+import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 
 @Component({
   selector: 'app-recipe-item-card',
@@ -14,8 +15,8 @@ import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success
   styleUrls: ['./recipe-item-card.component.scss']
 })
 export class RecipeItemCardComponent implements OnInit {
-  @Input() recipe!: Recipe;
-  @Output() public delete = new EventEmitter<Recipe>();
+  @Input() recipe!: RecipeItemApi;
+  @Output() public delete = new EventEmitter<RecipeItemApi>();
 
   constructor(
     private dialog: MatDialog,
@@ -51,7 +52,7 @@ export class RecipeItemCardComponent implements OnInit {
     })
   }
 
-  private openSnackbarSuccess(recipe: Recipe): void {
+  private openSnackbarSuccess(recipe: RecipeItemApi): void {
     this._snackBar.openFromComponent(SnackbarSuccessComponent, {
       data: {
         message: `Recipe ${recipe.name} has been deleted!`
