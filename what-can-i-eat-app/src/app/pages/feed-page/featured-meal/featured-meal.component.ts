@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
-import { RecipeItemOnClickComponent } from '../../recipes-view-full/recipe-item-on-click/recipe-item-on-click.component';
+import { RecipeItemOnClickComponent } from '../../../objects/recipe/recipe-item-on-click/recipe-item-on-click.component';
 
 @Component({
   selector: 'app-featured-meal',

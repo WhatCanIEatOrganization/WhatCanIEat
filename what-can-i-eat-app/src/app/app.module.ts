@@ -17,7 +17,7 @@ import { DialogConfirmationComponent } from './common/dialog/dialog-confirmation
 import { IngredientCreatorComponent } from './objects/ingredient/ingredient-creator/ingredient-creator.component';
 import { RecipesViewFullComponent } from './pages/recipes-view-full/recipes-view-full.component';
 import { RecipeItemCardComponent } from './pages/recipes-view-full/recipe-item-card/recipe-item-card.component';
-import { RecipeItemOnClickComponent } from './pages/recipes-view-full/recipe-item-on-click/recipe-item-on-click.component';
+import { RecipeItemOnClickComponent } from './objects/recipe/recipe-item-on-click/recipe-item-on-click.component';
 import { MatSelectModule } from '@angular/material/select';
 import { IngredientItemComponent } from './objects/ingredient/ingredient-item/ingredient-item.component';
 import { RecipeItemComponent } from './objects/recipe/recipe-item/recipe-item.component';
