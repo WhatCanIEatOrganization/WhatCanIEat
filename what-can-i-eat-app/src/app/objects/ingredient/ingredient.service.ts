@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
 import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
+import { IngredientPayLoad } from 'src/app/model/ingredient/ingredientPayload';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
 
@@ -15,7 +16,7 @@ export class IngredientService {
   constructor(private http: HttpClient) { }
 
   getIngredientList(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`${this.apiURL}/ingredient`);
+    return this.http.get<Ingredient[]>(`${this.apiURL}/v2/fridge`);
   }
 
   deleteIngredient(ingredient: Ingredient): Observable<Ingredient> {
@@ -23,8 +24,18 @@ export class IngredientService {
     return this.http.delete<Ingredient>(`${this.apiURL}/ingredient/${ingredientId}`);
   }
 
-  createIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.post<Ingredient>(`${this.apiURL}/ingredient` , ingredient);
+  createIngredient(ingredient: Ingredient): Observable<IngredientPayLoad> {
+    let ing: IngredientPayLoad = {
+      id: 0,
+      name: ingredient.name,
+      description: '',
+      imageUrl: '',
+      insertDate: '',
+      expiryDate: '',
+      amountWithUnit: ingredient.amount.toString()
+    }
+    
+    return this.http.post<IngredientPayLoad>(`${this.apiURL}/v2/fridge`, ing);
   }
 
   modifyIngredient(ingredient: Ingredient): Observable<Ingredient> {

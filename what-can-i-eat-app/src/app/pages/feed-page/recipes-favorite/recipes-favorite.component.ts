@@ -26,7 +26,7 @@ export class RecipesFavoriteComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        console.log("Error");
+
       }
     })
   }

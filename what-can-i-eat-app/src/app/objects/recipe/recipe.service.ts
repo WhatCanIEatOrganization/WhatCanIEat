@@ -33,7 +33,7 @@ export class RecipeService {
   }
 
   getRandomRecipe(): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiURL}/recipe/rng`);
+    return this.http.get<Recipe>(`${this.apiURL}//v1/recipes/rng`);
   }
 
   getRecipeById(recipeId: number): Observable<Recipe> {
@@ -41,7 +41,7 @@ export class RecipeService {
   }
 
   getFavoriteRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(`${this.apiURL}/recipe/favorite`);
+    return this.http.get<Recipe[]>(`${this.apiURL}//v1/recipes/favorite`);
   }
 
   getRecipesByIngredients(searchFor: string[]): Observable<RecipeItemApi[]> {
