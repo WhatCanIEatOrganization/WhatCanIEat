@@ -1,51 +1,67 @@
 .container {
-    gap: 25px;
-}
-
-.buttons {
     display: flex;
-    justify-content: flex-end;
-    gap: 8px;
+    flex-direction: column;
+    align-items: center;
 }
 
-svg {
-    height: 20px;
-    width: 20px;
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 img {
-    width: 200px;
-    height: 200px;
+    width: 80%;
+    height: auto;
 }
 
-.title {
+.spread-out {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding-bottom: 10px;
 }
 
-h5 {
-    font-weight: bold;
-}
-
-.description {
-    flex: 2;
-}
-
-.steps-ing {
-    flex: 4;  
-    justify-content: flex-start;
-    gap: 5px;
-}
-
-.time {
+.img-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-.item {
-    width: 60%;
+button {
+    background-color: #50A4A4;
+    border-radius: 100px;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+}
+
+.filled-heart {
+    fill: #50A4A4;
+}
+
+svg {
+    height: 45px;
+    width: 45px;
+    fill: rgba(0, 0, 0, 0.705);
+}
+
+svg:hover {
+    cursor: pointer;
+    border-bottom: solid rgba(85, 85, 85, 0.705) 2px;
+}
+
+@media screen and (min-width: 768px) {
+    .content {
+        flex-direction: row;
+    }
+
+    mat-accordion {
+        min-width: 300px;
+        width: 30vw;
+    }
+
+    img {
+        width: 90%;
+    }
 }

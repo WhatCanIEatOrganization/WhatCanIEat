@@ -36,6 +36,8 @@ import { DailyTipComponent } from './pages/feed-page/daily-tip/daily-tip.compone
 import { RecipesSearchBoxByIngredientsComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-box-by-ingredients.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-dialog/recipes-search-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 @NgModule({
   declarations: [
@@ -82,6 +84,7 @@ import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-b
     MatSnackBarModule,
     MatMenuModule,
     MatAutocompleteModule,
+    MatExpansionModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
