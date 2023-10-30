@@ -19,8 +19,6 @@
     <modules>
         <module>recipe-service</module>
         <module>ingredient-service</module>
-        <module>user-service</module>
-        <module>fridge-service</module>
     </modules>
     <properties>
         <java.version>17</java.version>
