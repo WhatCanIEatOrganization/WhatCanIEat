@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from '../recipe.service';
+import { IngredientService } from '../../ingredient/ingredient.service';
+import { IngredientApi } from '../../ingredient/ingredient-api';
 
 @Component({
   selector: 'app-recipe-item-on-click',
@@ -11,15 +13,26 @@ import { RecipeService } from '../recipe.service';
 export class RecipeItemOnClickComponent implements OnInit {
   recipe: RecipeItemApi = this.data.recipe;
   panelOpenState = false;
+  ingredients!: IngredientApi[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private recipeService: RecipeService,
+    private ingredientService: IngredientService,
   ) {
 
    }
 
   ngOnInit(): void {
+    this.getRecipeIngredients();
+  }
+
+  getRecipeIngredients(): void {
+    this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
+      next: (val) => {
+        this.ingredients = val;
+      }
+    })
   }
 
   public toggleFavorite(): void {
@@ -28,7 +41,7 @@ export class RecipeItemOnClickComponent implements OnInit {
       next: (recipe) => {
         this.recipe = recipe;
       },
-      error: () => {
+      error: (error) => {
 
       }
     })

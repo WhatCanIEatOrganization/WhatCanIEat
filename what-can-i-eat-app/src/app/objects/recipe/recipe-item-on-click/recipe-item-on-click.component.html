@@ -35,16 +35,12 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div >
-                    <ul *ngFor="let ing of recipe.ingredients">
-                        <li>{{ing}}</li>
+                    <ul *ngFor="let ing of ingredients">
+                        <li>{{ing.name}}</li>
                     </ul>
                   </div>
     
                 </mat-expansion-panel>
-                <div #targetOne>
-
-                </div>
-    
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -52,7 +48,7 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <ul *ngFor="let step of recipe.preparationSteps; let i = index;">
-                        <li>{{i}}.{{step}}</li>
+                        <li>{{i + 1}}.{{step.step}}</li>
                     </ul>
                   </mat-expansion-panel>
               </mat-accordion>
