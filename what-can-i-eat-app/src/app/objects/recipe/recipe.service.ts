@@ -32,8 +32,8 @@ export class RecipeService {
     return this.http.patch<RecipeItemApi>(`${this.apiURL}/recipe`, recipe);
   }
 
-  getRandomRecipe(): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiURL}//v1/recipes/rng`);
+  getRandomRecipe(): Observable<RecipeItemApi> {
+    return this.http.get<RecipeItemApi>(`${this.apiURL}//v1/recipes/rng`);
   }
 
   getRecipeById(recipeId: number): Observable<Recipe> {

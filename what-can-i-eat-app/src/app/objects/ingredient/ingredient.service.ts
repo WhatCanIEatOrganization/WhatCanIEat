@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
@@ -6,6 +6,7 @@ import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ing
 import { IngredientPayLoad } from 'src/app/model/ingredient/ingredientPayload';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
+import { IngredientApi } from './ingredient-api';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,13 @@ export class IngredientService {
 
   getIngredientList(): Observable<Ingredient[]> {
     return this.http.get<Ingredient[]>(`${this.apiURL}/v2/fridge`);
+  }
+
+  getIngredientsByIds(numbers: number[]): Observable<IngredientApi[]> {
+    let ids = new HttpParams();
+    ids = ids.append("ids", numbers.join(', '));
+
+    return this.http.get<IngredientApi[]>(`${this.apiURL}/v1/recipes/ingredients`, {params: ids});
   }
 
   deleteIngredient(ingredient: Ingredient): Observable<Ingredient> {

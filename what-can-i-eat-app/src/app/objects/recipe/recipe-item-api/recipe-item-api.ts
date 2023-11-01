@@ -1,3 +1,5 @@
+import { PreparationStep } from "../../preparation-steps/preparation-step";
+
 export interface RecipeItemApi {
     id: number,
     name: string,
@@ -9,6 +11,6 @@ export interface RecipeItemApi {
     cooktime: number,
     calories: number,
     imageUrl: string,
-    ingredients: string[],
-    preparationSteps: string[]
+    ingredients: number[],
+    preparationSteps: PreparationStep[]
 }
