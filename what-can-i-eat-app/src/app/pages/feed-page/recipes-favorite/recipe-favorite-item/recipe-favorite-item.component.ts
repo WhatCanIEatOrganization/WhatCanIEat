@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/model/recipe/recipe';
+import { RecipeDetailsDialogService } from 'src/app/objects/recipe/recipe-details-dialog.service';
+import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 
 @Component({
   selector: 'app-recipe-favorite-item',
@@ -7,9 +9,11 @@ import { Recipe } from 'src/app/model/recipe/recipe';
   styleUrls: ['./recipe-favorite-item.component.scss']
 })
 export class RecipeFavoriteItemComponent implements OnInit {
-  @Input() recipe!: Recipe;
+  @Input() recipe!: RecipeItemApi;
 
-  constructor() { }
+  constructor(
+    private recipeDialogService: RecipeDetailsDialogService,
+  ) { }
 
   ngOnInit(): void {
 
@@ -19,4 +23,7 @@ export class RecipeFavoriteItemComponent implements OnInit {
     
   }
 
+  onRecipeCardClick(): void {
+    this.recipeDialogService.showRecipeDetailsDialog(this.recipe);
+  }
 }
