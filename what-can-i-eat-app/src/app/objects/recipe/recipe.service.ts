@@ -40,8 +40,8 @@ export class RecipeService {
     return this.http.get<Recipe>(`${this.apiURL}/recipe/${recipeId}`);
   }
 
-  getFavoriteRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(`${this.apiURL}//v1/recipes/favorite`);
+  getFavoriteRecipes(): Observable<RecipeItemApi[]> {
+    return this.http.get<RecipeItemApi[]>(`${this.apiURL}//v1/recipes/favorite`);
   }
 
   getRecipesByIngredients(searchFor: string[]): Observable<RecipeItemApi[]> {
