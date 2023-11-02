@@ -1,0 +1,104 @@
+@media screen and (min-width: 768px) {
+    .ings-for-search {
+        font-size: larger;
+    }
+}
+
+.main-container {
+    padding-top: 20px;
+    width: 600px;
+}
+
+.center-in-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+}
+
+.ings-for-search {
+    flex-wrap: wrap;
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.ing {
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-ing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 39px;
+}
+
+.round-corners {
+    border-radius: 12px;
+}
+
+input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 20px;
+    outline: none;
+    border: none;
+}
+
+.input-invalid {
+    padding-top: 5px;
+    align-items: center;
+    gap: .8vw;
+    font-size: 1.1em;
+    text-align: center;
+}
+ 
+.icons:hover, .bar:hover {
+    box-shadow: 0px 1px 2px 0px #3a7575, 0px 1px 5px 1px #3a7575;
+    cursor: pointer;
+    scale: 1.04;
+    transition: box-shadow .3s;
+    transition: scale .1s;
+}
+
+.bar {
+    padding: 10px;
+}
+
+.bar:hover {
+    scale: 1.01;
+}
+
+.bar, .icons, input {
+    background-color: rgb(252, 252, 252);
+}
+
+.ings-for-search, .bar, input, .input-invalid {
+    width: 65vw;
+    max-width: 440px;
+}
+
+.buttons-gap {
+    gap: 1vw;
+}
+
+.bar-width {
+    width: 65vw;
+    max-width: 440px;
+}

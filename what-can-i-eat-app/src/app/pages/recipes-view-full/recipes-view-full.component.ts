@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/model/recipe/recipe';
+import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
   styleUrls: ['./recipes-view-full.component.scss']
 })
 export class RecipesViewFullComponent implements OnInit {
-  recipesList: Recipe[] = [];
+  recipesList: RecipeItemApi[] = [];
   isLoading = true;
 
   constructor(

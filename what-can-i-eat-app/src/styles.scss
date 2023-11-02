@@ -60,3 +60,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-color {
   color: #49454F;
 }
+
+.disable-scroll {
+  height: 100%;
+  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.custom-modalbox > mat-dialog-container {
+  padding: 0;
+}

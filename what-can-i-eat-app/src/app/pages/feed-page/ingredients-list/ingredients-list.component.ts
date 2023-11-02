@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IngredientPayLoad } from 'src/app/model/ingredient/ingredientPayload';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class IngredientsListComponent implements OnInit {
         return this.ingredientService.createIngredient(ingredient);
       }))
       .subscribe({
-        next: (val: Ingredient) => {
+        next: (val: IngredientPayLoad) => {
           this.openSnackbarSuccess(val.name, "created");
           this.getIngredientList();
         },
@@ -71,7 +72,9 @@ export class IngredientsListComponent implements OnInit {
         this.getIngredientList();
         this.openSnackbarSuccess(val.name, "changed")
       },
-      error: () => console.log("Something went wrong!")
+      error: () => {
+
+      }
     })
   }
 
@@ -84,7 +87,7 @@ export class IngredientsListComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        console.log("smh went wrong");
+
       }
     })
   }

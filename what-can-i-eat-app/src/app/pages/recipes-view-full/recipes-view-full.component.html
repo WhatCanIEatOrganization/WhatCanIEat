@@ -1,3 +1,5 @@
-<div class="container" *ngIf="!isLoading">
-    <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
-</div> 
+<div class="center">
+    <div class="container" *ngIf="!isLoading">
+        <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
+    </div> 
+</div>

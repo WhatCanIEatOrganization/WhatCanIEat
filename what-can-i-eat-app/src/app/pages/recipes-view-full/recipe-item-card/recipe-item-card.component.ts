@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Recipe } from 'src/app/model/recipe/recipe';
-import { RecipeItemOnClickComponent } from '../recipe-item-on-click/recipe-item-on-click.component';
+import { RecipeItemOnClickComponent } from '../../../objects/recipe/recipe-item-on-click/recipe-item-on-click.component';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { filter, concatMap } from 'rxjs';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
+import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
+import { RecipeDetailsDialogService } from 'src/app/objects/recipe/recipe-details-dialog.service';
 
 @Component({
   selector: 'app-recipe-item-card',
@@ -14,22 +16,32 @@ import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success
   styleUrls: ['./recipe-item-card.component.scss']
 })
 export class RecipeItemCardComponent implements OnInit {
-  @Input() recipe!: Recipe;
-  @Output() public delete = new EventEmitter<Recipe>();
+  @Input() recipe!: RecipeItemApi;
+  @Output() public delete = new EventEmitter<RecipeItemApi>();
 
   constructor(
     private dialog: MatDialog,
     private recipeService: RecipeService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private recipeDetailsDialogService: RecipeDetailsDialogService
   ) { }
 
   ngOnInit(): void {
   }
 
+  // onRecipeCardClick(): void {
+  //   const dialogRef = this.dialog.open(RecipeItemOnClickComponent, {
+  //     data: {
+  //       recipe: this.recipe
+  //     }
+  //   });
+  // }
+
   onRecipeCardClick(): void {
-    const dialogRef = this.dialog.open(RecipeItemOnClickComponent)
+    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe);
   }
 
+  
   deleteRecipe(): void {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, { 
       data: { 
@@ -51,7 +63,7 @@ export class RecipeItemCardComponent implements OnInit {
     })
   }
 
-  private openSnackbarSuccess(recipe: Recipe): void {
+  private openSnackbarSuccess(recipe: RecipeItemApi): void {
     this._snackBar.openFromComponent(SnackbarSuccessComponent, {
       data: {
         message: `Recipe ${recipe.name} has been deleted!`
