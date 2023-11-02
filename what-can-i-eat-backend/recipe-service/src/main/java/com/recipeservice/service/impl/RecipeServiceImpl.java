@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeDto> getRecipesList() {
         return recipeRepository
-                .findAll()
+                .findAllWithRelations()
                 .stream()
                 .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
@@ -114,7 +114,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<RecipeDto> getRecipeById(int id) {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
+        Optional<Recipe> recipe = recipeRepository.findByIdWithRelations(id);
         return recipe.map(RecipeMapper::toDto);
     }
 

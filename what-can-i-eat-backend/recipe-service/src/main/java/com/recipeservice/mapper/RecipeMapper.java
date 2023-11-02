@@ -47,7 +47,7 @@ public class RecipeMapper {
         recipe.setImageUrl(dto.imageUrl());
         recipe.setPreparationSteps(dto.preparationSteps().stream()
                 .map(PreparationStepMapper::toEntity)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
         recipe.setIngredients(new ArrayList<>(dto.ingredients()));
 
         return recipe;
@@ -71,7 +71,7 @@ public class RecipeMapper {
                     step.setRecipe(recipe);
                     return step;
                 })
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
         List<Integer> ingredientIds = dto.ingredients().stream()
                 .map(IngredientDto::id)
                 .collect(Collectors.toList());
