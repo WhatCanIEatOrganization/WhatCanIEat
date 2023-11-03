@@ -17,7 +17,7 @@ export class FeedPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   public onAddIngredient(): void {
@@ -25,7 +25,7 @@ export class FeedPageComponent implements OnInit {
       id: 1,
       name: this.value,
       amount: this.amount,
-      unitMeasure: this.type,
+      type: this.type,
     }
 
     this.ingredientList.push(newIngredient);

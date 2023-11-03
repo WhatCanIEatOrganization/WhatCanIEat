@@ -19,7 +19,7 @@ export class IngredientsListComponent implements OnInit {
   @Input() ingredientList: Ingredient[] = [];
   ingredientsListEmpty: boolean = true;
   isLoading: boolean = false;
-  
+
   constructor(
     public dialog: MatDialog,
     private ingredientService: IngredientService,
@@ -44,14 +44,14 @@ export class IngredientsListComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
-  
+
     dialogRef.afterClosed()
-      .pipe(concatMap((data: FormGroup) => { 
+      .pipe(concatMap((data: FormGroup) => {
         let ingredient: Ingredient = {
           id: 0,
           name: data.get("ingredientName")!.value,
           amount: data.get("amount")!.value,
-          unitMeasure: data.get("type")!.value
+          type: data.get("type")!.value
         }
         return this.ingredientService.createIngredient(ingredient);
       }))

@@ -2,7 +2,7 @@ export interface Ingredient {
     id: number;
     name: string;
     amount: number;
-    unitMeasure: string;
+    type: string;
 }
 
 export interface IngredientsListPayload {

@@ -17,7 +17,7 @@ export class IngredientService {
   constructor(private http: HttpClient) { }
 
   getIngredientList(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`${this.apiURL}/v2/fridge`);
+    return this.http.get<Ingredient[]>(`https://o6s9dgdm4m.execute-api.eu-central-1.amazonaws.com/Prod/ingredients`);
   }
 
   getIngredientsByIds(numbers: number[]): Observable<IngredientApi[]> {
@@ -34,16 +34,12 @@ export class IngredientService {
 
   createIngredient(ingredient: Ingredient): Observable<IngredientPayLoad> {
     let ing: IngredientPayLoad = {
-      id: 0,
       name: ingredient.name,
-      description: '',
-      imageUrl: '',
-      insertDate: '',
-      expiryDate: '',
-      amountWithUnit: ingredient.amount.toString()
+      amount: ingredient.amount,
+      type: ''
     }
-    
-    return this.http.post<IngredientPayLoad>(`${this.apiURL}/v2/fridge`, ing);
+
+    return this.http.post<IngredientPayLoad>(`https://o6s9dgdm4m.execute-api.eu-central-1.amazonaws.com/Prod/ingredients`, ing);
   }
 
   modifyIngredient(ingredient: Ingredient): Observable<Ingredient> {

@@ -17,7 +17,7 @@ export class RecipeCreatorComponent implements OnInit {
   MeasureUnit = MeasureUnit;
   selectedUnit: string = MeasureUnit.Gram;
   passedRecipeId: number | undefined;
-  
+
   generalInformationForm = new FormGroup({
     recipeName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
@@ -33,7 +33,7 @@ export class RecipeCreatorComponent implements OnInit {
   });
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private recipeService: RecipeService,
     private ingredientsService: IngredientService,
     private activatedRoute: ActivatedRoute
@@ -53,7 +53,7 @@ export class RecipeCreatorComponent implements OnInit {
     });
   }
 
-  // need any tip how to solve this better 
+  // need any tip how to solve this better
   setRecipeByUrlId(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       const recipeId = params['recipeId'];
@@ -78,7 +78,7 @@ export class RecipeCreatorComponent implements OnInit {
     })
     this.ingredientsAsFormArray.push(ingredientsForm);
   }
-  
+
   public removeInput(i: number): void {
     this.ingredientsAsFormArray.removeAt(i);
   }
@@ -133,8 +133,8 @@ export class RecipeCreatorComponent implements OnInit {
         id: 0,
         name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
         amount: this.ingredientsAsFormArray.controls[key].get("amount").value,
-        unitMeasure: this.ingredientsAsFormArray.controls[key].get("type").value,
+        type: this.ingredientsAsFormArray.controls[key].get("type").value,
       };
-    });   
+    });
   }
 }

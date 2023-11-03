@@ -39,6 +39,11 @@ public class GetFridgeIngredientsHandler implements RequestHandler<Map<String, O
 
             response.put("statusCode", 200);
             response.put("body", objectMapper.writeValueAsString(ingredients));
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Access-Control-Allow-Origin", "*");
+            headers.put("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            headers.put("Access-Control-Allow-Headers", "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token");
+            response.put("headers", headers);
             logger.log("Successfully fetched ingredients.");
         } catch (Exception e) {
             logger.log("Error occurred: " + e.getMessage());
