@@ -1,6 +1,7 @@
 package com.example.ingredientservice.controller;
 
 import com.example.ingredientservice.dto.RecipeIngredientDto;
+import com.example.ingredientservice.service.RecipeIngredientService;
 import com.example.ingredientservice.service.impl.RecipeIngredientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ import java.util.Optional;
 @CrossOrigin
 public class RecipeIngredientController {
 
-    private final RecipeIngredientServiceImpl ingredientService;
+    private final RecipeIngredientService ingredientService;
 
     @Autowired
-    public RecipeIngredientController(RecipeIngredientServiceImpl ingredientService) {
+    public RecipeIngredientController(RecipeIngredientService ingredientService) {
         this.ingredientService = ingredientService;
     }
 
@@ -34,17 +35,13 @@ public class RecipeIngredientController {
 
     @GetMapping("/{ingredientId}")
     @Operation(summary = "Get recipe ingredient by ID", description = "Returns a specific recipe ingredient based on its ID.")
-    public ResponseEntity<?> getRecipeIngredientById(@PathVariable int ingredientId){
+    public ResponseEntity<RecipeIngredientDto> getRecipeIngredientById(@PathVariable int ingredientId){
         Optional<RecipeIngredientDto> ingredient = ingredientService.getIngredientById(ingredientId);
-        if(ingredient.isPresent()){
-            return ResponseEntity
-                    .status(HttpStatus.FOUND)
-                    .body(ingredient.get());
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
+        return ingredient.map(recipeIngredientDto -> ResponseEntity
+                .status(HttpStatus.OK)
+                .body(recipeIngredientDto)).orElseGet(() -> ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build());
     }
 
     @PostMapping("/batch")
@@ -59,7 +56,7 @@ public class RecipeIngredientController {
     public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredientsByIds(@RequestParam List<Integer> ids) {
         List<RecipeIngredientDto> ingredientList =  ingredientService.findIngredientsById(ids);
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .body(ingredientList);
     }
 
