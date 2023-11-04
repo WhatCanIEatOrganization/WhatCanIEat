@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +45,7 @@ class BasicIngredientControllerTest {
 
 
     @Test
-    void getRecipeIngredientById() throws Exception {
+    void getRecipeIngredientByIdShouldReturn200WhenDataIsCorrect() throws Exception {
         when(basicIngredientService.getBasicIngredientById(Mockito.anyInt())).thenReturn(Optional.of(basicIngredientDto));
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/v2/basic-ingredients/1")
@@ -57,7 +58,7 @@ class BasicIngredientControllerTest {
     }
 
     @Test
-    void getBasicIngredientByName() throws Exception {
+    void getBasicIngredientByNameShouldReturn200WhenDataIsCorrect() throws Exception {
         when(basicIngredientService.getBasicIngredientByName(Mockito.anyString())).thenReturn(Optional.of(basicIngredientDto));
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v2/basic-ingredients/name/test")
@@ -70,6 +71,16 @@ class BasicIngredientControllerTest {
     }
 
     @Test
-    void getBasicIngredients() {
+    void getBasicIngredientsShouldReturn200WhenDataIsCorrect() throws Exception {
+        when(basicIngredientService.getAllBasicIngredients()).thenReturn(List.of(basicIngredientDto, secondBasicIngredientDto));
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v2/basic-ingredients")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        String responseBody = mvcResult.getResponse().getContentAsString();
+        assertThat(responseBody).contains("\"name\":\"test\"");
+        assertThat(responseBody).contains("\"name\":\"test2\"");
     }
 }
