@@ -39,22 +39,14 @@ public class AddFridgeIngredientHandler implements RequestHandler<Map<String, Ob
             item.put("name", AttributeValue.builder().s(ingredient.name()).build());
             item.put("amount", AttributeValue.builder().s(ingredient.amount()).build());
             item.put("type", AttributeValue.builder().s(ingredient.type()).build());
-
-
             PutItemRequest putItemRequest = PutItemRequest.builder()
                     .tableName("fridge-service")
                     .item(item)
                     .build();
             dynamoDb.putItem(putItemRequest);
-
-
-            Map<String, String> headers = new HashMap<>();
             response.put("statusCode", 200);
             response.put("body", "Ingredient added successfully");
-            headers.put("Access-Control-Allow-Origin", "*");
-            headers.put("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-            headers.put("Access-Control-Allow-Headers", "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token");
-            response.put("headers", headers);
+            response.put("headers", CorsConfig.getCorsHeaders());
         } catch (Exception e) {
             e.printStackTrace();
             response.put("statusCode", 500);
