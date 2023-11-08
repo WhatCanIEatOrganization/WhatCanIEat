@@ -14,6 +14,7 @@ export class RecipeItemOnClickComponent implements OnInit {
   recipe: RecipeItemApi = this.data.recipe;
   panelOpenState = false;
   ingredients!: IngredientApi[];
+  hasImage!: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -25,6 +26,7 @@ export class RecipeItemOnClickComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecipeIngredients();
+    this.hasImage = this.recipe.imageUrl != null;
   }
 
   getRecipeIngredients(): void {
