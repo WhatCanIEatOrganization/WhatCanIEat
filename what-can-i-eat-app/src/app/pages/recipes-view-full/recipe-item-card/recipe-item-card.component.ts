@@ -18,6 +18,7 @@ import { RecipeDetailsDialogService } from 'src/app/objects/recipe/recipe-detail
 export class RecipeItemCardComponent implements OnInit {
   @Input() recipe!: RecipeItemApi;
   @Output() public delete = new EventEmitter<RecipeItemApi>();
+  hasImage!: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -27,6 +28,7 @@ export class RecipeItemCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.hasImage = this.recipe.imageUrl != null
   }
 
   // onRecipeCardClick(): void {
