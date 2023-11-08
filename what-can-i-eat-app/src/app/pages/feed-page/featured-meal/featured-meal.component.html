@@ -2,20 +2,21 @@
     <div class="container-title text">
         <h1>Featured meal of the day</h1>
     </div>
-    <div *ngIf="!isLoading" class="row" (click)="onRecipeCardClick()">
-        <div>
-            <img src="/assets/images/comfort_food_placeholder.png">
+    <div *ngIf="!isLoading" class="content" (click)="onRecipeCardClick()">
+        <div class="img-cont">
+            <img *ngIf="!hasImage" src="/assets/images/comfort_food_placeholder.png">
+            <img *ngIf="hasImage" [src]="recipe.imageUrl">
         </div>
         <div class="recipe-details">
-            <div class="text">
+            <div class="text recipe-name">
                 <h2><strong>{{recipe.name}}</strong></h2>
             </div>
             <div class="time-amount">
                 <div class="text">
-                    <span>Preparation time: {{recipe.preptime}}</span>
+                    <span>Preparation time: <strong>{{preparationTime}}</strong></span>
                 </div>
                 <div class="text">
-                    <span>Ingredients amount: {{ingredientsAmount}}</span>
+                    <span>Ingredients needed: <strong>{{ingredientsAmount}}</strong></span>
                 </div>
             </div>
             <div class=text-color>
