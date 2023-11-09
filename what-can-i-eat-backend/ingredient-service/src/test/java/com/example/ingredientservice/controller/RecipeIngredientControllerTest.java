@@ -2,6 +2,7 @@ package com.example.ingredientservice.controller;
 
 import com.example.ingredientservice.dto.RecipeIngredientDto;
 import com.example.ingredientservice.service.RecipeIngredientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +43,22 @@ class RecipeIngredientControllerTest {
     }
 
     @Test
-    void addNewRecipeIngredient() {
+    void addNewRecipeIngredientShouldReturn201WhenDataIsCorrect() throws Exception {
+        when(recipeIngredientService.addNewIngredient(recipeIngredientDto)).thenReturn(recipeIngredientDto);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(recipeIngredientDto);
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/v2/recipe-ingredients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+                )
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("test"));
     }
+
+
+
 
     @Test
     void getRecipeIngredientByIdShouldReturn200WhenDataIsCorrect() throws Exception {

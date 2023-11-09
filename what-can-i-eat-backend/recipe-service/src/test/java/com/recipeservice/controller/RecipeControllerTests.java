@@ -172,15 +172,10 @@ public class RecipeControllerTests {
 
     @Test
     public void getIngredientsByIds_ShouldReturnListOfIngredients() throws Exception {
-        // Initialize ingredients
         IngredientDto ingredient1 = new IngredientDto(1, "Onion", "test", "test", "test");
         IngredientDto ingredient2 = new IngredientDto(2, "Tomato", "test", "test", "test");
         List<IngredientDto> expectedIngredients = List.of(ingredient1, ingredient2);
-
-        // Define behavior
         when(recipeService.getIngredientsByIds(List.of(1, 2))).thenReturn(expectedIngredients);
-
-        // Perform request and validate response
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/ingredients")
                         .param("ids", "1,2")
                         .contentType(MediaType.APPLICATION_JSON))
