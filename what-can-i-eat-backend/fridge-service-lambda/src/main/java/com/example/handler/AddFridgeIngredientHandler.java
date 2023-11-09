@@ -1,5 +1,7 @@
-package example;
+package com.example.handler;
 
+import com.example.config.CorsConfig;
+import com.example.dto.IngredientDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -7,15 +9,13 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.UUID;
 
 
-public class AddFridgeIngredientHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+public class AddFridgeIngredientHandler extends AbstractFridgeHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 
     private final DynamoDbClient dynamoDb;
 

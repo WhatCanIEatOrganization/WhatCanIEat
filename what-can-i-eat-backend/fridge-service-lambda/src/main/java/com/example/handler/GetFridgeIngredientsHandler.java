@@ -1,8 +1,9 @@
-package example;
+package com.example.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.example.config.CorsConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GetFridgeIngredientsHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+public class GetFridgeIngredientsHandler extends AbstractFridgeHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
 
     private final DynamoDbClient dynamoDb;
 
@@ -56,16 +57,5 @@ public class GetFridgeIngredientsHandler implements RequestHandler<Map<String, O
                 .build();
         ScanResponse scanResponse = dynamoDb.scan(scanRequest);
         return scanResponse.items();
-    }
-
-    private Map<String, String> convertToSimpleMap(Map<String, AttributeValue> item) {
-        Map<String, String> simpleMap = new HashMap<>();
-        for (Map.Entry<String, AttributeValue> entry : item.entrySet()) {
-            AttributeValue value = entry.getValue();
-            if (value.s() != null) {
-                simpleMap.put(entry.getKey(), value.s());
-            }
-        }
-        return simpleMap;
     }
 }

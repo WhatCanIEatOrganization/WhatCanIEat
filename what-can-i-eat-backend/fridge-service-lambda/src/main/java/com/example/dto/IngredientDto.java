@@ -1,4 +1,4 @@
-package example;
+package com.example.dto;
 
 public record IngredientDto(
         Integer id,
