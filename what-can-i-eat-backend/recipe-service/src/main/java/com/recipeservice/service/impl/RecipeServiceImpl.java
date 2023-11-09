@@ -87,6 +87,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository
                 .findAllWithRelations()
                 .stream()
+                .limit(25)
                 .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
     }

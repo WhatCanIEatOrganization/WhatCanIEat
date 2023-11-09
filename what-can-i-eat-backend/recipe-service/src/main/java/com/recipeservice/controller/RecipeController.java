@@ -6,6 +6,8 @@ import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ public class RecipeController {
 
 
     private final RecipeService recipeService;
+    private static final Logger logger = LogManager.getLogger(RecipeController.class);
 
 
     @Autowired
@@ -38,6 +41,7 @@ public class RecipeController {
     @Operation(summary = "Get all recipes", description = "Retrieve a list of all recipes present in the system.")
     public ResponseEntity<List<RecipeDto>> recipeList() {
         List<RecipeDto> recipeList = recipeService.getRecipesList();
+        logger.info("Get 25 recipes successful");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipeList);
@@ -68,6 +72,7 @@ public class RecipeController {
     @Operation(summary = "Get random recipe", description = "Retrieve a random recipe from the system.")
     public ResponseEntity<RecipeDto> randomRecipe() {
         RecipeDto recipe = recipeService.getRandomRecipe();
+        logger.info("Get random recipe successful");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipe);
@@ -91,6 +96,7 @@ public class RecipeController {
     @Operation(summary = "Search recipes by ingredients", description = "Retrieve a list of recipes that match the provided ingredients.")
     public ResponseEntity<List<RecipeDto>> searchRecipesByIngredients(@RequestParam List<String> ingredients) {
         List<RecipeDto> foundRecipes = recipeService.searchRecipesByTags(ingredients);
+        logger.info("Search recipes by ingredients successful");
         return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
     }
 

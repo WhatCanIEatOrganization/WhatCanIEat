@@ -42,7 +42,6 @@ public class BasicIngredientServiceImpl implements BasicIngredientService {
                 .findAll()
                 .stream()
                 .map(BasicIngredientMapper::entityToDto)
-                .limit(10)
                 .collect(Collectors.toList());
     }
 }
