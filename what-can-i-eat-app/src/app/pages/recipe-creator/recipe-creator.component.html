@@ -1,5 +1,5 @@
 <div class="container">
-    <mat-stepper class="stepper-container" [linear]="true" #stepper>
+    <mat-stepper [orientation]="orientation" class="stepper-container" [linear]="true" #stepper>
         <mat-step [stepControl]="generalInformationForm">
             <h3>General Information</h3>
             <form [formGroup]="generalInformationForm">
