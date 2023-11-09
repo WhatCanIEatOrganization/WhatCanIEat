@@ -38,12 +38,12 @@ public class RemoveFridgeIngredientHandler extends AbstractFridgeHandler impleme
             dynamoDb.deleteItem(deleteItemRequest);
 
             response.put("statusCode", 200);
-            response.put("body", "Ingredient removed successfully");
+            response.put("body", "{\"message\":\"Ingredient removed successfully\"}");
             response.put("headers", CorsConfig.getCorsHeaders());
         } catch (Exception e) {
-            e.printStackTrace();
+            context.getLogger().log("Error: " + e.getMessage());
             response.put("statusCode", 500);
-            response.put("body", "Error: " + e.getMessage());
+            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
         }
         return response;
     }

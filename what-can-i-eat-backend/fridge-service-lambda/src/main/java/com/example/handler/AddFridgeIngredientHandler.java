@@ -45,12 +45,12 @@ public class AddFridgeIngredientHandler extends AbstractFridgeHandler implements
                     .build();
             dynamoDb.putItem(putItemRequest);
             response.put("statusCode", 200);
-            response.put("body", "Ingredient added successfully");
+            response.put("body", "{\"message\":\"Ingredient added successfully\"}");
             response.put("headers", CorsConfig.getCorsHeaders());
         } catch (Exception e) {
-            e.printStackTrace();
+            context.getLogger().log("Error: " + e.getMessage());
             response.put("statusCode", 500);
-            response.put("body", "Error: " + e.getMessage());
+            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
         }
         return response;
     }

@@ -44,9 +44,8 @@ public class GetFridgeIngredientsHandler extends AbstractFridgeHandler implement
             logger.log("Successfully fetched ingredients.");
         } catch (Exception e) {
             logger.log("Error occurred: " + e.getMessage());
-            e.printStackTrace();
             response.put("statusCode", 500);
-            response.put("body", "Error: " + e.getMessage());
+            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
         }
         return response;
     }
