@@ -2,77 +2,51 @@ package com.example.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.example.config.CorsConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import software.amazon.awssdk.http.apache.ApacheHttpClient;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.example.model.Ingredient;
+import com.example.config.DependencyFactory;
+import com.google.gson.Gson;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import java.util.Collections;
 
-import java.util.HashMap;
-import java.util.Map;
+public class ModifyFridgeIngredientHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-public class ModifyFridgeIngredientHandler extends AbstractFridgeHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
-
-    private final DynamoDbClient dynamoDb;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final DynamoDbEnhancedClient dbClient;
+    private final String tableName;
+    private final TableSchema<Ingredient> ingredientTableSchema;
 
     public ModifyFridgeIngredientHandler() {
-        this.dynamoDb = DynamoDbClient.builder()
-                .httpClient(ApacheHttpClient.builder().build())
-                .build();
+        dbClient = DependencyFactory.dynamoDbEnhancedClient();
+        tableName = DependencyFactory.tableName();
+        ingredientTableSchema = TableSchema.fromBean(Ingredient.class);
     }
 
     @Override
-    public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            String jsonStringBody = (String) input.get("body");
-            Map<String, Object> body = objectMapper.readValue(jsonStringBody, Map.class);
-            String ingredientId = (String) body.get("id");
-            String name = (String) body.get("name");
-            String amountStr = (String) body.get("amount");
-            Number amount = null;
-            if (amountStr != null) {
-                amount = Double.parseDouble(amountStr);
-            }
-            String type = (String) body.get("type");
-            Map<String, AttributeValue> key = new HashMap<>();
-            key.put("id", AttributeValue.builder().s(ingredientId).build());
-            Map<String, String> attributeNames = new HashMap<>();
-            Map<String, AttributeValue> attributeValues = new HashMap<>();
-            String updateExpression = "set";
-            if (name != null) {
-                updateExpression += " #n = :name,";
-                attributeNames.put("#n", "name");
-                attributeValues.put(":name", AttributeValue.builder().s(name).build());
-            }
-            if (amount != null) {
-                updateExpression += " amount = :amount,";
-                attributeValues.put(":amount", AttributeValue.builder().n(amount.toString()).build());
-            }
-            if (type != null) {
-                updateExpression += " #t = :type,";
-                attributeNames.put("#t", "type");
-                attributeValues.put(":type", AttributeValue.builder().s(type).build());
-            }
-            updateExpression = updateExpression.replaceAll(",$", "");
-            UpdateItemRequest updateItemRequest = UpdateItemRequest.builder()
-                    .tableName("fridge-service")
-                    .key(key)
-                    .updateExpression(updateExpression)
-                    .expressionAttributeNames(attributeNames)
-                    .expressionAttributeValues(attributeValues)
-                    .build();
-            dynamoDb.updateItem(updateItemRequest);
-            response.put("statusCode", 200);
-            response.put("body", "{\"message\":\"Ingredient modified successfully\"}");
-            response.put("headers", CorsConfig.getCorsHeaders());
-        } catch (Exception e) {
-            context.getLogger().log("Error: " + e.getMessage());
-            response.put("statusCode", 500);
-            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
+        Gson gson = new Gson();
+        Ingredient updatedIngredient = gson.fromJson(request.getBody(), Ingredient.class);
+        DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
+        Ingredient existingIngredient = ingredientTable.getItem(updatedIngredient);
+
+        if (existingIngredient != null) {
+            existingIngredient.setName(updatedIngredient.getName());
+            existingIngredient.setAmount(updatedIngredient.getAmount());
+            existingIngredient.setType(updatedIngredient.getType());
+
+            ingredientTable.updateItem(existingIngredient);
+            String responseBody = gson.toJson(existingIngredient);
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(200)
+                    .withBody(responseBody)
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
+        } else {
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(404)
+                    .withBody("{\"error\":\"Ingredient not found\"}")
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
         }
-        return response;
     }
 }

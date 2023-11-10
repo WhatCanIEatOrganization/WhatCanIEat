@@ -1,60 +1,55 @@
 package com.example.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.example.config.CorsConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import software.amazon.awssdk.http.apache.ApacheHttpClient;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
-import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.example.config.DependencyFactory;
+import com.example.model.Ingredient;
+import com.google.gson.Gson;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GetFridgeIngredientsHandler extends AbstractFridgeHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+public class GetFridgeIngredientsHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private final DynamoDbClient dynamoDb;
+    private final DynamoDbEnhancedClient dbClient;
+    private final String tableName;
+    private final TableSchema<Ingredient> ingredientTableSchema;
 
     public GetFridgeIngredientsHandler() {
-        this.dynamoDb = DynamoDbClient.builder()
-                .httpClient(ApacheHttpClient.builder().build())
-                .build();
+        dbClient = DependencyFactory.dynamoDbEnhancedClient();
+        tableName = DependencyFactory.tableName();
+        ingredientTableSchema = TableSchema.fromBean(Ingredient.class);
     }
 
     @Override
-    public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        LambdaLogger logger = context.getLogger();
-        Map<String, Object> response = new HashMap<>();
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
+        Gson gson = new Gson();
+        DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
+
         try {
-            logger.log("Fetching all ingredients from DynamoDB...");
-            List<Map<String, AttributeValue>> items = fetchAllIngredientsFromDynamoDB();
-            List<Map<String, String>> ingredients = items.stream()
-                    .map(this::convertToSimpleMap)
+            List<Ingredient> ingredients = ingredientTable.scan(ScanEnhancedRequest.builder().build())
+                    .items()
+                    .stream()
                     .collect(Collectors.toList());
 
-            response.put("statusCode", 200);
-            response.put("body", objectMapper.writeValueAsString(ingredients));
-            response.put("headers", CorsConfig.getCorsHeaders());
-            logger.log("Successfully fetched ingredients.");
+            String responseBody = gson.toJson(ingredients);
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(200)
+                    .withBody(responseBody)
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
         } catch (Exception e) {
-            logger.log("Error occurred: " + e.getMessage());
-            response.put("statusCode", 500);
-            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
+            context.getLogger().log("Error occurred: " + e.getMessage());
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(500)
+                    .withBody("{\"error\":\"" + e.getMessage() + "\"}")
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
         }
-        return response;
-    }
-
-    private List<Map<String, AttributeValue>> fetchAllIngredientsFromDynamoDB() {
-        ScanRequest scanRequest = ScanRequest.builder()
-                .tableName("fridge-service")
-                .build();
-        ScanResponse scanResponse = dynamoDb.scan(scanRequest);
-        return scanResponse.items();
     }
 }

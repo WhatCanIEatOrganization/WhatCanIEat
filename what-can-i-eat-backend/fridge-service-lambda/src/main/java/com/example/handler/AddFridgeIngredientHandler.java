@@ -1,57 +1,40 @@
 package com.example.handler;
 
-import com.example.config.CorsConfig;
-import com.example.dto.IngredientDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import software.amazon.awssdk.http.apache.ApacheHttpClient;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.example.model.Ingredient;
+import com.example.config.DependencyFactory;
+import com.google.gson.Gson;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Collections;
 
+public class AddFridgeIngredientHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-public class AddFridgeIngredientHandler extends AbstractFridgeHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
-
-    private final DynamoDbClient dynamoDb;
+    private final DynamoDbEnhancedClient dbClient;
+    private final String tableName;
+    private final TableSchema<Ingredient> ingredientTableSchema;
 
     public AddFridgeIngredientHandler() {
-        this.dynamoDb = DynamoDbClient.builder()
-                .httpClient(ApacheHttpClient.builder().build())
-                .build();
+        dbClient = DependencyFactory.dynamoDbEnhancedClient();
+        tableName = DependencyFactory.tableName();
+        ingredientTableSchema = TableSchema.fromBean(Ingredient.class);
     }
 
     @Override
-    public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
-        Map<String, Object> response = new HashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String uniqueID = UUID.randomUUID().toString();
-        try {
-            String body = (String) input.get("body");
-            IngredientDto ingredient = objectMapper.readValue(body, IngredientDto.class);
-
-            Map<String, AttributeValue> item = new HashMap<>();
-            item.put("id", AttributeValue.builder().s(uniqueID).build());
-            item.put("name", AttributeValue.builder().s(ingredient.name()).build());
-            item.put("amount", AttributeValue.builder().s(ingredient.amount()).build());
-            item.put("type", AttributeValue.builder().s(ingredient.type()).build());
-            PutItemRequest putItemRequest = PutItemRequest.builder()
-                    .tableName("fridge-service")
-                    .item(item)
-                    .build();
-            dynamoDb.putItem(putItemRequest);
-            response.put("statusCode", 200);
-            response.put("body", "{\"message\":\"Ingredient added successfully\"}");
-            response.put("headers", CorsConfig.getCorsHeaders());
-        } catch (Exception e) {
-            context.getLogger().log("Error: " + e.getMessage());
-            response.put("statusCode", 500);
-            response.put("body", "{\"error\":\"" + e.getMessage() + "\"}");
-        }
-        return response;
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
+        Gson gson = new Gson();
+        Ingredient ingredient = gson.fromJson(request.getBody(), Ingredient.class);
+        DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
+        ingredientTable.putItem(ingredient);
+        String responseBody = gson.toJson(ingredient);
+        return new APIGatewayProxyResponseEvent()
+                .withStatusCode(200)
+                .withBody(responseBody)
+                .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
     }
 }
