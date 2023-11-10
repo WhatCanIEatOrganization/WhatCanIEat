@@ -10,7 +10,8 @@
         </div>
     </div>
     <div class="content" (click)="onRecipeCardClick()">
-        <img src="/assets/images/comfort_food_placeholder.png">
+        <img *ngIf="!hasImage" src="/assets/images/comfort_food_placeholder.png">
+        <img *ngIf="hasImage" [src]="recipe.imageUrl">
         <div class="preparation-time">
             <span>Preparation Time: {{recipe.preptime}} minutes</span>
         </div>

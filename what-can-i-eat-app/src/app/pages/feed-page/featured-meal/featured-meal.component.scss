@@ -5,8 +5,13 @@
     height: 100%;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background-color: #fcfcfc;
-    padding: 10px 0px 15px 35px;
-    height: 270px;
+    padding: 10px 15px 20px 15px;
+}
+
+.container:hover {
+    transform: scale(1.02);
+    transition-duration: 0.2s;
+    box-shadow: 0px 1px 2px 0px #3a7575, 0px 1px 8px 1px #3a7575;
 }
 
 .row:hover {
@@ -29,20 +34,25 @@
     color: #49454F;
 }
 
+.img-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 img {
-    width: 200px;
-    height: 170px;
+    max-width: 250px;
+    max-height: 250px;
     opacity: 0.949999988079071;
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.116), 0px 6px 10px 4px rgba(0, 0, 0, 0.116);
 }
 
-.row {
+.content {
     display: flex;
-    flex-direction: row;
-}
-
-.recipe-details {
-    margin-left: 25px;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vw;
+    cursor: pointer;
 }
 
 .time-amount {
@@ -51,4 +61,13 @@ img {
 
 :host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {   
     stroke: #5a7ea7c7;
+}
+
+@media screen and (min-width: 480px) {
+    .content {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: normal;
+    }
 }

@@ -14,7 +14,9 @@ import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-ite
 export class FeaturedMealComponent implements OnInit {
   recipe!: RecipeItemApi;
   isLoading: boolean = true;
-  ingredientsAmount!: number;
+  ingredientsAmount!: string;
+  hasImage: boolean = false;
+  preparationTime!: string;
 
   constructor(
     private dialog: MatDialog,
@@ -29,8 +31,9 @@ export class FeaturedMealComponent implements OnInit {
     this.recipeService.getRandomRecipe().subscribe({
       next: (val) => {
         this.recipe = val;
-        this.ingredientsAmount = 0;
-        // this.setIngredientsAmount(val);
+        this.hasImage = val.imageUrl != null || val.imageUrl != undefined;
+        this.preparationTime = this.setPreparationTime(val);
+        this.ingredientsAmount = this.setIngredientsAmount(val);
         this.isLoading = false;
       },
       error: () => {
@@ -39,8 +42,18 @@ export class FeaturedMealComponent implements OnInit {
     })
   }
 
-  setIngredientsAmount(recipe: Recipe): void {
-    this.ingredientsAmount = recipe.ingredientList.length;
+  setPreparationTime(recipe: RecipeItemApi): string {
+    let preparationTime: string;
+    recipe.preptime === 0 ? preparationTime = "not specified." : preparationTime = recipe.preptime + " min.";
+
+    return preparationTime;
+  }
+
+  setIngredientsAmount(recipe: RecipeItemApi): string {
+    let ingredientsAmount: string;
+    recipe.ingredients.length === 0 ? ingredientsAmount = "not specified." : ingredientsAmount = recipe.ingredients.length + " products.";
+
+    return ingredientsAmount;
   }
 
   onRecipeCardClick(): void {
