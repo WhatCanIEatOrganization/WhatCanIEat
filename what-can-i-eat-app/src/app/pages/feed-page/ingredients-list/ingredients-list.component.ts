@@ -48,7 +48,7 @@ export class IngredientsListComponent implements OnInit {
     dialogRef.afterClosed()
       .pipe(concatMap((data: FormGroup) => {
         let ingredient: Ingredient = {
-          id: 0,
+          id: '',
           name: data.get("ingredientName")!.value,
           amount: data.get("amount")!.value,
           type: data.get("type")!.value

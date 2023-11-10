@@ -31,7 +31,11 @@ public class ModifyFridgeIngredientHandler extends AbstractFridgeHandler impleme
             Map<String, Object> body = objectMapper.readValue(jsonStringBody, Map.class);
             String ingredientId = (String) body.get("id");
             String name = (String) body.get("name");
-            Number amount = (Number) body.get("amount");
+            String amountStr = (String) body.get("amount");
+            Number amount = null;
+            if (amountStr != null) {
+                amount = Double.parseDouble(amountStr);
+            }
             String type = (String) body.get("type");
             Map<String, AttributeValue> key = new HashMap<>();
             key.put("id", AttributeValue.builder().s(ingredientId).build());

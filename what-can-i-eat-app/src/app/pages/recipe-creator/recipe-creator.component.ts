@@ -130,7 +130,7 @@ export class RecipeCreatorComponent implements OnInit {
   public createIngredientsList(): Ingredient[] {
     return Object.keys(this.ingredientsAsFormArray.controls).map(key => {
       return {
-        id: 0,
+        id: '',
         name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
         amount: this.ingredientsAsFormArray.controls[key].get("amount").value,
         type: this.ingredientsAsFormArray.controls[key].get("type").value,

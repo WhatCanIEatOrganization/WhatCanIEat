@@ -17,7 +17,7 @@ export class IngredientService {
   constructor(private http: HttpClient) { }
 
   getIngredientList(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`https://o6s9dgdm4m.execute-api.eu-central-1.amazonaws.com/Prod/ingredients`);
+    return this.http.get<Ingredient[]>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`);
   }
 
   getIngredientsByIds(numbers: number[]): Observable<IngredientApi[]> {
@@ -28,8 +28,7 @@ export class IngredientService {
   }
 
   deleteIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    let ingredientId = ingredient.id;
-    return this.http.delete<Ingredient>(`${this.apiURL}/ingredient/${ingredientId}`);
+    return this.http.delete<Ingredient>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients/${ingredient.id}`);
   }
 
   createIngredient(ingredient: Ingredient): Observable<IngredientPayLoad> {
@@ -39,12 +38,13 @@ export class IngredientService {
       type: ''
     }
 
-    return this.http.post<IngredientPayLoad>(`https://o6s9dgdm4m.execute-api.eu-central-1.amazonaws.com/Prod/ingredients`, ing);
+    return this.http.post<IngredientPayLoad>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`, ing);
   }
 
   modifyIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.patch<Ingredient>(`${this.apiURL}/ingredient`, ingredient);
+    return this.http.patch<Ingredient>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients/${ingredient.id}`, ingredient);
   }
+
 
   postIngredientsList(ingredientsListPayload: IngredientsListPayload): Observable<Recipe> {
     return this.http.post<Recipe>(`${this.apiURL}/recipe/list` , ingredientsListPayload);

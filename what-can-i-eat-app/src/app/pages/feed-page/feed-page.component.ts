@@ -22,7 +22,7 @@ export class FeedPageComponent implements OnInit {
 
   public onAddIngredient(): void {
     let newIngredient: Ingredient = {
-      id: 1,
+      id:'',
       name: this.value,
       amount: this.amount,
       type: this.type,
