@@ -31,23 +31,21 @@ public class RemoveFridgeIngredientHandler implements RequestHandler<APIGatewayP
         DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
-
         try {
             Map<String, String> pathParameters = request.getPathParameters();
             String ingredientId = pathParameters.get("id");
-
             Key key = Key.builder()
                     .partitionValue(ingredientId)
                     .build();
-
             ingredientTable.deleteItem(key);
-
             response.withStatusCode(200)
                     .withBody("{\"message\":\"Ingredient removed successfully\"}");
         } catch (Exception e) {
-            context.getLogger().log("Error: " + e.getMessage());
-            response.withStatusCode(500)
-                    .withBody("{\"error\":\"" + e.getMessage() + "\"}");
+            context.getLogger().log("Error occurred: " + e.getMessage());
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(500)
+                    .withBody("{\"error\":\"" + e.getMessage() + "\"}")
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
         }
         return response;
     }

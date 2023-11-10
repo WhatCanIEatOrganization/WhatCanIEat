@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+
 import java.util.Collections;
 
 public class ModifyFridgeIngredientHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -30,12 +31,10 @@ public class ModifyFridgeIngredientHandler implements RequestHandler<APIGatewayP
         Ingredient updatedIngredient = gson.fromJson(request.getBody(), Ingredient.class);
         DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
         Ingredient existingIngredient = ingredientTable.getItem(updatedIngredient);
-
         if (existingIngredient != null) {
             existingIngredient.setName(updatedIngredient.getName());
             existingIngredient.setAmount(updatedIngredient.getAmount());
             existingIngredient.setType(updatedIngredient.getType());
-
             ingredientTable.updateItem(existingIngredient);
             String responseBody = gson.toJson(existingIngredient);
             return new APIGatewayProxyResponseEvent()

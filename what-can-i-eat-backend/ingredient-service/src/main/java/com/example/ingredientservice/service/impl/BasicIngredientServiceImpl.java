@@ -37,7 +37,6 @@ public class BasicIngredientServiceImpl implements BasicIngredientService {
 
     @Override
     public List<BasicIngredientDto> getAllBasicIngredients() {
-        // hardcoded limit for tests
         return ingredientRepository
                 .findAll()
                 .stream()

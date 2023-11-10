@@ -2,7 +2,6 @@ package com.example.ingredientservice.controller;
 
 import com.example.ingredientservice.dto.RecipeIngredientDto;
 import com.example.ingredientservice.service.RecipeIngredientService;
-import com.example.ingredientservice.service.impl.RecipeIngredientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
