@@ -6,9 +6,7 @@ import com.recipeservice.model.PreparationStep;
 public class PreparationStepMapper {
 
     public static PreparationStepDto toDto(PreparationStep preparationStep) {
-        if (preparationStep == null) {
-            return null;
-        }
+        if (preparationStep == null) return null;
 
         return new PreparationStepDto(
                 preparationStep.getId(),
@@ -17,9 +15,7 @@ public class PreparationStepMapper {
     }
 
     public static PreparationStep toEntity(PreparationStepDto dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
         PreparationStep preparationStep = new PreparationStep();
         preparationStep.setId(dto.id());

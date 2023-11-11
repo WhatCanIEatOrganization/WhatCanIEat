@@ -17,15 +17,15 @@ export class FeedPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   public onAddIngredient(): void {
     let newIngredient: Ingredient = {
-      id: 1,
+      id:'',
       name: this.value,
       amount: this.amount,
-      unitMeasure: this.type,
+      type: this.type,
     }
 
     this.ingredientList.push(newIngredient);

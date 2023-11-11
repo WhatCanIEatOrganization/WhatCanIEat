@@ -3,21 +3,17 @@ package com.recipeservice.controller;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
-import com.recipeservice.service.PexelsService;
 import com.recipeservice.service.RecipeService;
-import com.recipeservice.service.impl.RecipeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
@@ -26,26 +22,28 @@ public class RecipeController {
 
 
     private final RecipeService recipeService;
-    private final PexelsService pexelsService;
+    private static final Logger logger = LogManager.getLogger(RecipeController.class);
 
 
     @Autowired
-    public RecipeController(RecipeServiceImpl recipeService, PexelsService pexelsService) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.pexelsService = pexelsService;
     }
 
     @PostMapping
     @Operation(summary = "Create a new recipe", description = "Add a new recipe to the system and return the saved recipe details.")
     public ResponseEntity<RecipeDto> addNewRecipe(@RequestBody CreateRecipeDto recipeDto) {
         RecipeDto savedRecipe = recipeService.addNewRecipe(recipeDto);
+        logger.info("Recipe added successful");
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
     }
 
     @GetMapping()
     @Operation(summary = "Get all recipes", description = "Retrieve a list of all recipes present in the system.")
     public ResponseEntity<List<RecipeDto>> recipeList() {
+        logger.info("Attempting to retrieve all recipes");
         List<RecipeDto> recipeList = recipeService.getRecipesList();
+        logger.info("Retrieved {} recipes successfully", recipeList.size());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipeList);
@@ -53,27 +51,39 @@ public class RecipeController {
 
     @DeleteMapping("/{recipeId}")
     @Operation(summary = "Delete a recipe", description = "Delete a specific recipe based on its ID.")
-    public HttpStatus deleteRecipe(@PathVariable int recipeId) {
+    public ResponseEntity<Void> deleteRecipe(@PathVariable int recipeId) {
         recipeService.deleteRecipe(recipeId);
-        return HttpStatus.NO_CONTENT;
+        logger.info("Recipe deleted successful");
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @GetMapping("/{recipeId}")
     @Operation(summary = "Get recipe by ID", description = "Retrieve details of a specific recipe based on its ID.")
     public ResponseEntity<RecipeDto> getRecipeById(@PathVariable int recipeId) {
+        logger.info("Trying to get recipe with id: {}", recipeId);
         Optional<RecipeDto> recipeDto = recipeService.getRecipeById(recipeId);
-        return recipeDto.map(dto -> ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body(dto))
-                .orElseGet(() -> ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .build());
+
+        return recipeDto.map(dto -> {
+            logger.info("Recipe found with id: {}", recipeId);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(dto);
+        }).orElseGet(() -> {
+            logger.error("Recipe not found with id: {}", recipeId);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        });
     }
 
     @GetMapping("/rng")
     @Operation(summary = "Get random recipe", description = "Retrieve a random recipe from the system.")
     public ResponseEntity<RecipeDto> randomRecipe() {
+        logger.info("Attempting to retrieve random recipe");
         RecipeDto recipe = recipeService.getRandomRecipe();
+        logger.info("Get random recipe successful");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipe);
@@ -82,29 +92,33 @@ public class RecipeController {
     @GetMapping("/favorite")
     @Operation(summary = "Get favorite recipes", description = "Retrieve a list of recipes marked as favorites.")
     public ResponseEntity<List<RecipeDto>> getFavoriteRecipes() {
+        logger.info("Attempting to retrieve favorite recipes");
         List<RecipeDto> favoriteRecipes = recipeService.getFavoriteRecipes();
         return ResponseEntity.status(HttpStatus.OK).body(favoriteRecipes);
     }
 
+
     @GetMapping("/ingredients")
     @Operation(summary = "Get ingredients by IDs", description = "Retrieve a list of ingredients based on provided IDs.")
     public List<IngredientDto> getIngredientsByIds(@RequestParam List<Integer> ids) {
-        return recipeService.getIngredientsByIds(ids);
+        logger.info("Attempting to retrieve ingredients for IDs: {}", ids);
+        List<IngredientDto> ingredients = recipeService.getIngredientsByIds(ids);
+        logger.info("Retrieved {} ingredients successfully", ingredients.size());
+        return ingredients;
     }
 
 
     @GetMapping("/search")
     @Operation(summary = "Search recipes by ingredients", description = "Retrieve a list of recipes that match the provided ingredients.")
     public ResponseEntity<List<RecipeDto>> searchRecipesByIngredients(@RequestParam List<String> ingredients) {
-        List<Recipe> foundRecipes = recipeService.getRecipesByIngredients(ingredients);
-        List<RecipeDto> foundRecipeDtos = foundRecipes.stream()
-                .map(RecipeMapper::toDto)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(foundRecipeDtos, HttpStatus.OK);
+        logger.info("Attempting to retrieve recipes by ingredients");
+        List<RecipeDto> foundRecipes = recipeService.searchRecipesByTags(ingredients);
+        logger.info("Search recipes by ingredients successful");
+        return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
     }
 
     @GetMapping("/addImages")
-    public List<Recipe> addImagesToRecipe() {
+    public List<Recipe> addImagesToRecipes() {
         return recipeService.updateRecipeImages();
     }
 }

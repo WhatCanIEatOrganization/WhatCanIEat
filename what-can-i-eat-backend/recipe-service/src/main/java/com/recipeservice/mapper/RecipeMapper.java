@@ -13,10 +13,7 @@ import java.util.stream.Collectors;
 public class RecipeMapper {
 
     public static RecipeDto toDto(Recipe recipe) {
-        if (recipe == null) {
-            return null;
-        }
-
+        if (recipe == null) return null;
         return new RecipeDto(
                 recipe.getId(),
                 recipe.getName(),
@@ -36,9 +33,7 @@ public class RecipeMapper {
     }
 
     public static Recipe toEntity(RecipeDto dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
         Recipe recipe = new Recipe();
         recipe.setId(dto.id());
         recipe.setName(dto.name());
@@ -52,16 +47,14 @@ public class RecipeMapper {
         recipe.setImageUrl(dto.imageUrl());
         recipe.setPreparationSteps(dto.preparationSteps().stream()
                 .map(PreparationStepMapper::toEntity)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
         recipe.setIngredients(new ArrayList<>(dto.ingredients()));
 
         return recipe;
     }
 
     public static Recipe createRecipeDtoToEntity(CreateRecipeDto dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
         Recipe recipe = new Recipe();
         recipe.setName(dto.name());
         recipe.setDescription(dto.description());
@@ -70,6 +63,7 @@ public class RecipeMapper {
         recipe.setWaittime(dto.waittime());
         recipe.setCooktime(dto.cooktime());
         recipe.setCalories(dto.calories());
+        recipe.setSource(dto.source());
         recipe.setImageUrl(dto.imageUrl());
         recipe.setPreparationSteps(dto.preparationSteps().stream()
                 .map(stepDto -> {
@@ -77,7 +71,7 @@ public class RecipeMapper {
                     step.setRecipe(recipe);
                     return step;
                 })
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
         List<Integer> ingredientIds = dto.ingredients().stream()
                 .map(IngredientDto::id)
                 .collect(Collectors.toList());
@@ -85,4 +79,5 @@ public class RecipeMapper {
 
         return recipe;
     }
+
 }

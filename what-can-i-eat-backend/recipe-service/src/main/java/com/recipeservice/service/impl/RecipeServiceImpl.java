@@ -7,10 +7,9 @@ import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
-import com.recipeservice.repository.RecipeTagRepository;
 import com.recipeservice.service.PexelsService;
-import com.recipeservice.service.PreparationStepService;
 import com.recipeservice.service.RecipeService;
+import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -33,31 +31,30 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     private final RecipeRepository recipeRepository;
-    private final RecipeTagRepository recipeTagRepository;
-
-    private final PreparationStepService preparationStepService;
     private final PexelsService pexelsService;
-    private final WebClient webClient;
+    private final RecipeTagService recipeTagService;
+    final WebClient webClient;
 
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagRepository recipeTagRepository, PreparationStepService preparationStepService, PexelsService pexelsService, WebClient.Builder webClientBuilder, @Value("${ingredient.service.url}") String ingredientServiceUrl) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, PexelsService pexelsService, RecipeTagService recipeTagService, WebClient.Builder webClientBuilder,
+                             @Value("${ingredient.service.url}") String ingredientServiceUrl) {
         this.recipeRepository = recipeRepository;
-        this.recipeTagRepository = recipeTagRepository;
-        this.preparationStepService = preparationStepService;
         this.pexelsService = pexelsService;
+        this.recipeTagService = recipeTagService;
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
     @Override
-    public RecipeDto addNewRecipe(CreateRecipeDto recipeDto) {
-        List<IngredientDto> addedIngredients = addIngredientsToIngredientService(recipeDto.ingredients());
+    public RecipeDto addNewRecipe(CreateRecipeDto createRecipeDto) {
+        Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(createRecipeDto);
+        List<IngredientDto> addedIngredients = addIngredientsToIngredientService(createRecipeDto.ingredients());
         List<Integer> ingredientIds = addedIngredients.stream()
                 .map(IngredientDto::id)
                 .collect(Collectors.toList());
-        Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(recipeDto);
         newRecipe.setIngredients(ingredientIds);
         Recipe savedRecipe = recipeRepository.save(newRecipe);
+        recipeTagService.generateRecipeTags(createRecipeDto, savedRecipe.getId());
         return RecipeMapper.toDto(savedRecipe);
     }
 
@@ -74,18 +71,23 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getRecipesByIngredients(List<String> tags) {
+    public List<RecipeDto> searchRecipesByTags(List<String> tags) {
         long count = tags.size();
-        List<Integer> recipeIds = recipeRepository.findRecipeIdsByTags(tags, count);
-        return recipeRepository.findAllById(recipeIds);
+        List<Integer> recipeIds = recipeRepository.findRecipesIdsByTags(tags, count);
+        return recipeRepository
+                .findAllById(recipeIds)
+                .stream()
+                .map(RecipeMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
     @Override
     public List<RecipeDto> getRecipesList() {
         return recipeRepository
-                .findAll()
+                .findAllWithRelations()
                 .stream()
+                .limit(25)
                 .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -113,7 +115,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<RecipeDto> getRecipeById(int id) {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
+        Optional<Recipe> recipe = recipeRepository.findByIdWithRelations(id);
         return recipe.map(RecipeMapper::toDto);
     }
 
