@@ -1,7 +1,13 @@
+.center-in-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .inputs {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 80%;
     padding-bottom: 20px;
 }
 
@@ -21,15 +27,18 @@
 }
 
 .container {
+    width: 95vw;
     padding-top: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .stepper-container {
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     padding: 20px;
+    width: inherit;
 }
 
 form {
@@ -90,4 +99,16 @@ svg {
 .td-buttons:hover {
     transform: scale(1.15);
     fill: #a13434;
+}
+
+@media screen and (min-width: 672px) {
+    .container {
+        width: 75vw;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .container {
+        width: 70vw;
+    }
 }
