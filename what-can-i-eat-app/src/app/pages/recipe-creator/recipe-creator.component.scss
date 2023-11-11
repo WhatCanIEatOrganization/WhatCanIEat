@@ -1,12 +1,8 @@
 .center-in-row {
-    display: flex;
-    flex-direction: row;
     justify-content: center;
 }
 
 .inputs {
-    display: flex;
-    flex-direction: column;
     width: 80%;
     padding-bottom: 20px;
 }
@@ -16,8 +12,6 @@
 }
 
 .step {
-    display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
@@ -29,8 +23,6 @@
 .container {
     width: 95vw;
     padding-top: 40px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -75,7 +67,7 @@ h3 {
 .buttons-container {
     padding-top: 20px;
     display: flex;
-    gap: 20px;
+    gap: 1vw;
 }
 
 svg {
@@ -88,17 +80,31 @@ svg {
     height: 35px;
 }
 
+.td-buttons-small {
+    padding-bottom: 35px;
+    align-items: center;
+    justify-content: center;
+}
+
 .td-buttons {
     padding-bottom: 16px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
     transition: all 0.2s ease-out;
 }
 
 .td-buttons:hover {
     transform: scale(1.15);
     fill: #a13434;
+    cursor: pointer;
+}
+
+.ingredient-container:hover {
+    background-color: rgb(189, 60, 60);
+}
+
+.form-group {
+    width: 80%;
 }
 
 @media screen and (min-width: 672px) {
@@ -110,5 +116,18 @@ svg {
 @media screen and (min-width: 990px) {
     .container {
         width: 70vw;
+    }
+
+    .ing-input-container {
+        flex-direction: row;
+    }
+
+    .ing-wide {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .form-group {
+        width: auto;
     }
 }

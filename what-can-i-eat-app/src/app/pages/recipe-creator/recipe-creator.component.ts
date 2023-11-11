@@ -21,6 +21,7 @@ export class RecipeCreatorComponent implements OnInit {
   selectedUnit: string = MeasureUnit.Gram;
   passedRecipeId: number | undefined;
   orientation!: StepperOrientation;
+  wideScreen!: boolean;
   
   generalInformationForm = new FormGroup({
     recipeName: new FormControl('', Validators.required),
@@ -57,6 +58,7 @@ export class RecipeCreatorComponent implements OnInit {
       CustomBreakpoints.Small
     ]).subscribe(result => {
       this.orientation = result.matches ? 'vertical' : 'horizontal';
+      this.wideScreen = !result.matches;
     });
   }
 
