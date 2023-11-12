@@ -8,7 +8,7 @@
 }
 
 .preparation-step-input {
-    width: 450px;
+    width: 80%;
 }
 
 .step {
@@ -99,12 +99,13 @@ svg {
     cursor: pointer;
 }
 
-.ingredient-container:hover {
-    background-color: rgb(189, 60, 60);
-}
 
 .form-group {
     width: 80%;
+}
+
+.wide {
+    width: 100%;
 }
 
 @media screen and (min-width: 672px) {
