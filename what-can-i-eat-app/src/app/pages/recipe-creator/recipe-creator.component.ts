@@ -7,6 +7,9 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { ActivatedRoute } from '@angular/router';
+import { StepperOrientation } from '@angular/cdk/stepper';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { CustomBreakpoints } from 'src/app/common/custom-breakpoints/custom-breakpoints';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -17,6 +20,8 @@ export class RecipeCreatorComponent implements OnInit {
   MeasureUnit = MeasureUnit;
   selectedUnit: string = MeasureUnit.Gram;
   passedRecipeId: number | undefined;
+  orientation!: StepperOrientation;
+  wideScreen!: boolean;
 
   generalInformationForm = new FormGroup({
     recipeName: new FormControl('', Validators.required),
@@ -36,13 +41,25 @@ export class RecipeCreatorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private recipeService: RecipeService,
     private ingredientsService: IngredientService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private breakpointObserver: BreakpointObserver,
     ) { }
 
   ngOnInit(): void {
     this.setRecipeByUrlId();
     this.addIngredientInput();
     this.addStepInput();
+    this.subscribeToBreakPointsObserver();
+  }
+
+  private subscribeToBreakPointsObserver(): void {
+    this.breakpointObserver.observe([
+      CustomBreakpoints.XSmall,
+      CustomBreakpoints.Small
+    ]).subscribe(result => {
+      this.orientation = result.matches ? 'vertical' : 'horizontal';
+      this.wideScreen = !result.matches;
+    });
   }
 
   setFormsWithRecipeInfo(recipe: Recipe): void {

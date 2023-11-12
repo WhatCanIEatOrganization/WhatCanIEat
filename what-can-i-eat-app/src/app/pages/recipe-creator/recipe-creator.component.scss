@@ -1,35 +1,30 @@
-.inputs {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    padding-bottom: 20px;
-}
-
-.preparation-step-input {
-    width: 450px;
-}
-
-.step {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.center-in-row {
     justify-content: center;
 }
 
-.adding-ingredient {
-    display: flex;
+.container {
+    width: 95vw;
 }
 
-.container {
-    padding-top: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content-width, .inputs, .form-group {
+    width: 80%;
+}
+
+.wide {
+    width: 100%;
+}
+
+.inputs {
+    padding-bottom: 20px;
 }
 
 .stepper-container {
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    padding: 20px;
+    padding: 5px;
+    width: inherit;
+}
+
+h3 {
+    letter-spacing: 0.1rem;
 }
 
 form {
@@ -38,17 +33,16 @@ form {
     align-items: center;
 }
 
-.stepper-button {
+.buttons-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
-
 
 button {
     background-color: #50A4A4;
     border-radius: 100px;
     color: #FFFFFF;
-    margin-bottom: 20px;
+    margin-bottom: 3px;
 }
 
 button.remove {
@@ -59,35 +53,67 @@ button.add {
     background-color: #5077a4;
 }
 
-h3 {
-    letter-spacing: 0.1rem;
-}
-
-.buttons-container {
-    padding-top: 20px;
-    display: flex;
-    gap: 20px;
-}
-
 svg {
-    fill: white;
     height: 35px;
 }
 
-.remove {
+svg.hidden {
+    fill: white;
+}
+
+svg.remove {
     fill: #ca5858;
-    height: 35px;
+}
+
+.td-buttons-small {
+    padding-bottom: 35px;
 }
 
 .td-buttons {
     padding-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     transition: all 0.2s ease-out;
 }
 
 .td-buttons:hover {
     transform: scale(1.15);
-    fill: #a13434;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 672px) {
+    .container {
+        width: 75vw;
+    }
+
+    .stepper-container {
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .buttons-container {
+        padding-top: 20px;
+        flex-direction: row;
+        gap: max(7px, 1vw);
+    }
+
+    button {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .container {
+        width: 70vw;
+    }
+
+    .ing-input-container, .ing-wide {
+        flex-direction: row;
+    }
+
+    .ing-wide {
+        gap: 10px;
+    }
+
+    .form-group {
+        width: auto;
+    }
 }
