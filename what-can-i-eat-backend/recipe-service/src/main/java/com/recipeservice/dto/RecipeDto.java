@@ -1,7 +1,8 @@
 package com.recipeservice.dto;
 
-import java.util.List;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
 public record RecipeDto(
         int id,
         String name,
@@ -15,4 +16,5 @@ public record RecipeDto(
         String imageUrl,
         List<PreparationStepDto> preparationSteps,
         List<Integer> ingredients
-) {}
+) {
+}

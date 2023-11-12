@@ -32,14 +32,14 @@ export class IngredientItemComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogConfirmationComponent, { 
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       data: { ingredient: this.ingredient }
     });
-    
+
     dialogRef.afterClosed()
     .pipe(
         filter((val) => val === true),
@@ -62,9 +62,9 @@ export class IngredientItemComponent implements OnInit {
       operationType: "Modify",
       ingredientName: this.ingredient.name,
       amount: this.ingredient.amount,
-      type: this.ingredient.unitMeasure,
+      type: this.ingredient.type,
     }
-    
+
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
 
     dialogRef.afterClosed()
@@ -74,7 +74,7 @@ export class IngredientItemComponent implements OnInit {
             id: this.ingredient.id,
             name: val.get('ingredientName').value,
             amount: val.get('amount').value,
-            unitMeasure: val.get('type').value
+            type: val.get('type').value
           }
           return ing;
         }

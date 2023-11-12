@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface RecipeIngredientService {
     RecipeIngredientDto addNewIngredient(RecipeIngredientDto ingredient);
+    List<RecipeIngredientDto> addNewIngredients(List<RecipeIngredientDto> ingredientsDto);
     void deleteIngredient(int ingredientId);
     Optional<RecipeIngredientDto> getIngredientById(int ingredientId);
     List<RecipeIngredientDto> findIngredientsById(List<Integer> ids);
