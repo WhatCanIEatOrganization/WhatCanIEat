@@ -34,16 +34,15 @@ form {
 }
 
 .buttons-container {
-    padding-top: 20px;
     display: flex;
-    gap: 1vw;
+    flex-direction: column;
 }
 
 button {
     background-color: #50A4A4;
     border-radius: 100px;
     color: #FFFFFF;
-    margin-bottom: 20px;
+    margin-bottom: 3px;
 }
 
 button.remove {
@@ -88,6 +87,16 @@ svg.remove {
     .stepper-container {
         padding: 20px;
         margin-bottom: 30px;
+    }
+    
+    .buttons-container {
+        padding-top: 20px;
+        flex-direction: row;
+        gap: max(7px, 1vw);
+    }
+
+    button {
+        margin-bottom: 20px;
     }
 }
 
