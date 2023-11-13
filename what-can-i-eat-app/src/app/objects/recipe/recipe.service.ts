@@ -4,6 +4,7 @@ import { Observable, from, of } from 'rxjs';
 import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
 import { RecipeItemApi } from './recipe-item-api/recipe-item-api';
+import { UserRecipe } from './user-recipe/user-recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class RecipeService {
     return this.http.delete<RecipeItemApi>(`${this.apiURL}/recipe/${recipeId}`);
   }
 
-  createRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.http.post<Recipe>(`${this.apiURL}/recipe` , recipe);
+  createRecipe(recipe: UserRecipe): Observable<UserRecipe> {
+    return this.http.post<UserRecipe>(`${this.apiURL}/v1/recipes`, {recipe});
   }
 
   modifyRecipe(recipe: RecipeItemApi): Observable<RecipeItemApi> {

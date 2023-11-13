@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MeasureUnit } from 'src/app/enums/MeasureUnit';
 import { Recipe } from 'src/app/model/recipe/recipe';
-import { HttpResponse } from '@angular/common/http';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
-import { Ingredient, IngredientsListPayload } from 'src/app/model/ingredient/ingredient';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { ActivatedRoute } from '@angular/router';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CustomBreakpoints } from 'src/app/common/custom-breakpoints/custom-breakpoints';
+import { UserRecipe } from 'src/app/objects/recipe/user-recipe/user-recipe';
+import { IngredientApi } from 'src/app/objects/ingredient/ingredient-api';
+import { PreparationStep } from 'src/app/objects/preparation-steps/preparation-step';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -116,20 +117,24 @@ export class RecipeCreatorComponent implements OnInit {
   }
 
   public createRecipe() {
-    let recipe: Recipe = {
-      id: this.passedRecipeId,
+    let recipe: UserRecipe = {
+      id: 0,
       name: this.generalInformationForm.value.recipeName!,
       description: this.generalInformationForm.value.description!,
-      preparationTime: this.generalInformationForm.value.preparationTime!,
       favorite: false,
-      ingredientList: this.createIngredientsList(),
+      source: '',
+      preptime: this.generalInformationForm.value.preparationTime!,
+      waittime: 0,
+      cooktime: 0,
+      calories: 0,
+      imageUrl: '',
+      preparationSteps: this.createPreparationSteps(),
+      ingredients: this.createIngredientsList()
     }
 
     this.recipeService.createRecipe(recipe).subscribe({
-      next: (value: Recipe) => {
-        let ingListPayload = this.ingredientsListToPayload(value.id!, this.createIngredientsList());
-        this.ingredientsService.postIngredientsList(ingListPayload).subscribe((val) => {
-        })
+      next: (value: UserRecipe) => {
+        console.log(value);
       },
       error: () => {
         console.log("Error");
@@ -137,20 +142,23 @@ export class RecipeCreatorComponent implements OnInit {
     });
   }
 
-  public ingredientsListToPayload(recipeId: number, ingredientsList: Ingredient[]): IngredientsListPayload {
-    return {
-      recipeId: recipeId,
-      ingredientsList: ingredientsList,
-    }
+  public createPreparationSteps(): PreparationStep[] {
+    return Object.keys(this.stepsAsFormArray.controls).map(key => {
+      return {
+        id: 0,
+        step: this.stepsAsFormArray.controls[key].get("step").value,
+      };
+    });
   }
 
-  public createIngredientsList(): Ingredient[] {
+  public createIngredientsList(): IngredientApi[] {
     return Object.keys(this.ingredientsAsFormArray.controls).map(key => {
       return {
-        id: '',
+        id: 0,
         name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
-        amount: this.ingredientsAsFormArray.controls[key].get("amount").value,
-        type: this.ingredientsAsFormArray.controls[key].get("type").value,
+        description: '',
+        imageUrl: '',
+        amountWithUnit: this.ingredientsAsFormArray.controls[key].get("amount").value,
       };
     });
   }
