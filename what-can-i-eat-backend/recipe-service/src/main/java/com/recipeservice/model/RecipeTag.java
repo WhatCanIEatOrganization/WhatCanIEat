@@ -16,7 +16,7 @@ public class RecipeTag {
     @Column(name = "tag", nullable = false)
     private String tag;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
     private Recipe recipe;

@@ -36,10 +36,10 @@ public class Recipe {
     private Integer calories;
     private String instructions;
 
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<PreparationStep> preparationSteps = new HashSet<>();
 
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<RecipeTag> tags = new HashSet<>();
 
     @ElementCollection
