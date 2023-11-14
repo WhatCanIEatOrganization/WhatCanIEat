@@ -26,7 +26,7 @@ export class RecipeService {
   }
 
   createRecipe(recipe: UserRecipe): Observable<UserRecipe> {
-    return this.http.post<UserRecipe>(`${this.apiURL}/v1/recipes`, {recipe});
+    return this.http.post<UserRecipe>(`${this.apiURL}/v1/recipes`, recipe);
   }
 
   modifyRecipe(recipe: RecipeItemApi): Observable<RecipeItemApi> {

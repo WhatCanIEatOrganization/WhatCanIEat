@@ -36,7 +36,6 @@ export class IngredientService {
       id: 0,
       name: ingredient.name,
       description: '',
-      imageUrl: '',
       amountWithUnit: ingredient.amount.toString()
     }
 

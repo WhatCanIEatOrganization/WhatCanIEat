@@ -118,15 +118,11 @@ export class RecipeCreatorComponent implements OnInit {
 
   public createRecipe() {
     let recipe: UserRecipe = {
-      id: 0,
       name: this.generalInformationForm.value.recipeName!,
       description: this.generalInformationForm.value.description!,
-      favorite: false,
+      favorite: true,
       source: '',
       preptime: this.generalInformationForm.value.preparationTime!,
-      waittime: 0,
-      cooktime: 0,
-      calories: 0,
       imageUrl: '',
       preparationSteps: this.createPreparationSteps(),
       ingredients: this.createIngredientsList()
@@ -145,7 +141,6 @@ export class RecipeCreatorComponent implements OnInit {
   public createPreparationSteps(): PreparationStep[] {
     return Object.keys(this.stepsAsFormArray.controls).map(key => {
       return {
-        id: 0,
         step: this.stepsAsFormArray.controls[key].get("step").value,
       };
     });
