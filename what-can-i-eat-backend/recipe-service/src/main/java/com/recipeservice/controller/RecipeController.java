@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +42,15 @@ public class RecipeController {
     }
 
     @GetMapping()
-    @Operation(summary = "Get all recipes", description = "Retrieve a list of all recipes present in the system.")
-    public ResponseEntity<List<RecipeDto>> recipeList() {
-        logger.info("Attempting to retrieve all recipes");
-        List<RecipeDto> recipeList = recipeService.getRecipesList();
+    @Operation(summary = "Get paginated and sorted recipes", description = "Retrieves a list of recipes with optional pagination " +
+            "(using 'page' and 'size') and sorting (using 'sortBy'). Defaults to sorting by name.")
+    public ResponseEntity<List<RecipeDto>> getSortedRecipesWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy) {
+        logger.info("Received request to list all recipes with page: {}, size: {}, sortBy: {}", page, size, sortBy);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        List<RecipeDto> recipeList = recipeService.findAllRecipes(pageable);
         logger.info("Retrieved {} recipes successfully", recipeList.size());
         return ResponseEntity
                 .status(HttpStatus.OK)

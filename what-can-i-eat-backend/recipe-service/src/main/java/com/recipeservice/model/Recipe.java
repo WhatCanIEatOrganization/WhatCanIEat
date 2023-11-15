@@ -39,7 +39,7 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<PreparationStep> preparationSteps = new HashSet<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<RecipeTag> tags = new HashSet<>();
 
     @ElementCollection
