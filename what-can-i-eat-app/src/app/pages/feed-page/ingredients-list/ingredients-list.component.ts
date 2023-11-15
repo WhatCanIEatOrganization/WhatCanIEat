@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IngredientPayLoad } from 'src/app/model/ingredient/ingredientPayload';
+import { IngredientApi } from 'src/app/objects/ingredient/ingredient-api';
 
 
 @Component({
@@ -56,7 +56,7 @@ export class IngredientsListComponent implements OnInit {
         return this.ingredientService.createIngredient(ingredient);
       }))
       .subscribe({
-        next: (val: IngredientPayLoad) => {
+        next: (val: IngredientApi) => {
           this.openSnackbarSuccess(val.name, "created");
           this.getIngredientList();
         },
