@@ -13,6 +13,8 @@ import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -83,11 +85,9 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public List<RecipeDto> getRecipesList() {
-        return recipeRepository
-                .findAllWithRelations()
-                .stream()
-                .limit(25)
+    public List<RecipeDto> findAllRecipes(Pageable pageable) {
+        Page<Recipe> pageResult = recipeRepository.findAll(pageable);
+        return pageResult.stream()
                 .map(RecipeMapper::toDto)
                 .collect(Collectors.toList());
     }
