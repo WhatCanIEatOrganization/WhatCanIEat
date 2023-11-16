@@ -20,6 +20,10 @@ export class RecipeService {
     return this.http.get<RecipeItemApi[]>(`${this.apiURL}/v1/recipes`);
   }
 
+  getRecipesPaginatedAndStorted(givenParams: any): Observable<RecipeItemApi[]>  {
+    return this.http.get<RecipeItemApi[]>(`${this.apiURL}/v1/recipes`, {params: givenParams});
+  }
+
   deleteRecipe(recipe: RecipeItemApi): Observable<RecipeItemApi> {
     let recipeId = recipe.id; 
     return this.http.delete<RecipeItemApi>(`${this.apiURL}/recipe/${recipeId}`);

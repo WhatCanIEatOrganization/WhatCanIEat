@@ -1,5 +1,13 @@
-<div class="center">
-    <div class="container" *ngIf="!isLoading">
-        <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
-    </div> 
+<div class="center flex-row">
+    <div class="cards-paginator flex-col">
+        <div class="container" *ngIf="!isLoading">
+            <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
+        </div> 
+        <div class="flex-row center">
+            <mat-paginator [length]=pagesAmount
+                  [pageSize]=pageSize
+                  aria-label="Select page">
+            </mat-paginator>
+        </div>
+    </div>
 </div>

@@ -37,7 +37,7 @@ import { RecipesSearchBoxByIngredientsComponent } from './pages/feed-page/recipe
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-dialog/recipes-search-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSnackBarModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
