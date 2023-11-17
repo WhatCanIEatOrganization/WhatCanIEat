@@ -22,6 +22,7 @@ public interface RecipeService {
     Optional<RecipeDto> getRecipeById(int id);
     List<RecipeDto> searchRecipesByTags(List<String> ingredients);
     List<IngredientDto> getIngredientsByIds(List<Integer> ingredientIds);
+    List<RecipeDto> searchRecipesByFridgeIngredients();
     List<Recipe> updateRecipeImages();
 
 }

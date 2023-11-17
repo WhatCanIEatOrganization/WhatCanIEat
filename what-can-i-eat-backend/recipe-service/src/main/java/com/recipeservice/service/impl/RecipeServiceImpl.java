@@ -1,6 +1,7 @@
 package com.recipeservice.service.impl;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
@@ -124,14 +125,32 @@ public class RecipeServiceImpl implements RecipeService {
         Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/api/v2/recipe-ingredients")
-                        .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
+                        .queryParam("ids", ingredientIds.stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(",")))
                         .build())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<>() {});
         return ingredientsDto.block();
     }
 
+    @Override
+    public List<RecipeDto> searchRecipesByFridgeIngredients() {
+        List<String> ingredientsNames = getFridgeIngredientsNames().block();
+        return searchRecipesByTags(ingredientsNames);
+    }
 
+
+    private Mono<List<String>> getFridgeIngredientsNames(){
+        return this.webClient.get()
+                .uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")
+                .retrieve()
+                .bodyToFlux(JsonNode.class)
+                .map(jsonNode -> jsonNode.get("name").asText())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Recipe> updateRecipeImages() {
         List<Recipe> recipes = recipeRepository.findAll();
         for (Recipe recipe : recipes) {

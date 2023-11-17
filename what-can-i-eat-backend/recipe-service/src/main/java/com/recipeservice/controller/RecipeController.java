@@ -125,6 +125,14 @@ public class RecipeController {
         return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
     }
 
+    @GetMapping("/search/fridge-ingredients")
+    public ResponseEntity<List<RecipeDto>> searchRecipesByFridgeIngredients(){
+        logger.info("Attempting to retrieve recipes by fridge-ingredients");
+        List<RecipeDto> recipes = recipeService.searchRecipesByFridgeIngredients();
+        logger.info("Search recipes by fridge-ingredients successful");
+        return new ResponseEntity<>(recipes, HttpStatus.OK);
+    }
+
     @GetMapping("/addImages")
     public List<Recipe> addImagesToRecipes() {
         return recipeService.updateRecipeImages();
