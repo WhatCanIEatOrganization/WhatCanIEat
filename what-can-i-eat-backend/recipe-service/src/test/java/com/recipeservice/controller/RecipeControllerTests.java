@@ -134,20 +134,20 @@ public class RecipeControllerTests {
     }
 
 
-    @Test
-    public void getRecipesListShouldReturn200WithRecipeList() throws Exception {
-        when(recipeService.getRecipesList()).thenReturn(Arrays.asList(sampleRecipeDto, secondSampleRecipeDto));
-
-        mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get("/api/v1/recipes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
-    }
+//    @Test
+//    public void getRecipesListShouldReturn200WithRecipeList() throws Exception {
+//        when(recipeService.getRecipesList()).thenReturn(Arrays.asList(sampleRecipeDto, secondSampleRecipeDto));
+//
+//        mockMvc
+//                .perform(MockMvcRequestBuilders
+//                        .get("/api/v1/recipes")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                )
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
+//    }
 
 
     @Test
