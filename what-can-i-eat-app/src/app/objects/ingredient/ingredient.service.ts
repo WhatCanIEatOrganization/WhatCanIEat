@@ -33,10 +33,10 @@ export class IngredientService {
   createIngredient(ingredient: Ingredient): Observable<IngredientApi> {
 
     let ing: IngredientApi = {
-      id: 0,
+      id: '',
       name: ingredient.name,
       description: '',
-      amountWithUnit: ingredient.amount.toString()
+      amountType: ingredient.amount.toString()
     }
 
     return this.http.post<IngredientApi>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`, ing);

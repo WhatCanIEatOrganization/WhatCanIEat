@@ -31,14 +31,6 @@ export class RecipeItemCardComponent implements OnInit {
     this.hasImage = this.recipe.imageUrl != null
   }
 
-  // onRecipeCardClick(): void {
-  //   const dialogRef = this.dialog.open(RecipeItemOnClickComponent, {
-  //     data: {
-  //       recipe: this.recipe
-  //     }
-  //   });
-  // }
-
   onRecipeCardClick(): void {
     this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe);
   }

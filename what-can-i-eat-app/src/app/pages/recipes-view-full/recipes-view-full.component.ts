@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 
@@ -14,9 +15,9 @@ export class RecipesViewFullComponent implements OnInit {
   recipesList: RecipeItemApi[] = [];
   isLoading = true;
   pageNumber = 0;
-  pageSize = 50;
+  pageSize = 15;
   sortBy = "id";
-  pagesAmount = 30;
+  pagesAmount = 400;
 
   constructor(
     private recipeService: RecipeService,
@@ -40,6 +41,18 @@ export class RecipesViewFullComponent implements OnInit {
       error: () => {
         this.isLoading = false;
       }
+    });
+  }
+
+  handlePageEvent(e: PageEvent): void {
+    this.pageNumber = e.pageIndex;
+    this.getRecipeList();
+    this.isLoading = true;
+
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
     });
   }
 }

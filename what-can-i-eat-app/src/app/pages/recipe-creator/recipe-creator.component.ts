@@ -149,11 +149,11 @@ export class RecipeCreatorComponent implements OnInit {
   public createIngredientsList(): IngredientApi[] {
     return Object.keys(this.ingredientsAsFormArray.controls).map(key => {
       return {
-        id: 0,
+        id: "",
         name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
         description: '',
         imageUrl: '',
-        amountWithUnit: this.ingredientsAsFormArray.controls[key].get("amount").value,
+        amountType: this.ingredientsAsFormArray.controls[key].get("amount").value,
       };
     });
   }

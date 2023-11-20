@@ -1,6 +1,6 @@
 export interface IngredientApi {
-    id: number;
+    id: string;
     name: string;
     description: string;
-    amountWithUnit: string;
+    amountType: string;
 }
