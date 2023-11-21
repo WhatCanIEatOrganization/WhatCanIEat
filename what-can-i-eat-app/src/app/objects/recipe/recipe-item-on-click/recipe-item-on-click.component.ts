@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from '../recipe.service';
 import { IngredientService } from '../../ingredient/ingredient.service';
-import { IngredientApi } from '../../ingredient/ingredient-api';
+import { Ingredient } from '../../ingredient/ingredient';
 
 @Component({
   selector: 'app-recipe-item-on-click',
@@ -13,7 +13,7 @@ import { IngredientApi } from '../../ingredient/ingredient-api';
 export class RecipeItemOnClickComponent implements OnInit {
   recipe: RecipeItemApi = this.data.recipe;
   panelOpenState = false;
-  ingredients!: IngredientApi[];
+  ingredients!: Ingredient[];
   hasImage!: boolean;
 
   constructor(

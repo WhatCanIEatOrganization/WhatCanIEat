@@ -1,11 +1,8 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BasicIngredient } from 'src/app/model/basic-ingredient/basicIngredient';
-import { Ingredient } from 'src/app/model/ingredient/ingredient';
-import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
-import { IngredientApi } from './ingredient-api';
+import { Ingredient, IngredientPayLoad } from './ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -19,27 +16,25 @@ export class IngredientService {
     return this.http.get<Ingredient[]>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`);
   }
 
-  getIngredientsByIds(numbers: number[]): Observable<IngredientApi[]> {
+  getIngredientsByIds(numbers: number[]): Observable<Ingredient[]> {
     let ids = new HttpParams();
     ids = ids.append("ids", numbers.join(', '));
 
-    return this.http.get<IngredientApi[]>(`${this.apiURL}/v1/recipes/ingredients`, {params: ids});
+    return this.http.get<Ingredient[]>(`${this.apiURL}/v1/recipes/ingredients`, {params: ids});
   }
 
   deleteIngredient(ingredient: Ingredient): Observable<Ingredient> {
     return this.http.delete<Ingredient>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients/${ingredient.id}`);
   }
 
-  createIngredient(ingredient: Ingredient): Observable<IngredientApi> {
+  createIngredient(ingredient: Ingredient): Observable<Ingredient> {
 
-    let ing: IngredientApi = {
-      id: '',
+    let ing: IngredientPayLoad = {
       name: ingredient.name,
-      description: '',
-      amountType: ingredient.amount.toString()
+      type: ingredient.type.toString()
     }
 
-    return this.http.post<IngredientApi>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`, ing);
+    return this.http.post<Ingredient>(`https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients`, ing);
   }
 
   modifyIngredient(ingredient: Ingredient): Observable<Ingredient> {

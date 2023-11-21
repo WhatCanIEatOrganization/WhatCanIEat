@@ -1,5 +1,5 @@
+import { Ingredient } from "../../ingredient/ingredient"
 import { PreparationStep } from "../../preparation-steps/preparation-step"
-import { IngredientApi } from "../../ingredient/ingredient-api"
 
 export interface UserRecipe {
     name: string,
@@ -8,7 +8,7 @@ export interface UserRecipe {
     source: string,
     preptime: number,
     imageUrl: string,
-    ingredients: IngredientApi[],
+    ingredients: Ingredient[],
     preparationSteps: PreparationStep[]
 }
 

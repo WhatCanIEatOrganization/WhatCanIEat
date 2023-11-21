@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ingredient } from 'src/app/model/ingredient/ingredient';
+import { Ingredient } from 'src/app/objects/ingredient/ingredient';
 
 @Component({
   selector: 'app-feed-page',
@@ -24,8 +24,7 @@ export class FeedPageComponent implements OnInit {
     let newIngredient: Ingredient = {
       id:'',
       name: this.value,
-      amount: this.amount,
-      type: this.type,
+      type: this.amount.toString(),
     }
 
     this.ingredientList.push(newIngredient);
