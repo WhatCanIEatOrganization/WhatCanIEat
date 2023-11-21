@@ -1,4 +1,6 @@
 package com.recipeservice.dto;
 
-public record PreparationStepDto(Integer id, String step) {
+import java.io.Serializable;
+
+public record PreparationStepDto(Integer id, String step) implements Serializable {
 }

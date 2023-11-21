@@ -13,6 +13,7 @@ import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,6 +87,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
+    @Cacheable(value = "recipes", key = "#pageable")
     public List<RecipeDto> findAllRecipes(Pageable pageable) {
         Page<Recipe> pageResult = recipeRepository.findAll(pageable);
         return pageResult.stream()
@@ -137,7 +139,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeDto> searchRecipesByFridgeIngredients() {
         List<String> ingredientsNames = getFridgeIngredientsNames().block();
-        return searchRecipesByTags(ingredientsNames);
+        System.out.println(ingredientsNames.size());
+        List<Integer> recipeIds = recipeRepository.findRecipesByMatchingTags(ingredientsNames);
+        return recipeRepository
+                .findAllById(recipeIds)
+                .stream()
+                .map(RecipeMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
