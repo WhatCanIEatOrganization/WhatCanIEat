@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
 import { IngredientCreatorComponent } from '../ingredient-creator/ingredient-creator.component';
@@ -7,6 +6,7 @@ import { IngredientService } from '../ingredient.service';
 import { concatMap, defaultIfEmpty, filter, map, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
+import { Ingredient } from '../ingredient';
 
 export interface IngredientCreatorData {
   operationType: string,
@@ -61,27 +61,24 @@ export class IngredientItemComponent implements OnInit {
     dialogConfig.data = {
       operationType: "Modify",
       ingredientName: this.ingredient.name,
-      amount: this.ingredient.amount,
       type: this.ingredient.type,
     }
 
     const dialogRef = this.dialog.open(IngredientCreatorComponent, dialogConfig);
 
+    let noChanges: boolean;
+
     dialogRef.afterClosed()
-      .pipe(map(
-        (val) => {
+      .pipe(
+        filter(val => val != undefined && val != ""),
+        map((val) => {  
           let ing: Ingredient = {
-            id: this.ingredient.id,
-            name: val.get('ingredientName').value,
-            amount: val.get('amount').value,
-            type: val.get('type').value
+              id: this.ingredient.id,
+              name: val.get('ingredientName').value,
+              type: val.get('amount').value,
           }
           return ing;
-        }
-      ))
-      .subscribe(val => {
-        this.modifyIngredient.emit(val)
-      });
+        })).subscribe(val => this.modifyIngredient.emit(val));
   }
 
   private openSnackbarSuccess(objectName: String, operationType: String): void {

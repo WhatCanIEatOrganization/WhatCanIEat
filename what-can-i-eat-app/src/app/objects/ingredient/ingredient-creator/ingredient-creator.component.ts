@@ -36,16 +36,12 @@ export class IngredientCreatorComponent implements OnInit {
     this.dialogTypeOfOperation = this.data.operationType;
   }
 
-  onFormSubmit() {
-
-  }
-
   setFormWithValues(): void {
     if(this.data.operationType != "Create") {
       this.ingredientCreatorForm.setValue({
         ingredientName: this.data.ingredientName,
-        amount: this.data.amount,
-        type: this.data.type
+        amount: this.data.type,
+        type: ''
       })
     }
   }
