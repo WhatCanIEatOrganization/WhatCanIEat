@@ -10,12 +10,11 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
   styleUrls: ['./recipes-view-full.component.scss']
 })
 export class RecipesViewFullComponent implements OnInit {
-  @ViewChild('mat-paginator', { static: true, read: ElementRef }) paginator!: ElementRef;
 
   recipesList: RecipeItemApi[] = [];
   isLoading = true;
   pageNumber = 0;
-  pageSize = 15;
+  pageSize = 25;
   sortBy = "id";
   pagesAmount = 400;
 
