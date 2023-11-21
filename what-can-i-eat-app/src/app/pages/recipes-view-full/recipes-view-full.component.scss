@@ -7,9 +7,10 @@
     gap: 3vw;
 }
 
-.center {
-    margin-top: 2vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.gap {
+    gap: 2vh;
+}
+
+.cards-paginator {
+    gap: 5vh;
 }

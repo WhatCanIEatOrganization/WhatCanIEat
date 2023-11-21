@@ -9,8 +9,8 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CustomBreakpoints } from 'src/app/common/custom-breakpoints/custom-breakpoints';
 import { UserRecipe } from 'src/app/objects/recipe/user-recipe/user-recipe';
-import { IngredientApi } from 'src/app/objects/ingredient/ingredient-api';
 import { PreparationStep } from 'src/app/objects/preparation-steps/preparation-step';
+import { Ingredient } from 'src/app/objects/ingredient/ingredient';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -146,14 +146,12 @@ export class RecipeCreatorComponent implements OnInit {
     });
   }
 
-  public createIngredientsList(): IngredientApi[] {
+  public createIngredientsList(): Ingredient[] {
     return Object.keys(this.ingredientsAsFormArray.controls).map(key => {
       return {
-        id: 0,
+        id: "",
         name: this.ingredientsAsFormArray.controls[key].get("ingredientName").value,
-        description: '',
-        imageUrl: '',
-        amountWithUnit: this.ingredientsAsFormArray.controls[key].get("amount").value,
+        type: this.ingredientsAsFormArray.controls[key].get("amount").value,
       };
     });
   }

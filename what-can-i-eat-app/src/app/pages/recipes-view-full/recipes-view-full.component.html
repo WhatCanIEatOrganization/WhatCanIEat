@@ -1,5 +1,18 @@
-<div class="center">
-    <div class="container" *ngIf="!isLoading">
-        <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
-    </div> 
+<div class="center flex-row">
+    <div class="cards-paginator flex-col" *ngIf="!isLoading">
+        <div class="container">
+            <app-recipe-item-card *ngFor="let recipe of recipesList" [recipe]="recipe" (delete)="getRecipeList()"></app-recipe-item-card>
+        </div> 
+        <div class="flex-row center">
+            <mat-paginator [length]="pagesAmount"
+                  [pageSize]="pageSize"
+                  [pageIndex]="pageNumber"
+                  aria-label="Select page"
+                  (page)="handlePageEvent($event)">
+            </mat-paginator>
+        </div>
+    </div>
+    <div *ngIf="isLoading">
+        <mat-spinner diameter="30" style="margin:0 auto;"></mat-spinner>
+    </div>
 </div>

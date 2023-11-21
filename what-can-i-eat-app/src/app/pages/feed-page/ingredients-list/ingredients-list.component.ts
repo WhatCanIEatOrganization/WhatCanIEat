@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ingredient } from 'src/app/model/ingredient/ingredient';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IngredientCreatorComponent } from 'src/app/objects/ingredient/ingredient-creator/ingredient-creator.component';
 import { concatMap } from 'rxjs/operators'
@@ -7,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IngredientApi } from 'src/app/objects/ingredient/ingredient-api';
+import { Ingredient } from 'src/app/objects/ingredient/ingredient';
 
 
 @Component({
@@ -50,13 +49,12 @@ export class IngredientsListComponent implements OnInit {
         let ingredient: Ingredient = {
           id: '',
           name: data.get("ingredientName")!.value,
-          amount: data.get("amount")!.value,
-          type: data.get("type")!.value
+          type: data.get("amount")!.value
         }
         return this.ingredientService.createIngredient(ingredient);
       }))
       .subscribe({
-        next: (val: IngredientApi) => {
+        next: (val: Ingredient) => {
           this.openSnackbarSuccess(val.name, "created");
           this.getIngredientList();
         },

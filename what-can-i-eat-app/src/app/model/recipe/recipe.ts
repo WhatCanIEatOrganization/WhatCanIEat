@@ -1,4 +1,4 @@
-import { Ingredient } from "../ingredient/ingredient";
+import { Ingredient } from "src/app/objects/ingredient/ingredient";
 
 export interface Recipe {
     id?: number;
