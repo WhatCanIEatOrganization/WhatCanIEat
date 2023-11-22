@@ -31,12 +31,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
             "HAVING COUNT(DISTINCT tag) = :count", nativeQuery = true)
     List<Integer> findRecipesIdsByTags(@Param("tags") List<String> tags, @Param("count") long count);
 
-    @Query(value = "SELECT r.id, COUNT(rt.tag) as matching_count " +
+    @Query(value = "SELECT r.id, " +
+            "(COUNT(rt.tag) / (SELECT COUNT(*) FROM recipe_tags WHERE recipe_id = r.id)) * 100 as coverage_percentage " +
             "FROM recipes r " +
             "JOIN recipe_tags rt ON r.id = rt.recipe_id " +
             "WHERE rt.tag IN (:tags) " +
             "GROUP BY r.id " +
-            "ORDER BY matching_count DESC " +
+            "ORDER BY coverage_percentage DESC, COUNT(rt.tag) DESC " +
             "LIMIT 20", nativeQuery = true)
     List<Integer> findRecipesByMatchingTags(@Param("tags") List<String> tags);
 
