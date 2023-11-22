@@ -20,7 +20,9 @@
                 </div>
             </div>
             <div>
-                <span>{{recipe.description}}</span>
+                <span>Description: </span>
+                <span *ngIf="recipe.description === null" ><strong>There is currently no description for the recipe.</strong></span>
+                <span *ngIf="recipe.description != null"><strong>{{recipe.description}}</strong></span>
             </div>
         </div>
     </div>
