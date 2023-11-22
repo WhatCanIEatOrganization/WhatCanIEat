@@ -1,25 +1,25 @@
-<div class="container">
-    <div class="container-title text">
-        <h1>Featured meal of the day</h1>
+<div class="container def-container text">
+    <div class="container-title">
+        <span class="title">Featured meal of the day</span>
     </div>
     <div *ngIf="!isLoading" class="content" (click)="onRecipeCardClick()">
         <div class="img-cont">
             <img *ngIf="!hasImage" src="/assets/images/comfort_food_placeholder.png">
             <img *ngIf="hasImage" [src]="recipe.imageUrl">
         </div>
-        <div class="recipe-details">
-            <div class="text recipe-name">
+        <div>
+            <div>
                 <h2><strong>{{recipe.name}}</strong></h2>
             </div>
             <div class="time-amount">
-                <div class="text">
+                <div>
                     <span>Preparation time: <strong>{{preparationTime}}</strong></span>
                 </div>
-                <div class="text">
+                <div>
                     <span>Ingredients needed: <strong>{{ingredientsAmount}}</strong></span>
                 </div>
             </div>
-            <div class=text-color>
+            <div>
                 <span>{{recipe.description}}</span>
             </div>
         </div>
