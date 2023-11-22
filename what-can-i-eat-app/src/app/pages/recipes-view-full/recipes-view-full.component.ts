@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
@@ -10,11 +10,10 @@ import { RecipeService } from 'src/app/objects/recipe/recipe.service';
   styleUrls: ['./recipes-view-full.component.scss']
 })
 export class RecipesViewFullComponent implements OnInit {
-
   recipesList: RecipeItemApi[] = [];
   isLoading = true;
   pageNumber = 0;
-  pageSize = 25;
+  pageSize = 50;
   sortBy = "id";
   pagesAmount = 400;
 

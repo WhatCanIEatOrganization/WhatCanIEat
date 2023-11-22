@@ -1,6 +1,6 @@
 .container {
-    width: 310px;
-    height: 360px;
+    width: 290px;
+    height: 380px;
     background: #fcfcfc;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     display: flex;
@@ -13,16 +13,15 @@
     box-shadow: 0px 1px 2px 0px #3a7575, 0px 1px 8px 1px #3a7575;
 }
 
-.title {
+.title-text {
     color: #50A4A4;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 .title-dots {
-    height: 40px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    font-size: 20px;
-    padding: 15px 10px 10px 10px;
+    height: 70px;
+    padding: 3px 10px 3px 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -56,21 +55,12 @@ img {
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.116), 0px 6px 10px 4px rgba(0, 0, 0, 0.116);
 }
 
-.preparation-time {
-    text-align: center;
-    font-size: 13px;
-    letter-spacing: 0.75px;
-    padding-top: 5px;
+img:hover {
+    transform: scale(1.075);
+    transition: 0.3s;
 }
 
-.recipe-description {
-    text-align: center;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.25px;
-}
-
-.title-dots, .preparation-time, .recipe-description {
+.title-dots {
     color: #49454F;
     line-height: 20px;
 }
@@ -78,24 +68,19 @@ img {
 .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     height: 100%;
+    gap: 5px;
 }
 
 .content:hover {
     cursor: pointer;
 }
 
-.recipe-description {
+.recipe-details {
     text-align: center;
-    flex-grow: 3;
-    margin: auto;
     display: flex;
-    justify-content: center;
-}
-
-.description {
-    margin: auto;
-    color: #50A4A4;
+    flex-direction: column;
+    gap: 7px;
 }
