@@ -161,7 +161,7 @@ public class RecipeControllerTests {
 
     @Test
     public void getRandomRecipeShouldReturn200WithRecipe() throws Exception {
-        when(recipeService.getRandomRecipe()).thenReturn(sampleRecipeDto);
+        when(recipeService.getDailyRecipe()).thenReturn(sampleRecipeDto);
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/v1/recipes/rng")
                 .contentType(MediaType.APPLICATION_JSON)

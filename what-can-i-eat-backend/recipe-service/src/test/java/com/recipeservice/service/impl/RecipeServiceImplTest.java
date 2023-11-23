@@ -254,10 +254,10 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    void getRandomRecipeShouldReturnRecipe() {
+    void getDailyRecipeShouldReturnRecipe() {
         List<Recipe> recipesList = List.of(RecipeMapper.toEntity(sampleRecipeDto), RecipeMapper.toEntity(secondSampleRecipeDto));
         when(recipeRepository.findAll()).thenReturn(recipesList);
-        RecipeDto result = recipeService.getRandomRecipe();
+        RecipeDto result = recipeService.getDailyRecipe();
         assertNotNull(result);
     }
 

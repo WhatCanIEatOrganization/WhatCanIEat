@@ -17,7 +17,7 @@ public interface RecipeService {
 
     void deleteRecipe(int recipeId);
 
-    RecipeDto getRandomRecipe();
+    RecipeDto getDailyRecipe();
 
     Optional<RecipeDto> getRecipeById(int id);
     List<RecipeDto> searchRecipesByTags(List<String> ingredients);

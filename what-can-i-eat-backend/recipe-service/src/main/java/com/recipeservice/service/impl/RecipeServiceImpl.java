@@ -24,6 +24,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -110,10 +111,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto getRandomRecipe() {
+    @Cacheable(value = "dailyRecipe", key = "#root.target.getDailyKey()")
+    public RecipeDto getDailyRecipe() {
         List<Recipe> recipesList = recipeRepository.findAll();
         Random rand = new Random();
         return RecipeMapper.toDto(recipesList.get(rand.nextInt(recipesList.size())));
+    }
+
+    public String getDailyKey() {
+        return LocalDate.now().toString();
     }
 
     @Override
