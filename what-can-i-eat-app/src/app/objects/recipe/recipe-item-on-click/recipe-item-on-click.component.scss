@@ -8,7 +8,8 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    align-items: center;
 }
 
 img {
@@ -23,12 +24,6 @@ img {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-}
-
-.img-container {
-    display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
@@ -52,6 +47,36 @@ svg {
 svg:hover {
     cursor: pointer;
     border-bottom: solid rgba(85, 85, 85, 0.705) 2px;
+}
+
+mat-accordion {
+    padding-bottom: 6px;
+    width: 60vw;
+    min-width: 150px;
+}
+
+.img-subtitle {
+    gap: 8px;
+}
+
+button {
+    border-radius: 3px;
+    width: 100%;
+    margin: 2px;
+}
+
+.buttons-container {
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons-container > div {
+    flex: 1;
+}
+
+.buttons-container div:nth-child(2) {
+    min-width: 50%;
 }
 
 @media screen and (min-width: 768px) {
