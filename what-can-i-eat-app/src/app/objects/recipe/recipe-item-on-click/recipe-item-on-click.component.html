@@ -9,47 +9,47 @@
         </div>
     </div>
     <mat-dialog-content class="container text">
-        <div class="content">
-            <div class="flex-col center img-subtitle">
-                <img *ngIf="!hasImage" src="/assets/images/comfort_food_placeholder.png">
-                <img *ngIf="hasImage" [src]="recipe.imageUrl">
-                <div>
-                    <span><strong>{{recipe.name}}</strong></span>
-                </div>
-            </div>
-            <mat-accordion>
-                <mat-expansion-panel hideToggle>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title >
-                      Description
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <span>{{recipe.description}}</span>
-                </mat-expansion-panel>
-                <mat-expansion-panel hideToggle >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title >
-                      Ingredients:
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <div >
-                    <ul *ngFor="let ing of ingredients">
-                        <li>{{ing.name}}</li>
-                    </ul>
-                  </div>
-                </mat-expansion-panel>
-                <mat-expansion-panel hideToggle>
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Preparation steps:
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <ul *ngFor="let step of recipe.preparationSteps; let i = index;">
-                        <li>{{i + 1}}.{{step.step}}</li>
-                    </ul>
-                  </mat-expansion-panel>
-              </mat-accordion>
+      <div class="content">
+        <div class="flex-col center img-subtitle">
+              <img *ngIf="!hasImage" src="/assets/images/comfort_food_placeholder.png">
+              <img *ngIf="hasImage" [src]="recipe.imageUrl">
+              <div>
+                  <span><strong>{{recipe.name}}</strong></span>
+              </div>
         </div>
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title >
+                Description
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <span>{{recipe.description}}</span>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle >
+            <mat-expansion-panel-header>
+              <mat-panel-title >
+                Ingredients:
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div >
+              <ul *ngFor="let ing of ingredients">
+                  <li>{{ing.name}}</li>
+              </ul>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Preparation steps:
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul *ngFor="let step of recipe.preparationSteps; let i = index;">
+                <li>{{i + 1}}.{{step.step}}</li>
+            </ul>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
     </mat-dialog-content>
     <mat-dialog-actions class="flex-row buttons-container">
         <div>
