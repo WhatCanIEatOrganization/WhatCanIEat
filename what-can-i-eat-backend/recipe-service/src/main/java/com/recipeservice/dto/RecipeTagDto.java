@@ -1,4 +1,6 @@
 package com.recipeservice.dto;
 
-public record RecipeTagDto(Integer id, String tag) {
+import java.io.Serializable;
+
+public record RecipeTagDto(Integer id, String tag) implements Serializable {
 }

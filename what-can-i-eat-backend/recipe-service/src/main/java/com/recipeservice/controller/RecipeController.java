@@ -87,11 +87,11 @@ public class RecipeController {
     }
 
     @GetMapping("/rng")
-    @Operation(summary = "Get random recipe", description = "Retrieve a random recipe from the system.")
-    public ResponseEntity<RecipeDto> randomRecipe() {
-        logger.info("Attempting to retrieve random recipe");
-        RecipeDto recipe = recipeService.getRandomRecipe();
-        logger.info("Get random recipe successful");
+    @Operation(summary = "Get daily recipe", description = "Retrieve a daily recipe from the system.")
+    public ResponseEntity<RecipeDto> getDailyRecipe() {
+        logger.info("Attempting to retrieve daily recipe");
+        RecipeDto recipe = recipeService.getDailyRecipe();
+        logger.info("Get daily recipe successful");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(recipe);
@@ -123,6 +123,14 @@ public class RecipeController {
         List<RecipeDto> foundRecipes = recipeService.searchRecipesByTags(ingredients);
         logger.info("Search recipes by ingredients successful");
         return new ResponseEntity<>(foundRecipes, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/fridge-ingredients")
+    public ResponseEntity<List<RecipeDto>> searchRecipesByFridgeIngredients(){
+        logger.info("Attempting to retrieve recipes by fridge-ingredients");
+        List<RecipeDto> recipes = recipeService.searchRecipesByFridgeIngredients();
+        logger.info("Search recipes by fridge-ingredients successful");
+        return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
     @GetMapping("/addImages")

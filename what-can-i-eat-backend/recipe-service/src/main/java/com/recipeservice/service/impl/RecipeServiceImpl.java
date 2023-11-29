@@ -1,6 +1,7 @@
 package com.recipeservice.service.impl;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
@@ -12,6 +13,7 @@ import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -85,6 +88,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
+    @Cacheable(value = "recipes", key = "#pageable")
     public List<RecipeDto> findAllRecipes(Pageable pageable) {
         Page<Recipe> pageResult = recipeRepository.findAll(pageable);
         return pageResult.stream()
@@ -107,10 +111,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto getRandomRecipe() {
+    @Cacheable(value = "dailyRecipe", key = "#root.target.getDailyKey()")
+    public RecipeDto getDailyRecipe() {
         List<Recipe> recipesList = recipeRepository.findAll();
         Random rand = new Random();
         return RecipeMapper.toDto(recipesList.get(rand.nextInt(recipesList.size())));
+    }
+
+    public String getDailyKey() {
+        return LocalDate.now().toString();
     }
 
     @Override
@@ -124,14 +133,38 @@ public class RecipeServiceImpl implements RecipeService {
         Mono<List<IngredientDto>> ingredientsDto = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/api/v2/recipe-ingredients")
-                        .queryParam("ids", String.join(",", ingredientIds.stream().map(Object::toString).collect(Collectors.toList())))
+                        .queryParam("ids", ingredientIds.stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(",")))
                         .build())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<>() {});
         return ingredientsDto.block();
     }
 
+    @Override
+    public List<RecipeDto> searchRecipesByFridgeIngredients() {
+        List<String> ingredientsNames = getFridgeIngredientsNames().block();
+        System.out.println(ingredientsNames.size());
+        List<Integer> recipeIds = recipeRepository.findRecipesByMatchingTags(ingredientsNames);
+        return recipeRepository
+                .findAllById(recipeIds)
+                .stream()
+                .map(RecipeMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
+
+    private Mono<List<String>> getFridgeIngredientsNames(){
+        return this.webClient.get()
+                .uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")
+                .retrieve()
+                .bodyToFlux(JsonNode.class)
+                .map(jsonNode -> jsonNode.get("name").asText())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Recipe> updateRecipeImages() {
         List<Recipe> recipes = recipeRepository.findAll();
         for (Recipe recipe : recipes) {

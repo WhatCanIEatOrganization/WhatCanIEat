@@ -2,6 +2,7 @@ package com.recipeservice.dto;
 
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 public record RecipeDto(
         int id,
@@ -16,5 +17,5 @@ public record RecipeDto(
         String imageUrl,
         List<PreparationStepDto> preparationSteps,
         List<Integer> ingredients
-) {
+) implements Serializable {
 }

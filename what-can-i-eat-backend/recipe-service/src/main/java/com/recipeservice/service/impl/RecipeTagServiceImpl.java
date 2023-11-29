@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,13 +23,13 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     }
 
     @Override
-    public List<RecipeTagDto> generateRecipeTags(CreateRecipeDto createRecipeDto, Integer recipeId) {
+    public Set<RecipeTagDto> generateRecipeTags(CreateRecipeDto createRecipeDto, Integer recipeId) {
         return extractTags(createRecipeDto)
                 .stream()
                 .map(tag -> RecipeTagMapper.toEntity(new RecipeTagDto(null, tag), recipeId))
                 .map(recipeTagRepository::save)
                 .map(RecipeTagMapper::toDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private List<String> extractTags(CreateRecipeDto createRecipeDto) {
