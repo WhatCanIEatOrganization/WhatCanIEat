@@ -13,6 +13,7 @@ import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final PexelsService pexelsService;
     private final RecipeTagService recipeTagService;
-    final WebClient webClient;
+    private final WebClient webClient;
 
 
     @Autowired
@@ -51,6 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CachePut(value = "recipesCache", key = "#newRecipe.id")
     public RecipeDto addNewRecipe(CreateRecipeDto createRecipeDto) {
         Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(createRecipeDto);
         List<IngredientDto> addedIngredients = addIngredientsToIngredientService(createRecipeDto.ingredients());
@@ -145,7 +147,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeDto> searchRecipesByFridgeIngredients() {
         List<String> ingredientsNames = getFridgeIngredientsNames().block();
-        System.out.println(ingredientsNames.size());
         List<Integer> recipeIds = recipeRepository.findRecipesByMatchingTags(ingredientsNames);
         return recipeRepository
                 .findAllById(recipeIds)

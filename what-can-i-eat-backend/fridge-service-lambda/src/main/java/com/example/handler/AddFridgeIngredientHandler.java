@@ -29,6 +29,7 @@ public class AddFridgeIngredientHandler implements RequestHandler<APIGatewayProx
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
         Gson gson = new Gson();
         Ingredient ingredient = gson.fromJson(request.getBody(), Ingredient.class);
+        context.getLogger().log("Ingredient id: " + ingredient.getId());
         DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
         ingredientTable.putItem(ingredient);
         String responseBody = gson.toJson(ingredient);
