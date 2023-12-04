@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Recipe } from 'src/app/model/recipe/recipe';
-import { RecipeItemOnClickComponent } from '../../../objects/recipe/recipe-item-on-click/recipe-item-on-click.component';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { filter, concatMap } from 'rxjs';
 import { DialogConfirmationComponent } from 'src/app/common/dialog/dialog-confirmation/dialog-confirmation.component';
@@ -28,7 +26,7 @@ export class RecipeItemCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.hasImage = this.recipe.imageUrl != null
+    this.hasImage = this.recipe.imageUrl != null;
   }
 
   onRecipeCardClick(): void {
@@ -75,5 +73,19 @@ export class RecipeItemCardComponent implements OnInit {
         console.log("Something went wrong");
       }
     })
+  }
+
+  setPreparationTime(): string {
+    let preparationTime: string;
+    this.recipe.preptime === 0 ? preparationTime = "not specified" : preparationTime = this.recipe.preptime + " min";
+
+    return preparationTime;
+  }
+
+  setIngredientsAmount(): string {
+    let ingredientsAmount: string;
+    this.recipe.ingredients.length === 0 ? ingredientsAmount = "not specified" : ingredientsAmount = this.recipe.ingredients.length + " products";
+
+    return ingredientsAmount;
   }
 }

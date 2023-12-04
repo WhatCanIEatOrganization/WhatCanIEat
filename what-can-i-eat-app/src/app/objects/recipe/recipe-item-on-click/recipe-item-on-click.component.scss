@@ -4,11 +4,11 @@
     align-items: center;
 }
 
-
 .content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    align-items: center;
 }
 
 img {
@@ -17,6 +17,12 @@ img {
     max-width: 60vw;
     opacity: 0.949999988079071;
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.116), 0px 6px 10px 4px rgba(0, 0, 0, 0.116);
+    border-radius: 5px;
+}
+
+img:hover {
+    transform: scale(1.075);
+    transition: 0.3s;
 }
 
 .spread-out {
@@ -26,10 +32,8 @@ img {
     align-items: center;
 }
 
-.img-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.mat-dialog-title {
+    margin-bottom: 0px;
 }
 
 button {
@@ -54,6 +58,37 @@ svg:hover {
     border-bottom: solid rgba(85, 85, 85, 0.705) 2px;
 }
 
+mat-accordion {
+    padding-bottom: 6px;
+    width: 60vw;
+    min-width: 150px;
+}
+
+.img-subtitle {
+    gap: 15px;
+    padding: 15px;
+}
+
+button {
+    border-radius: 3px;
+    width: 100%;
+    margin: 2px;
+}
+
+.buttons-container {
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons-container > div {
+    flex: 1;
+}
+
+.buttons-container div:nth-child(2) {
+    min-width: 50%;
+}
+
 @media screen and (min-width: 768px) {
     .content {
         flex-direction: row;
@@ -67,5 +102,22 @@ svg:hover {
     img {
         max-height: 60vh;
         width: 90%;
+    }
+
+    .img-subtitle {
+        gap: 25px;
+        padding: 30px;
+    }
+
+    button {
+        width: 200px;
+    }
+
+    .buttons-container > div {
+        flex: none;
+    }
+
+    .buttons-container div:nth-child(2) {
+        min-width: 0;
     }
 }
