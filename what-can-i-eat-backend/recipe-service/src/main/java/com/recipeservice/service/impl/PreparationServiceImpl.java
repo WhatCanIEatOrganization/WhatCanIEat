@@ -8,6 +8,7 @@ import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.PreparationStepRepository;
 import com.recipeservice.service.PreparationStepService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class PreparationServiceImpl implements PreparationStepService {
     }
 
     @Override
+    @Cacheable(value = "prepSteps", key = "#recipeId")
     public List<PreparationStepDto> getPreparationStepsByRecipeId(Integer recipeId) {
         List<PreparationStep> preparationSteps = preparationStepRepository.findByRecipeId(recipeId);
         return preparationSteps.stream().map(PreparationStepMapper::toDto).collect(Collectors.toList());
@@ -37,7 +39,6 @@ public class PreparationServiceImpl implements PreparationStepService {
         return preparationStepDto;
     }
 
-
     @Override
     public Optional<PreparationStepDto> updatePreparationStep(Integer preparationStepId, PreparationStepDto preparationStepDto) {
         return preparationStepRepository.findById(preparationStepId)
@@ -47,20 +48,9 @@ public class PreparationServiceImpl implements PreparationStepService {
                     return PreparationStepMapper.toDto(savedStep);
                 });
     }
-
     @Override
     public void deletePreparationStep(Integer stepId) {
         preparationStepRepository.deleteById(stepId);
-    }
-
-    @Override
-    public List<PreparationStepDto> savePreparationSteps(RecipeDto recipeDto, Recipe savedRecipe) {
-        recipeDto.preparationSteps().forEach(step -> {
-            PreparationStep stepEntity = PreparationStepMapper.toEntity(step);
-            stepEntity.setRecipe(savedRecipe);
-            preparationStepRepository.save(stepEntity);
-        });
-        return recipeDto.preparationSteps();
     }
 
     @Override
