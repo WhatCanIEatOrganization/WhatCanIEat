@@ -12,7 +12,7 @@ export class RecipesSearchDialogComponent implements OnInit {
   recipesFound!: RecipeItemApi[];
   recipesToShow!: RecipeItemApi[];
   beginningIndex: number = 0;
-  endIndex: number = 1;
+  endIndex: number = 0;
   offset: number = 0;
 
   constructor(
@@ -24,9 +24,11 @@ export class RecipesSearchDialogComponent implements OnInit {
     ]).subscribe((result: BreakpointState) => {
       if (result.matches) {
         this.offset = 3;
+        this.setBoundsOnScreenWidthChange();
         this.updateRecipesToShow();
       } else {
         this.offset = 1;
+        this.setBoundsOnScreenWidthChange();
         this.updateRecipesToShow();
       }
     });
@@ -35,10 +37,6 @@ export class RecipesSearchDialogComponent implements OnInit {
   ngOnInit(): void {
     this.recipesFound = this.data.recipesFound;
     this.updateRecipesToShow();
-  }
-
-  setEndIndex(): void {
-    this.endIndex <= this.recipesFound.length ? this.endIndex = this.beginningIndex + this.offset : this.endIndex = this.recipesFound.length;
   }
 
   lowerIndex(): void {
@@ -60,9 +58,29 @@ export class RecipesSearchDialogComponent implements OnInit {
     this.updateRecipesToShow();
   }
 
+  setBoundsOnScreenWidthChange(): void {
+    this.setEndIndex();
+    this.setBeginningIndex();
+  }
+
+  setEndIndex(): void {
+    this.endIndex = this.beginningIndex + this.offset;
+
+    if(this.recipesFound != null && this.endIndex > this.recipesFound.length) {
+      this.endIndex = this.recipesFound.length;
+    }
+  }
+
+  setBeginningIndex(): void {
+    this.beginningIndex = this.endIndex - this.offset;
+
+    if(this.recipesFound != null && this.beginningIndex < 0) {
+      this.beginningIndex = 0;
+    }
+  }
+
   updateRecipesToShow(): void {
     if(this.recipesFound != null) {
-      this.setEndIndex();
       this.recipesToShow = this.recipesFound.slice(this.beginningIndex, this.endIndex);
     };
   }
