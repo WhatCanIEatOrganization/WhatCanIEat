@@ -33,6 +33,7 @@ public class AddFridgeIngredientHandler implements RequestHandler<APIGatewayProx
         DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
         ingredientTable.putItem(ingredient);
         String responseBody = gson.toJson(ingredient);
+        context.getLogger().log("Add fridge ingredient with status 200");
         return new APIGatewayProxyResponseEvent()
                 .withStatusCode(200)
                 .withBody(responseBody)

@@ -37,6 +37,7 @@ public class ModifyFridgeIngredientHandler implements RequestHandler<APIGatewayP
             existingIngredient.setType(updatedIngredient.getType());
             ingredientTable.updateItem(existingIngredient);
             String responseBody = gson.toJson(existingIngredient);
+            context.getLogger().log("Modify fridge ingredient with status 200");
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
                     .withBody(responseBody)
