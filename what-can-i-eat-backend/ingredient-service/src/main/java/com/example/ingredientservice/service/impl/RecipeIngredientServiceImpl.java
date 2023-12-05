@@ -6,6 +6,7 @@ import com.example.ingredientservice.model.RecipeIngredient;
 import com.example.ingredientservice.repository.RecipeIngredientRepository;
 import com.example.ingredientservice.service.RecipeIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,11 +46,13 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
     }
 
     @Override
+    @Cacheable(value = "ingredients", key = "#ingredientId")
     public Optional<RecipeIngredientDto> getIngredientById(int ingredientId) {
         Optional<RecipeIngredient> ingredient = recipeIngredientRepository.findById(ingredientId);
         return ingredient.map(RecipeIngredientMapper::mapToDto);
     }
     @Override
+    @Cacheable(value = "recipeIngredients", key = "#ids.toString()")
     public List<RecipeIngredientDto> findIngredientsById(List<Integer> ids) {
         List<RecipeIngredient> recipeIngredients = recipeIngredientRepository.findAllById(ids);
         return recipeIngredients.stream().map(RecipeIngredientMapper::mapToDto).collect(Collectors.toList());
