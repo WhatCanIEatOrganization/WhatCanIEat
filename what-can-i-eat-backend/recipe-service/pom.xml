@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com</groupId>
 	<artifactId>recipe-service</artifactId>
@@ -56,11 +56,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
@@ -70,11 +65,6 @@
 			<version>2.0.4</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mvnsearch</groupId>
-			<artifactId>chatgpt-spring-boot-starter</artifactId>
-			<version>0.6.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
@@ -82,6 +72,11 @@
 			<groupId>io.awspring.cloud</groupId>
 			<artifactId>spring-cloud-starter-aws-secrets-manager-config</artifactId>
 			<version>2.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mvnsearch</groupId>
+			<artifactId>chatgpt-spring-boot-starter</artifactId>
+			<version>0.6.0</version>
 		</dependency>
 
 
@@ -98,20 +93,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>17</source> <!-- Zaktualizowane -->
-					<target>17</target> <!-- Zaktualizowane -->
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId> <!-- IMPORTANT - LOMBOK BEFORE MAPSTRUCT -->
-							<artifactId>lombok</artifactId>
-							<version>1.18.28</version>
-						</path>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>1.5.5.Final</version>
-						</path>
-					</annotationProcessorPaths>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 		</plugins>
