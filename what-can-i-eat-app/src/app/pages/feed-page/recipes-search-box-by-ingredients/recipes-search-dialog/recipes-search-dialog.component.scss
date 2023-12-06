@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 15px;
+    gap: 5px;
     padding: 10px;
 }
 
@@ -22,9 +22,10 @@ button {
     display: none;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 990px) {
     button {
         height: 130px;
+        width: 30px;
     }
 
     .container {
@@ -32,8 +33,8 @@ button {
         display: flex;
         flex-direction: row;
         overflow: hidden;
-        padding: 20px;
-        gap: 2vw;
+        padding: 5px;
+        gap: 8px;
     }
 
     .icon {

@@ -1,6 +1,7 @@
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CustomBreakpoints } from 'src/app/common/custom-breakpoints/custom-breakpoints';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 
 @Component({
@@ -19,24 +20,30 @@ export class RecipesSearchDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private breakpointObserver: BreakpointObserver,
   ) { 
-    this.breakpointObserver.observe([
-      "(min-width: 768px)"
-    ]).subscribe((result: BreakpointState) => {
-      if (result.matches) {
-        this.offset = 3;
-        this.setBoundsOnScreenWidthChange();
-        this.updateRecipesToShow();
-      } else {
-        this.offset = 1;
-        this.setBoundsOnScreenWidthChange();
-        this.updateRecipesToShow();
-      }
-    });
+    this.createLayoutObservables();
   }
 
   ngOnInit(): void {
     this.recipesFound = this.data.recipesFound;
     this.updateRecipesToShow();
+  }
+
+  private createLayoutObservables(): void {
+    this.changeLayoutOnScreenChange(1, [CustomBreakpoints.XSmall, CustomBreakpoints.Small]);
+    this.changeLayoutOnScreenChange(2, [CustomBreakpoints.Medium]);
+    this.changeLayoutOnScreenChange(3, [CustomBreakpoints.Large]);
+  }
+
+  private changeLayoutOnScreenChange(offset: number, breakpoints: string[]): void {
+    this.breakpointObserver.observe(
+      breakpoints
+    ).subscribe((result: BreakpointState) => {
+      if(result.matches) {
+        this.offset = offset;
+        this.setBoundsOnScreenWidthChange();
+        this.updateRecipesToShow();
+      }
+    });
   }
 
   lowerIndex(): void {
