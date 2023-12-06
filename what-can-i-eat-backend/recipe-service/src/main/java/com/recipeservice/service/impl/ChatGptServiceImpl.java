@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -41,13 +43,14 @@ public class ChatGptServiceImpl implements ChatGptService {
         this.restTemplate = restTemplate;
         this.recipeService = recipeService;
     }
+
     @Override
     public String buildPrompt(String ingredientsNames) {
         return String.format("Create a complete recipe in English using these ingredients: %s. " +
                 "Assume common spices and basic cooking ingredients are also available. " +
                 "The recipe format should be: " +
                 "Recipe Name: <Name>; " +
-                "Ingredients: 1. <Amount with unit> <Ingredient>, 2. <Amount with unit> <Ingredient>, etc.; " +
+                "Ingredients: 1. <Ingredient> - [Amount with unit], 2. <Ingredient> - [Amount with unit], etc.; " +
                 "Preparation Steps: 1. <Step>, 2. <Step>, etc.", ingredientsNames);
     }
 
@@ -74,6 +77,7 @@ public class ChatGptServiceImpl implements ChatGptService {
                 return Optional.empty();
             }
             String responseContent = response.getChoices().get(0).getMessage().getContent();
+            System.out.println(responseContent);
             String name = extractRecipeName(responseContent);
             List<IngredientDto> ingredients = extractIngredients(responseContent);
             List<PreparationStepDto> preparationSteps = extractPreparationSteps(responseContent);
@@ -105,11 +109,20 @@ public class ChatGptServiceImpl implements ChatGptService {
         }
         String ingredientsSection = responseContent.substring(ingredientsStartIndex, ingredientsEndIndex).trim();
         logger.info("Correct ingredients section");
+        Pattern pattern = Pattern.compile("(\\d+\\.\\s)([^-]+)\\s-\\s([^,]+)");
         return Arrays.stream(ingredientsSection.split("\n"))
                 .map(line -> {
-                    String[] parts = line.split("\\. ", 2);
-                    return new IngredientDto(null, parts[1].trim(), "", "", "");
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.find()) {
+                        String name = matcher.group(2).trim();
+                        String amountWithUnit = matcher.group(3).trim();
+                        return new IngredientDto(null, name, "", "", amountWithUnit);
+                    } else {
+                        logger.warn("Invalid ingredient format: " + line);
+                        return null;
+                    }
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
