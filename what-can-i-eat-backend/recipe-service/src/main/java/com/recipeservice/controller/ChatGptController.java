@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.recipeservice.config.RequestLimiter;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.service.ChatGptService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +31,10 @@ public class ChatGptController {
     }
 
     @PostMapping("/recipes/generate-recipe")
+    @Operation(
+            summary = "Generate a Recipe Using ChatGPT",
+            description = "Generates a recipe based on available ingredients using ChatGPT and returns the recipe details. Limits requests to prevent overload."
+    )
     public ResponseEntity<?> generateRecipe(HttpServletRequest request) {
         String clientIp = request.getRemoteAddr();
         if (!requestLimiter.isRequestAllowed(clientIp)) {

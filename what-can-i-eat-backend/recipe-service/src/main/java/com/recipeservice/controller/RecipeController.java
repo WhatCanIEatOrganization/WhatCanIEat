@@ -3,7 +3,6 @@ package com.recipeservice.controller;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +20,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
-@CrossOrigin
 public class RecipeController {
 
 
