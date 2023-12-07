@@ -8,11 +8,12 @@ import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.mapper.RecipeMapper;
 import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
-import com.recipeservice.service.PexelsService;
 import com.recipeservice.service.RecipeService;
 import com.recipeservice.service.RecipeTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
@@ -33,24 +34,21 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-
-
     private final RecipeRepository recipeRepository;
-    private final PexelsService pexelsService;
     private final RecipeTagService recipeTagService;
-    final WebClient webClient;
+    private final WebClient webClient;
 
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, PexelsService pexelsService, RecipeTagService recipeTagService, WebClient.Builder webClientBuilder,
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeTagService recipeTagService, WebClient.Builder webClientBuilder,
                              @Value("${ingredient.service.url}") String ingredientServiceUrl) {
         this.recipeRepository = recipeRepository;
-        this.pexelsService = pexelsService;
         this.recipeTagService = recipeTagService;
         this.webClient = webClientBuilder.baseUrl(ingredientServiceUrl).build();
     }
 
     @Override
+    @CachePut(value = "recipes", key = "#result.id")
     public RecipeDto addNewRecipe(CreateRecipeDto createRecipeDto) {
         Recipe newRecipe = RecipeMapper.createRecipeDtoToEntity(createRecipeDto);
         List<IngredientDto> addedIngredients = addIngredientsToIngredientService(createRecipeDto.ingredients());
@@ -106,6 +104,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CacheEvict(value = "recipes", allEntries = true)
     public void deleteRecipe(int recipeId) {
         recipeRepository.deleteById(recipeId);
     }
@@ -145,7 +144,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeDto> searchRecipesByFridgeIngredients() {
         List<String> ingredientsNames = getFridgeIngredientsNames().block();
-        System.out.println(ingredientsNames.size());
         List<Integer> recipeIds = recipeRepository.findRecipesByMatchingTags(ingredientsNames);
         return recipeRepository
                 .findAllById(recipeIds)
@@ -155,29 +153,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
 
-    private Mono<List<String>> getFridgeIngredientsNames(){
+    @Override
+    public Mono<List<String>> getFridgeIngredientsNames(){
         return this.webClient.get()
                 .uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")
                 .retrieve()
                 .bodyToFlux(JsonNode.class)
                 .map(jsonNode -> jsonNode.get("name").asText())
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Recipe> updateRecipeImages() {
-        List<Recipe> recipes = recipeRepository.findAll();
-        for (Recipe recipe : recipes) {
-            try {
-                String imageUrl = pexelsService.fetchImageForRecipe(recipe.getName()).block();
-                recipe.setImageUrl(imageUrl);
-                recipeRepository.save(recipe);
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        return recipes;
     }
 
 

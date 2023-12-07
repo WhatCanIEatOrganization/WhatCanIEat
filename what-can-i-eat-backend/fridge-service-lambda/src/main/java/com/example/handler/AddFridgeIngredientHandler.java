@@ -27,14 +27,25 @@ public class AddFridgeIngredientHandler implements RequestHandler<APIGatewayProx
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
-        Gson gson = new Gson();
-        Ingredient ingredient = gson.fromJson(request.getBody(), Ingredient.class);
-        DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
-        ingredientTable.putItem(ingredient);
-        String responseBody = gson.toJson(ingredient);
-        return new APIGatewayProxyResponseEvent()
-                .withStatusCode(200)
-                .withBody(responseBody)
-                .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
+        try {
+            Gson gson = new Gson();
+
+            Ingredient ingredient = gson.fromJson(request.getBody(), Ingredient.class);
+            context.getLogger().log("Ingredient id: " + ingredient.getId());
+            DynamoDbTable<Ingredient> ingredientTable = dbClient.table(tableName, ingredientTableSchema);
+            ingredientTable.putItem(ingredient);
+            String responseBody = gson.toJson(ingredient);
+            context.getLogger().log("Add fridge ingredient with status 200");
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(200)
+                    .withBody(responseBody)
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
+        } catch (Exception e) {
+            context.getLogger().log("Error occurred: " + e.getMessage());
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(500)
+                    .withBody("{\"error\":\"" + e.getMessage() + "\"}")
+                    .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
+        }
     }
 }

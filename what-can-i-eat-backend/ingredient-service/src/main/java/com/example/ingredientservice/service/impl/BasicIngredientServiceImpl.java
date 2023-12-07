@@ -6,6 +6,7 @@ import com.example.ingredientservice.model.BasicIngredient;
 import com.example.ingredientservice.repository.BasicIngredientRepository;
 import com.example.ingredientservice.service.BasicIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,23 +25,27 @@ public class BasicIngredientServiceImpl implements BasicIngredientService {
     }
 
     @Override
+    @Cacheable(value = "basicIngredients", key = "#id")
     public Optional<BasicIngredientDto> getBasicIngredientById(int id) {
-        Optional<BasicIngredient> ingredient = ingredientRepository.findById(id);
-        return ingredient.map(BasicIngredientMapper::entityToDto);
+        return ingredientRepository.findById(id)
+                .map(BasicIngredientMapper::entityToDto);
     }
 
     @Override
+    @Cacheable(value = "basicIngredients", key = "#name")
     public Optional<BasicIngredientDto> getBasicIngredientByName(String name) {
-        Optional<BasicIngredient> ingredient = ingredientRepository.findBasicIngredientByName(name);
-        return ingredient.map(BasicIngredientMapper::entityToDto);
+        return ingredientRepository.findBasicIngredientByName(name)
+                .map(BasicIngredientMapper::entityToDto);
     }
 
+
     @Override
+    @Cacheable(value = "basicIngredients", key = "'allIngredients'")
     public List<BasicIngredientDto> getAllBasicIngredients() {
-        return ingredientRepository
-                .findAll()
+        return ingredientRepository.findAll()
                 .stream()
                 .map(BasicIngredientMapper::entityToDto)
                 .collect(Collectors.toList());
     }
+
 }

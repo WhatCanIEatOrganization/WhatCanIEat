@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -126,15 +127,11 @@ public class RecipeController {
     }
 
     @GetMapping("/search/fridge-ingredients")
+    @Operation(summary = "Search recipes by fridge ingredients", description = "Retrieve a list of recipes that match the fridge ingredients. Recipes ordered by highest percentage of matching ingredients")
     public ResponseEntity<List<RecipeDto>> searchRecipesByFridgeIngredients(){
         logger.info("Attempting to retrieve recipes by fridge-ingredients");
         List<RecipeDto> recipes = recipeService.searchRecipesByFridgeIngredients();
         logger.info("Search recipes by fridge-ingredients successful");
         return new ResponseEntity<>(recipes, HttpStatus.OK);
-    }
-
-    @GetMapping("/addImages")
-    public List<Recipe> addImagesToRecipes() {
-        return recipeService.updateRecipeImages();
     }
 }

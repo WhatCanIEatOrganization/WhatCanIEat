@@ -18,9 +18,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     @Query("SELECT r FROM Recipe r LEFT JOIN FETCH r.preparationSteps LEFT JOIN FETCH r.tags WHERE r.id = :id")
     Optional<Recipe> findByIdWithRelations(@Param("id") Integer id);
 
-
-    @Query("SELECT r FROM Recipe r JOIN FETCH r.preparationSteps JOIN FETCH r.tags")
-    List<Recipe> findAllWithRelations();
     Page<Recipe> findAll(Pageable pageable);
 
 

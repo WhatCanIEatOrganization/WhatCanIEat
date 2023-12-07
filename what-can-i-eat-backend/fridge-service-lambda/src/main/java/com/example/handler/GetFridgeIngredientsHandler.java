@@ -40,6 +40,7 @@ public class GetFridgeIngredientsHandler implements RequestHandler<APIGatewayPro
                     .collect(Collectors.toList());
 
             String responseBody = gson.toJson(ingredients);
+            context.getLogger().log("Get fridge ingredients with status 200");
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
                     .withBody(responseBody)

@@ -38,8 +38,8 @@ public class RemoveFridgeIngredientHandler implements RequestHandler<APIGatewayP
                     .partitionValue(ingredientId)
                     .build();
             ingredientTable.deleteItem(key);
-            response.withStatusCode(200)
-                    .withBody("{\"message\":\"Ingredient removed successfully\"}");
+            context.getLogger().log("Delete fridge ingredient with status 204");
+            return response.withStatusCode(204);
         } catch (Exception e) {
             context.getLogger().log("Error occurred: " + e.getMessage());
             return new APIGatewayProxyResponseEvent()
@@ -47,6 +47,5 @@ public class RemoveFridgeIngredientHandler implements RequestHandler<APIGatewayP
                     .withBody("{\"error\":\"" + e.getMessage() + "\"}")
                     .withHeaders(Collections.singletonMap("Access-Control-Allow-Origin", "*"));
         }
-        return response;
     }
 }
