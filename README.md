@@ -1,7 +1,7 @@
 # What can I eat?
 
 ## About The Project
-**What can I eat?** is an application that allows users to explore recipes, search recipes based on ingredients, and manage their virtual fridge. It includes features like adding and modifying ingredients, and will soon support user authentication, GPT-chat-based recipe generation, and saving favorite recipes.
+**What can I eat?** is an application that allows users to explore recipes, search recipes based on ingredients, generate recipes with ChatGpt, and manage their virtual fridge. It includes features like adding and modifying ingredients, and will soon support user authentication and saving favorite recipes.
 
 
 
@@ -10,7 +10,7 @@ We're working on new features for the "What can I eat?" app:
 
 - Login/Registration: Users will be able to create their own accounts for a more personalized experience.
 
-- Generate a Recipe using OpenAI from Ingredients in Your Fridge: Utilizing AI to offer recipe suggestions based on what's in your fridge.
+- Diet generator: Generate diet using OpenAI.
 
 - Save Your Favorite Recipes: A feature for users to save and easily access their favorite recipes.
 
