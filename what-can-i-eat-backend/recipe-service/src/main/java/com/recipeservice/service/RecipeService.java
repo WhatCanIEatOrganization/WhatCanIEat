@@ -3,7 +3,6 @@ package com.recipeservice.service;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.model.Recipe;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Mono;
 

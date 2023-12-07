@@ -16,7 +16,6 @@ public class RecipeIngredientMapper {
 
     public static RecipeIngredient mapToEntity(RecipeIngredientDto recipeIngredientDto){
         RecipeIngredient recipeIngredient = new RecipeIngredient();
-        recipeIngredient.setId(recipeIngredientDto.id());
         recipeIngredient.setName(recipeIngredientDto.name());
         recipeIngredient.setDescription(recipeIngredientDto.description());
         recipeIngredient.setAmountWithUnit(recipeIngredientDto.amountWithUnit());

@@ -77,7 +77,7 @@ public class ChatGptServiceImpl implements ChatGptService {
                 return Optional.empty();
             }
             String responseContent = response.getChoices().get(0).getMessage().getContent();
-            System.out.println(responseContent);
+            logger.info("Response content: " + responseContent);
             String name = extractRecipeName(responseContent);
             List<IngredientDto> ingredients = extractIngredients(responseContent);
             List<PreparationStepDto> preparationSteps = extractPreparationSteps(responseContent);
