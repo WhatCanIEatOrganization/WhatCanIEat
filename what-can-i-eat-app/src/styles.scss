@@ -69,7 +69,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .custom-modalbox > mat-dialog-container {
-  padding: 0;
+  padding: 30px 2px 30px 2px;
+  background-color: #3a7575;
 }
 
 .title {

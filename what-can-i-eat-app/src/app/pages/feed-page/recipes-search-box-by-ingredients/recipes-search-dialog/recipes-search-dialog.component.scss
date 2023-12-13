@@ -7,9 +7,9 @@
 }
 
 button {
-    background-color: #50A4A4;
+    background-color: white;
     border-radius: 100px;
-    color: #FFFFFF;
+    color: #3a7575;
     height: 50px;
 }
 
@@ -22,9 +22,20 @@ button {
     display: none;
 }
 
-@media screen and (min-width: 768px) {
+.buttons-container {
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons-container > button {
+    width: 100%;
+}
+
+@media screen and (min-width: 990px) {
     button {
         height: 130px;
+        width: 30px;
     }
 
     .container {
@@ -32,8 +43,8 @@ button {
         display: flex;
         flex-direction: row;
         overflow: hidden;
-        padding: 20px;
-        gap: 2vw;
+        padding: 5px;
+        gap: 8px;
     }
 
     .icon {
