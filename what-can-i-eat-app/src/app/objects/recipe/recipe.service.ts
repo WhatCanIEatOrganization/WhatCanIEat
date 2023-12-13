@@ -5,6 +5,7 @@ import { Recipe } from 'src/app/model/recipe/recipe';
 import { environment } from 'src/environments/environment';
 import { RecipeItemApi } from './recipe-item-api/recipe-item-api';
 import { UserRecipe } from './user-recipe/user-recipe';
+import { Ingredient } from '../ingredient/ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,9 @@ export class RecipeService {
     ingredients = ingredients.append("ingredients", searchFor.join(', '));
 
     return this.http.get<RecipeItemApi[]>(`${this.apiURL}/v1/recipes/search`, {params:ingredients});
+  }
+
+  generateRecipeByIngredients(ingList: Ingredient[]): Observable<RecipeItemApi> {
+    return this.http.post<RecipeItemApi>(`${this.apiURL}/v1/recipes/generate-recipe`, ingList);
   }
 }

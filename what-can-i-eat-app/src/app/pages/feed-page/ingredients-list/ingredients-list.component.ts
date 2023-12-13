@@ -7,6 +7,9 @@ import { IngredientService } from 'src/app/objects/ingredient/ingredient.service
 import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Ingredient } from 'src/app/objects/ingredient/ingredient';
+import { RecipeDetailsDialogService } from 'src/app/objects/recipe/recipe-details-dialog.service';
+import { RecipeService } from 'src/app/objects/recipe/recipe.service';
+import { FeedPageService } from '../feed-page.service';
 
 
 @Component({
@@ -22,7 +25,10 @@ export class IngredientsListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private ingredientService: IngredientService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private recipeDetailsDialogService: RecipeDetailsDialogService,
+    private recipeService: RecipeService,
+    private feedPageService: FeedPageService,
   ) { }
 
   ngOnInit(): void {
@@ -96,5 +102,18 @@ export class IngredientsListComponent implements OnInit {
         message: `Ingredient ${objectName} has been ${operationType}!`
       }
     });
+  }
+
+  generateRecipe(): void {
+    this.feedPageService.contentLoadingObservable.next(true);
+    this.recipeService.generateRecipeByIngredients(this.ingredientList).subscribe({
+      next: (val) => {
+        this.recipeDetailsDialogService.showRecipeDetailsDialog(val);
+        this.feedPageService.contentLoadingObservable.next(false);
+      },
+      error: () => {
+
+      }
+    })
   }
 }

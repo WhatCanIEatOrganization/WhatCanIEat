@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/objects/ingredient/ingredient';
+import { FeedPageService } from './feed-page.service';
 
 @Component({
   selector: 'app-feed-page',
@@ -12,12 +13,16 @@ export class FeedPageComponent implements OnInit {
   secondStep = false;
   amount = 1;
   type = "gram";
+  isFeedPageContentLoading: boolean = false;
 
   constructor(
-  ) { }
+    private feedPageService: FeedPageService,
+  ) {
+
+   }
 
   ngOnInit(): void {
-
+    this.feedPageService.contentLoadingObservable.subscribe(val => this.isFeedPageContentLoading = val);
   }
 
   public onAddIngredient(): void {

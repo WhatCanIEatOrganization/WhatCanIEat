@@ -1,4 +1,4 @@
-<div class="main-container center-col">
+<div class="main-container center-col" *ngIf="!isFeedPageContentLoading">
   <div>
     <app-recipes-search-box-by-ingredients></app-recipes-search-box-by-ingredients>
   </div>
@@ -22,3 +22,8 @@
     <app-advert-banner></app-advert-banner>
   </div>
 </div>
+
+<div class="spinner" *ngIf="isFeedPageContentLoading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>  
+

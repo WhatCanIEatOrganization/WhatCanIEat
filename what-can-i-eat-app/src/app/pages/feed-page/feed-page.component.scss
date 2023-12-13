@@ -30,6 +30,13 @@
   flex-direction: column;
 }
 
+.spinner {
+  z-index: 999;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
 @media screen and (min-width: 768px) {
   .homepage-row {
     flex-direction: row;

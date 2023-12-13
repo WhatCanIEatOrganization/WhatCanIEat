@@ -23,7 +23,7 @@
             </button>
         </div>
         <div class="center">
-            <button mat-raised-button color="secondary" [disabled]="ingredientsListEmpty">Generate Recipe <mat-icon>change_circle</mat-icon></button>
+            <button mat-raised-button color="secondary" [disabled]="ingredientsListEmpty" (click)="generateRecipe()">Generate Recipe <mat-icon>change_circle</mat-icon></button>
         </div>  
     </div>
 </div>
