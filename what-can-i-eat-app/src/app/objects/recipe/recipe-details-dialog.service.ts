@@ -13,10 +13,11 @@ export class RecipeDetailsDialogService {
     private dialog: MatDialog,
   ) { }
 
-  showRecipeDetailsDialog(recipe: Recipe | RecipeItemApi): void {
+  showRecipeDetailsDialog(recipe: Recipe | RecipeItemApi, isChatGptGenerated: boolean): void {
     const dialogRef = this.dialog.open(RecipeItemOnClickComponent, {
       data: {
-        recipe: recipe
+        recipe: recipe,
+        isChatGptGenerated: isChatGptGenerated
       }
     });
   }

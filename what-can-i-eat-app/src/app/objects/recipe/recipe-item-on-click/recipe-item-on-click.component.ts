@@ -5,6 +5,9 @@ import { RecipeService } from '../recipe.service';
 import { IngredientService } from '../../ingredient/ingredient.service';
 import { Ingredient } from '../../ingredient/ingredient';
 import { Recipe } from '../models/recipe/recipe';
+import { UserRecipe } from '../user-recipe/user-recipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarSuccessComponent } from 'src/app/common/dialog/snackbar-success/snackbar-success.component';
 
 @Component({
   selector: 'app-recipe-item-on-click',
@@ -16,11 +19,13 @@ export class RecipeItemOnClickComponent implements OnInit {
   panelOpenState = false;
   ingredients!: Ingredient[];
   hasImage!: boolean;
+  showSaveButton!: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private recipeService: RecipeService,
     private ingredientService: IngredientService,
+    private _snackBar: MatSnackBar,
   ) {
 
    }
@@ -28,6 +33,7 @@ export class RecipeItemOnClickComponent implements OnInit {
   ngOnInit(): void {
     this.getRecipeIngredients();
     this.hasImage = this.recipe.imageUrl != null && this.recipe.imageUrl != "";
+    this.showSaveButton = this.data.isChatGptGenerated;
   }
 
   getRecipeIngredients(): void {
@@ -40,6 +46,33 @@ export class RecipeItemOnClickComponent implements OnInit {
     } else {
       this.ingredients = this.data.recipe.ingredients;
     }
+  }
+
+  saveRecipe(): void {
+    let recipe: Recipe = this.data.recipe;
+
+    let userRecipe: UserRecipe = {
+      ...recipe,
+    }
+
+    this.recipeService.createRecipe(userRecipe).subscribe({
+      next: (value: UserRecipe) => {
+        console.log(value);
+        this.openSnackbar("Recipe " + value.name + " has been created succesfully!");
+        this.showSaveButton = false;
+      },
+      error: () => {
+        this.openSnackbar("While creating recipe " + recipe.name + " something went wrong, please try again!");
+      }
+    });
+  }
+
+  private openSnackbar(messageToShow: String): void {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      data: {
+        message: messageToShow
+      }
+    });
   }
 
   public toggleFavorite(): void {

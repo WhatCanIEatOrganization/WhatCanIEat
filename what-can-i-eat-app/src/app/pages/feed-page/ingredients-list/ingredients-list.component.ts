@@ -116,7 +116,7 @@ export class IngredientsListComponent implements OnInit {
     this.feedPageService.contentLoadingObservable.next(true);
     this.recipeService.generateRecipeByIngredients(this.ingredientList).pipe().subscribe({
       next: (val) => {
-        this.recipeDetailsDialogService.showRecipeDetailsDialog(val);
+        this.recipeDetailsDialogService.showRecipeDetailsDialog(val, true);
         this.feedPageService.contentLoadingObservable.next(false);
       },
       error: () => {

@@ -25,6 +25,6 @@ export class RecipeFavoriteItemComponent implements OnInit {
   }
 
   onRecipeCardClick(): void {
-    this.recipeDialogService.showRecipeDetailsDialog(this.recipe);
+    this.recipeDialogService.showRecipeDetailsDialog(this.recipe, false);
   }
 }

@@ -30,7 +30,7 @@ export class RecipeItemCardComponent implements OnInit {
   }
 
   onRecipeCardClick(): void {
-    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe);
+    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe, false);
   }
 
   
