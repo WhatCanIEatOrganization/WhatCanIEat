@@ -76,21 +76,4 @@ export class RecipeService {
 
       return EMPTY;
     }))}
-
-    convertToRecipeObject(recipeItemApi: RecipeItemApi): Recipe {
-      let ingredients: Ingredient[] = [];
-
-      this.ingredientService.getIngredientsByIds(recipeItemApi.ingredients).subscribe({
-        next: (val) => {
-          ingredients = val;
-        }
-      })
-
-      let recipe: Recipe = {
-        ...recipeItemApi, 
-        ingredients: ingredients
-      }
-
-      return recipe;
-    }
 }

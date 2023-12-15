@@ -12,7 +12,7 @@ import { Recipe } from '../models/recipe/recipe';
   styleUrls: ['./recipe-item-on-click.component.scss']
 })
 export class RecipeItemOnClickComponent implements OnInit {
-  recipe: Recipe = this.data.recipe;
+  recipe: Recipe | RecipeItemApi = this.data.recipe;
   panelOpenState = false;
   ingredients!: Ingredient[];
   hasImage!: boolean;
@@ -26,19 +26,21 @@ export class RecipeItemOnClickComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // this.getRecipeIngredients();
+    this.getRecipeIngredients();
     this.hasImage = this.recipe.imageUrl != null && this.recipe.imageUrl != "";
   }
 
   getRecipeIngredients(): void {
-    console.log(this.data.recipe.ingredients);
-
-    console.log(typeof this.data.recipe.ingredients)
-    // this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
-    //   next: (val) => {
-    //     this.ingredients = val;
-    //   }
-    // })
+    if(typeof this.recipe.ingredients[0] === 'number') {
+          this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
+      next: (val) => {
+        this.ingredients = val;
+        console.log(this.ingredients);
+        }
+      })
+    } else {
+      this.ingredients = this.data.recipe.ingredients;
+    }
   }
 
   public toggleFavorite(): void {

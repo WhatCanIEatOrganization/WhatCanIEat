@@ -33,8 +33,8 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div >
-              <ul *ngFor="let ing of this.data.recipe.ingredients">
-                  <li>{{ing.name}} {{ing.amountWithUnit}}</li>
+              <ul *ngFor="let ing of ingredients">
+                  <li>{{ing.amountWithUnit}} {{ing.name}}</li>
               </ul>
             </div>
           </mat-expansion-panel>

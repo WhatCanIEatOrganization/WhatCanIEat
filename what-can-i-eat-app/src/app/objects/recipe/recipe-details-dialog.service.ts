@@ -13,7 +13,7 @@ export class RecipeDetailsDialogService {
     private dialog: MatDialog,
   ) { }
 
-  showRecipeDetailsDialog(recipe: Recipe): void {
+  showRecipeDetailsDialog(recipe: Recipe | RecipeItemApi): void {
     const dialogRef = this.dialog.open(RecipeItemOnClickComponent, {
       data: {
         recipe: recipe
