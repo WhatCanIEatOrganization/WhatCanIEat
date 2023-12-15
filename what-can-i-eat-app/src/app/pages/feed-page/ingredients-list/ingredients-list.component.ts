@@ -104,15 +104,24 @@ export class IngredientsListComponent implements OnInit {
     });
   }
 
+  private openSnackbarError(messageToShow: String): void {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      data: {
+        message: messageToShow
+      }
+    });
+  }
+
   generateRecipe(): void {
     this.feedPageService.contentLoadingObservable.next(true);
-    this.recipeService.generateRecipeByIngredients(this.ingredientList).subscribe({
+    this.recipeService.generateRecipeByIngredients(this.ingredientList).pipe().subscribe({
       next: (val) => {
         this.recipeDetailsDialogService.showRecipeDetailsDialog(val);
         this.feedPageService.contentLoadingObservable.next(false);
       },
       error: () => {
-
+        this.feedPageService.contentLoadingObservable.next(false);
+        this.openSnackbarError("We couldn't generate recipe please try again in a while!");
       }
     })
   }

@@ -35,7 +35,6 @@ export class RecipeItemOnClickComponent implements OnInit {
           this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
       next: (val) => {
         this.ingredients = val;
-        console.log(this.ingredients);
         }
       })
     } else {

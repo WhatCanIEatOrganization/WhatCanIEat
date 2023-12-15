@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, catchError, from, map, of } from 'rxjs';
+import { EMPTY, Observable, catchError, from, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RecipeItemApi } from './recipe-item-api/recipe-item-api';
 import { UserRecipe } from './user-recipe/user-recipe';
@@ -65,7 +65,6 @@ export class RecipeService {
   generateRecipeByIngredients(ingList: Ingredient[]): Observable<Recipe> {
         return this.recipeGatewayService.generateRecipeByIngredients(ingList).pipe(map(
       (val) => {
-        console.log(val);
         let recipe: Recipe = {
           ...val
         }
@@ -73,7 +72,7 @@ export class RecipeService {
       }
     ),
     catchError((err, caught) => {
-
-      return EMPTY;
-    }))}
+      return throwError(err)
+    }),
+)}
 }
