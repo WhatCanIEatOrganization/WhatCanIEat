@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, from, of } from 'rxjs';
-import { Recipe } from 'src/app/model/recipe/recipe';
+import { EMPTY, Observable, catchError, from, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RecipeItemApi } from './recipe-item-api/recipe-item-api';
 import { UserRecipe } from './user-recipe/user-recipe';
 import { Ingredient } from '../ingredient/ingredient';
+import { RecipeGatewayService } from './recipe-gateway.service';
+import { Recipe } from './models/recipe/recipe';
+import { IngredientService } from '../ingredient/ingredient.service';
+import { RecipeOld } from 'src/app/model/recipe/recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,8 @@ export class RecipeService {
 
   constructor(
     private http: HttpClient,
+    private recipeGatewayService: RecipeGatewayService,
+    private ingredientService: IngredientService
     ) { }
 
   getRecipeList(): Observable<RecipeItemApi[]> {
@@ -34,16 +39,16 @@ export class RecipeService {
     return this.http.post<UserRecipe>(`${this.apiURL}/v1/recipes`, recipe);
   }
 
-  modifyRecipe(recipe: RecipeItemApi): Observable<RecipeItemApi> {
-    return this.http.patch<RecipeItemApi>(`${this.apiURL}/recipe`, recipe);
+  modifyRecipe(recipe: RecipeOld): Observable<RecipeOld> {
+    return this.http.patch<RecipeOld>(`${this.apiURL}/recipe`, recipe);
   }
 
   getRandomRecipe(): Observable<RecipeItemApi> {
     return this.http.get<RecipeItemApi>(`${this.apiURL}//v1/recipes/rng`);
   }
 
-  getRecipeById(recipeId: number): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiURL}/recipe/${recipeId}`);
+  getRecipeById(recipeId: number): Observable<RecipeOld> {
+    return this.http.get<RecipeOld>(`${this.apiURL}/recipe/${recipeId}`);
   }
 
   getFavoriteRecipes(): Observable<RecipeItemApi[]> {
@@ -57,7 +62,35 @@ export class RecipeService {
     return this.http.get<RecipeItemApi[]>(`${this.apiURL}/v1/recipes/search`, {params:ingredients});
   }
 
-  generateRecipeByIngredients(ingList: Ingredient[]): Observable<RecipeItemApi> {
-    return this.http.post<RecipeItemApi>(`${this.apiURL}/v1/recipes/generate-recipe`, ingList);
-  }
+  generateRecipeByIngredients(ingList: Ingredient[]): Observable<Recipe> {
+        return this.recipeGatewayService.generateRecipeByIngredients(ingList).pipe(map(
+      (val) => {
+        console.log(val);
+        let recipe: Recipe = {
+          ...val
+        }
+        return recipe;
+      }
+    ),
+    catchError((err, caught) => {
+
+      return EMPTY;
+    }))}
+
+    convertToRecipeObject(recipeItemApi: RecipeItemApi): Recipe {
+      let ingredients: Ingredient[] = [];
+
+      this.ingredientService.getIngredientsByIds(recipeItemApi.ingredients).subscribe({
+        next: (val) => {
+          ingredients = val;
+        }
+      })
+
+      let recipe: Recipe = {
+        ...recipeItemApi, 
+        ingredients: ingredients
+      }
+
+      return recipe;
+    }
 }

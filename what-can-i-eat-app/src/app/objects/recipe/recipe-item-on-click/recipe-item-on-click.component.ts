@@ -4,6 +4,7 @@ import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-ite
 import { RecipeService } from '../recipe.service';
 import { IngredientService } from '../../ingredient/ingredient.service';
 import { Ingredient } from '../../ingredient/ingredient';
+import { Recipe } from '../models/recipe/recipe';
 
 @Component({
   selector: 'app-recipe-item-on-click',
@@ -11,7 +12,7 @@ import { Ingredient } from '../../ingredient/ingredient';
   styleUrls: ['./recipe-item-on-click.component.scss']
 })
 export class RecipeItemOnClickComponent implements OnInit {
-  recipe: RecipeItemApi = this.data.recipe;
+  recipe: Recipe = this.data.recipe;
   panelOpenState = false;
   ingredients!: Ingredient[];
   hasImage!: boolean;
@@ -25,28 +26,31 @@ export class RecipeItemOnClickComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getRecipeIngredients();
-    this.hasImage = this.recipe.imageUrl != null;
+    // this.getRecipeIngredients();
+    this.hasImage = this.recipe.imageUrl != null && this.recipe.imageUrl != "";
   }
 
   getRecipeIngredients(): void {
-    this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
-      next: (val) => {
-        this.ingredients = val;
-      }
-    })
+    console.log(this.data.recipe.ingredients);
+
+    console.log(typeof this.data.recipe.ingredients)
+    // this.ingredientService.getIngredientsByIds(this.data.recipe.ingredients).subscribe({
+    //   next: (val) => {
+    //     this.ingredients = val;
+    //   }
+    // })
   }
 
   public toggleFavorite(): void {
     this.recipe.favorite ? this.recipe.favorite = false : this.recipe.favorite = true;
-    this.recipeService.modifyRecipe(this.recipe).subscribe({
-      next: (recipe) => {
-        this.recipe = recipe;
-      },
-      error: (error) => {
+    // this.recipeService.modifyRecipe(this.recipe).subscribe({
+    //   next: (recipe) => {
+    //     this.recipe = recipe;
+    //   },
+    //   error: (error) => {
 
-      }
-    })
+    //   }
+    // })
   }
 
 }

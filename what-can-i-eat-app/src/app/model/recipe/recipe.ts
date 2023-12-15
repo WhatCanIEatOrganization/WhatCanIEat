@@ -1,6 +1,7 @@
 import { Ingredient } from "src/app/objects/ingredient/ingredient";
 
-export interface Recipe {
+// to be removed later
+export interface RecipeOld {
     id?: number;
     name: string;
     description: string;
