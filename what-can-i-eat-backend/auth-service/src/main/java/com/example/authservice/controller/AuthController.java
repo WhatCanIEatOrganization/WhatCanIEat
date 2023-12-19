@@ -3,6 +3,8 @@ package com.example.authservice.controller;
 import com.example.authservice.dto.AuthRequestDto;
 import com.example.authservice.entity.UserCredential;
 import com.example.authservice.service.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,12 +26,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String getToken(@RequestBody AuthRequestDto authRequestDto) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getUsername(), authRequestDto.getPassword()));
+    public String getToken(@RequestBody AuthRequestDto authRequestDto, HttpServletResponse response) {
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequestDto.getUsername(), authRequestDto.getPassword())
+        );
+
         if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequestDto.getUsername());
+            String jwt = service.generateToken(authRequestDto.getUsername());
+            Cookie cookie = new Cookie("jwt", jwt);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return "Logged in successfully";
         } else {
-            throw new RuntimeException("invalid access");
+            throw new RuntimeException("Invalid access");
         }
     }
 
