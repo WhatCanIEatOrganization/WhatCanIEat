@@ -3,44 +3,30 @@ package com.example.authservice.controller;
 import com.example.authservice.dto.AuthRequestDto;
 import com.example.authservice.entity.UserCredential;
 import com.example.authservice.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v3/auth")
 public class AuthController {
-    @Autowired
-    private AuthService service;
+
+
+    private final AuthService service;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public AuthController(AuthService service) {
+        this.service = service;
+    }
 
     @PostMapping("/register")
-    public String addNewUser(@RequestBody UserCredential user) {
+    public String register(@RequestBody UserCredential user) {
         return service.saveUser(user);
     }
 
     @PostMapping("/login")
-    public String getToken(@RequestBody AuthRequestDto authRequestDto, HttpServletResponse response) {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequestDto.getUsername(), authRequestDto.getPassword())
-        );
-
-        if (authenticate.isAuthenticated()) {
-            String jwt = service.generateToken(authRequestDto.getUsername());
-            Cookie cookie = new Cookie("jwt", jwt);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            return "Logged in successfully";
-        } else {
-            throw new RuntimeException("Invalid access");
-        }
+    public String login(@RequestBody AuthRequestDto authRequestDto, HttpServletResponse response) {
+        return service.login(authRequestDto, response);
     }
 
     @GetMapping("/validate")

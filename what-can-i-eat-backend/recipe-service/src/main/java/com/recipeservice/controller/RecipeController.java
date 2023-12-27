@@ -32,6 +32,11 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+
+    @GetMapping("/test")
+    public String test(){
+        return "success";
+    }
     @PostMapping
     @Operation(summary = "Create a new recipe", description = "Add a new recipe to the system and return the saved recipe details.")
     public ResponseEntity<RecipeDto> addNewRecipe(@RequestBody CreateRecipeDto recipeDto) {

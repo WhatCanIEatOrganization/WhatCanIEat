@@ -9,11 +9,13 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
 
     private String username;
+    private String email;
     private String password;
 
     public CustomUserDetails(UserCredential userCredential) {
         this.username = userCredential.getName();
         this.password = userCredential.getPassword();
+        this.email = userCredential.getEmail();
     }
 
     @Override
@@ -30,6 +32,8 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public String getEmail() {return email;}
 
     @Override
     public boolean isAccountNonExpired() {

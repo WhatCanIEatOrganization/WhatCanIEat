@@ -28,7 +28,14 @@ public class AuthConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/validate").permitAll()
+                        .requestMatchers(
+                                "/api/v3/auth/register",
+                                "/api/v3/auth/login",
+                                "/api/v3/auth/validate",
+                                "/api/v3/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/v3/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/prep-steps")
-@CrossOrigin
 public class PreparationStepController {
 
     private static final Logger logger = LoggerFactory.getLogger(PreparationStepController.class);
