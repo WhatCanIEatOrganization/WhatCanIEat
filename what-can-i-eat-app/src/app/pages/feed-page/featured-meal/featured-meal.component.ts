@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Recipe } from 'src/app/model/recipe/recipe';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RecipeItemOnClickComponent } from '../../../objects/recipe/recipe-item-on-click/recipe-item-on-click.component';
@@ -57,6 +56,6 @@ export class FeaturedMealComponent implements OnInit {
   }
 
   onRecipeCardClick(): void {
-    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe);
+    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe, false);
   }
 }

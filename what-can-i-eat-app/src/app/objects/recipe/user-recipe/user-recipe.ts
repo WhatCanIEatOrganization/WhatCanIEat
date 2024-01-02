@@ -4,7 +4,7 @@ import { PreparationStep } from "../../preparation-steps/preparation-step"
 export interface UserRecipe {
     name: string,
     description: string,
-    favorite: true,
+    favorite: boolean,
     source: string,
     preptime: number,
     imageUrl: string,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MeasureUnit } from 'src/app/enums/MeasureUnit';
-import { Recipe } from 'src/app/model/recipe/recipe';
+import { RecipeOld } from 'src/app/model/recipe/recipe';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 import { IngredientService } from 'src/app/objects/ingredient/ingredient.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +11,7 @@ import { CustomBreakpoints } from 'src/app/common/custom-breakpoints/custom-brea
 import { UserRecipe } from 'src/app/objects/recipe/user-recipe/user-recipe';
 import { PreparationStep } from 'src/app/objects/preparation-steps/preparation-step';
 import { Ingredient } from 'src/app/objects/ingredient/ingredient';
+import { Recipe } from 'src/app/objects/recipe/models/recipe/recipe';
 
 @Component({
   selector: 'app-recipe-creator',
@@ -63,7 +64,7 @@ export class RecipeCreatorComponent implements OnInit {
     });
   }
 
-  setFormsWithRecipeInfo(recipe: Recipe): void {
+  setFormsWithRecipeInfo(recipe: RecipeOld): void {
     this.generalInformationForm.setValue({
       recipeName: recipe.name,
       description: recipe.description,

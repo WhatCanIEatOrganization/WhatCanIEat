@@ -34,7 +34,7 @@
             </mat-expansion-panel-header>
             <div >
               <ul *ngFor="let ing of ingredients">
-                  <li>{{ing.name}}</li>
+                  <li>{{ing.amountWithUnit}} {{ing.name}}</li>
               </ul>
             </div>
           </mat-expansion-panel>
@@ -54,6 +54,9 @@
     <mat-dialog-actions class="flex-row buttons-container">
         <div>
             <button mat-raised-button color="secondary" [disabled]="true">Prepare recipe</button>
+        </div>
+        <div *ngIf="showSaveButton">
+          <button mat-raised-button color="secondary" (click)="saveRecipe()">Save Recipe</button>
         </div>
         <div> 
             <button mat-raised-button mat-dialog-close>Close</button>

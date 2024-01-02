@@ -30,7 +30,7 @@ export class RecipeItemCardComponent implements OnInit {
   }
 
   onRecipeCardClick(): void {
-    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe);
+    this.recipeDetailsDialogService.showRecipeDetailsDialog(this.recipe, false);
   }
 
   
@@ -65,14 +65,14 @@ export class RecipeItemCardComponent implements OnInit {
 
   public toggleFavorite(): void {
     this.recipe.favorite ? this.recipe.favorite = false : this.recipe.favorite = true;
-    this.recipeService.modifyRecipe(this.recipe).subscribe({
-      next: (recipe) => {
-        this.recipe = recipe;
-      },
-      error: () => {
-        console.log("Something went wrong");
-      }
-    })
+    // this.recipeService.modifyRecipe(this.recipe).subscribe({
+    //   next: (recipe) => {
+    //     this.recipe = recipe;
+    //   },
+    //   error: () => {
+    //     console.log("Something went wrong");
+    //   }
+    // })
   }
 
   setPreparationTime(): string {

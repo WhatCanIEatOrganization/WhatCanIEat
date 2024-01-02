@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from 'src/app/model/recipe/recipe';
 import { RecipeItemApi } from 'src/app/objects/recipe/recipe-item-api/recipe-item-api';
 import { RecipeService } from 'src/app/objects/recipe/recipe.service';
 
