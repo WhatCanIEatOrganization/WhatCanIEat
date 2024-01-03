@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-box-by-ingredients/recipes-search-dialog/recipes-search-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FooterComponent } from './common/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     DailyTipComponent,
     RecipesSearchBoxByIngredientsComponent,
     RecipesSearchDialogComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
