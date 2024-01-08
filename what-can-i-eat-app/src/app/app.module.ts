@@ -39,6 +39,7 @@ import { RecipesSearchDialogComponent } from './pages/feed-page/recipes-search-b
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FooterComponent } from './common/footer/footer.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { FooterComponent } from './common/footer/footer.component';
     MatAutocompleteModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatTooltipModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
