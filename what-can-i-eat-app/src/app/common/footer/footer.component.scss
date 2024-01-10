@@ -2,17 +2,16 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+    min-width: 300px;
     background-color: #3a7575;
     color: #FFFFFF;
+    
 }
 
 .f-content {
-    margin: 7px;
-    gap: 4vw
-}
-
-.f-logo-desc {
-    max-width: 30vw;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .f-logo {
@@ -28,16 +27,17 @@
     line-height: 1.5;
     letter-spacing: 1.24px;
     text-align: center;
+    text-wrap:balance;
 }
 
 .f-links {
     font-size: 1.3rem;
     letter-spacing: 0.20em;
-    gap: 1.5vw;
+    gap: 10px;
 }
 
 .f-svg {
-    gap: 1.5vw;
+    gap: 10px;
 }
 
 a {
@@ -51,4 +51,25 @@ a {
   
 a:hover {
     text-decoration-color:  #ffffff;
+}
+
+@media screen and (min-width: 672px) {
+    .f-content {
+        margin: 7px;
+        gap: 4vw;
+        flex-direction: row;
+    }
+
+    .f-logo-desc {
+        max-width: 50%;
+    }
+
+}
+
+
+@media screen and (min-width: 990px) {
+    .f-logo-desc {
+        max-width: 600px;
+    }
+
 }
