@@ -38,6 +38,13 @@ $what-can-i-eat-app-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+app-root {
+  min-height: calc(100% - 280px); // minus footer height
+  padding-bottom: 280px; // height of the footer
+  display: block;
+  position: relative;
+
+}
 
 .dialog-no-padding .mat-dialog-container {
   padding: 0;
@@ -95,4 +102,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transform: scale(1.01);
   transition-duration: 0.15s;
   box-shadow: 0px 1px 2px 0px #3a7575, 0px 1px 8px 1px #3a7575;
+}
+
+@media screen and (min-width: 672px) {
+  app-root {
+    min-height: calc(100% - 160px); // minus footer height
+    padding-bottom: 160px; // height of the footer
+  }
+
+}
+
+
+@media screen and (min-width: 990px) {
+  app-root {
+    min-height: calc(100% - 130px); // minus footer height
+    padding-bottom: 130px; // height of the footer
+  }
 }
