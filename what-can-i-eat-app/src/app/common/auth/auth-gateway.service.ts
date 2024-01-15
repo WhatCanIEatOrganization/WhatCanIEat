@@ -16,13 +16,13 @@ export class AuthGatewayService {
 
   register(): Observable<UserCredentials> {
     let userCredentials: UserCredentials = {
-      id: 99,
+      id: 0,
       name: "janek",
       email: "janek99@wp.pl",
       password: "haslojanka103"
     }
 
     console.log(userCredentials);
-    return this.http.post<UserCredentials>(`${this.apiURL}/v3/auth/validate`, userCredentials);
+    return this.http.post<UserCredentials>(`${this.apiURL}/v3/auth/register`, userCredentials);
   }
 }
