@@ -1,0 +1,39 @@
+<div class="center-in-row flex-row container">
+    <div class="content box-shadow flex-col center">
+        <div class="title">
+            <span>
+                LOGIN
+            </span>
+        </div>
+        <ng-form [formGroup]="loginCredentialsForm" class="form flex-col center">
+            <div class="inputs flex-col">
+                <span>
+                    Email
+                </span>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your email address</mat-label> 
+                        <input matInput placeholder="example-email@example.com" type="email" formControlName="emailInput">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="inputs flex-col">
+                <span>
+                    Password
+                </span>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your password</mat-label>
+                        <input type="password" matInput placeholder="Password" formControlName="passwordInput">
+                    </mat-form-field>
+                </p>
+            </div>
+        </ng-form>
+        <div>
+            <button mat-flat-button (click)="sendLoginRequest()" [disabled]="!this.loginCredentialsForm.valid" color="secondary">LOGIN</button>
+        </div>
+        <div>
+            <p>Need an account? <u><strong>SIGN UP</strong></u></p>
+        </div>
+    </div>
+</div>

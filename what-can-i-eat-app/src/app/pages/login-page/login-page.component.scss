@@ -1,0 +1,55 @@
+.container {
+    padding-bottom: 50px;
+}
+
+.center-in-row {
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    width: 30vw;
+    min-width: 300px;
+    padding-bottom: 25px;
+}
+
+.title {
+    padding: 20px;
+    text-align: left;
+    background-color: #3a7575;
+    width: stretch;
+    text-align: left;
+    color: white;
+    margin-bottom: 25px;
+    border: 1px solid rgb(107, 107, 107);
+    letter-spacing: 0.35em;
+}
+
+.form {
+    display: flex;
+    width: stretch;
+    gap: 2px;
+}
+
+.inputs {
+    width: stretch;
+    display: flex;
+    text-align: center;
+}
+
+mat-form-field {
+    width: 75%;
+    letter-spacing: 0.08em;
+}
+
+span {
+    padding: 7px;
+    letter-spacing: 0.20em;
+}
+
+button {
+    background-color: #50A4A4;
+    border-radius: 100px;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+}

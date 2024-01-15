@@ -40,6 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FooterComponent } from './common/footer/footer.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     RecipesSearchBoxByIngredientsComponent,
     RecipesSearchDialogComponent,
     FooterComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
