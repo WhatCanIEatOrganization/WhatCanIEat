@@ -1,6 +1,9 @@
 package com.recipeservice.service.impl;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.recipeservice.config.RedisTestConfiguration;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
@@ -10,44 +13,62 @@ import com.recipeservice.model.Recipe;
 import com.recipeservice.repository.RecipeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import com.recipeservice.service.PexelsService;
+
 import com.recipeservice.service.RecipeTagService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import static org.mockito.Mockito.*;
 
+import java.net.URI;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
+@Import(RedisTestConfiguration.class)
 public class RecipeServiceImplTest {
+
 
     @Autowired
     private RecipeServiceImpl recipeService;
 
     @MockBean
     private RecipeRepository recipeRepository;
-
-    @MockBean
-    private PexelsService pexelsService;
     @MockBean
     private RecipeTagService recipeTagService;
 
     @Mock
     private WebClient mockWebClient;
 
+    WebClient.RequestHeadersUriSpec mockRequestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
+    WebClient.RequestHeadersSpec mockRequestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
+    WebClient.ResponseSpec mockResponseSpec = mock(WebClient.ResponseSpec.class);
+
+
+    @Captor
+    private ArgumentCaptor<Function<UriBuilder, URI>> uriCaptor;
 
     RecipeDto sampleRecipeDto;
     RecipeDto secondSampleRecipeDto;
@@ -56,6 +77,7 @@ public class RecipeServiceImplTest {
 
     @BeforeEach
     public void setUp() {
+        MockitoAnnotations.openMocks(this);
         sampleRecipeDto = new RecipeDto(
                 0,
                 "name",
@@ -101,6 +123,7 @@ public class RecipeServiceImplTest {
         ingredientDtos = Arrays.asList(new IngredientDto(1, "test1", "test1", "test1", "test1"), new IngredientDto(2,"test2", "test2", "test2", "test2"));
         ReflectionTestUtils.setField(recipeService, "webClient", mockWebClient);
     }
+
     @Test
     void addNewRecipe() {
         Recipe recipe = RecipeMapper.createRecipeDtoToEntity(createRecipeDto);
@@ -129,9 +152,6 @@ public class RecipeServiceImplTest {
                 new IngredientDto(2, "Pepper","test","test","test"),
                 new IngredientDto(3, "Sugar","test","test","test")
         );
-        WebClient.RequestHeadersUriSpec mockRequestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
-        WebClient.RequestHeadersSpec mockRequestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
-        WebClient.ResponseSpec mockResponseSpec = mock(WebClient.ResponseSpec.class);
         when(mockWebClient.get()).thenReturn(mockRequestHeadersUriSpec);
         when(mockRequestHeadersUriSpec.uri(any(Function.class))).thenReturn(mockRequestHeadersSpec);
         when(mockRequestHeadersSpec.retrieve()).thenReturn(mockResponseSpec);
@@ -139,6 +159,34 @@ public class RecipeServiceImplTest {
         List<IngredientDto> result = recipeService.getIngredientsByIds(ids);
         assertEquals(expectedIngredients, result);
     }
+
+
+
+    @Test
+    void getIngredientsByIdsShouldUseCorrectUri() {
+        List<Integer> ids = List.of(1, 2, 3);
+        List<IngredientDto> expectedIngredients = List.of(
+                new IngredientDto(1, "Salt", "test", "test", "test"),
+                new IngredientDto(2, "Pepper", "test", "test", "test"),
+                new IngredientDto(3, "Sugar", "test", "test", "test")
+        );
+
+        when(mockWebClient.get()).thenReturn(mockRequestHeadersUriSpec);
+        when(mockRequestHeadersUriSpec.uri(any(Function.class))).thenReturn(mockRequestHeadersSpec);
+        when(mockRequestHeadersSpec.retrieve()).thenReturn(mockResponseSpec);
+        when(mockResponseSpec.bodyToMono(any(ParameterizedTypeReference.class)))
+                .thenReturn(Mono.just(expectedIngredients));
+        recipeService.getIngredientsByIds(ids);
+        verify(mockRequestHeadersUriSpec).uri(uriCaptor.capture());
+        Function<UriBuilder, URI> uriFunction = uriCaptor.getValue();
+        UriBuilder builder = new DefaultUriBuilderFactory().builder();
+        URI actualUri = uriFunction.apply(builder);
+
+        assertEquals("/api/v2/recipe-ingredients", actualUri.getPath());
+        assertEquals("ids=1,2,3", actualUri.getQuery());
+
+    }
+
 
 
 
@@ -195,32 +243,118 @@ public class RecipeServiceImplTest {
         assertThrows(RuntimeException.class, () -> recipeService.searchRecipesByTags(tags));
     }
 
-//    @Test
-//    void getRecipesListShouldReturnListOfRecipes() {
-//        List<Recipe> recipes = List.of(RecipeMapper.toEntity(sampleRecipeDto), RecipeMapper.toEntity(secondSampleRecipeDto));
-//        when(recipeRepository.findAll()).thenReturn(recipes);
-//        List<RecipeDto> recipesList = recipeService.getRecipesList();
-//        assertEquals(2, recipesList.size());
-//        assertTrue(recipesList.containsAll(List.of(sampleRecipeDto, secondSampleRecipeDto)));
-//    }
-//
-//    @Test
-//    void getRecipesListShouldReturnEmptyList() {
-//        when(recipeRepository.findAll()).thenReturn(Collections.emptyList());
-//        List<RecipeDto> recipesList = recipeService.getRecipesList();
-//        assertTrue(recipesList.isEmpty());
-//    }
-//
-//    @Test
-//    void getRecipesListShouldReturnSingleRecipe() {
-//        List<Recipe> recipes = List.of(RecipeMapper.toEntity(sampleRecipeDto));
-//        when(recipeRepository.findAll()).thenReturn(recipes);
-//        List<RecipeDto> recipesList = recipeService.getRecipesList();
-//        assertEquals(1, recipesList.size());
-//        assertTrue(recipesList.contains(sampleRecipeDto));
-//    }
+    @Test
+    void findAllRecipesReturnsListOfRecipeDto() {
+        Recipe recipe1 = RecipeMapper.toEntity(sampleRecipeDto);
+        Recipe recipe2 = RecipeMapper.toEntity(secondSampleRecipeDto);
+        Page<Recipe> page = new PageImpl<>(List.of(recipe1, recipe2));
+        Pageable pageable = PageRequest.of(0, 10, Sort.unsorted());
+        when(recipeRepository.findAll(pageable)).thenReturn(page);
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+        assertEquals(2, result.size());
+    }
 
+    @Test
+    void findAllRecipesReturnsListOfRecipeDtoWithTenRecipes() {
+        List<Recipe> recipeList = IntStream.range(0, 10)
+                .mapToObj(i -> RecipeMapper.toEntity(new RecipeDto(
+                        i, "Name" + i, "Description" + i, false,
+                        "Source" + i, 10, 10, 10, 200,
+                        "imageUrl" + i, Collections.emptyList(),
+                        Collections.emptyList())))
+                .collect(Collectors.toList());
+        Page<Recipe> page = new PageImpl<>(recipeList);
+        Pageable pageable = PageRequest.of(0, 10, Sort.unsorted());
+        when(recipeRepository.findAll(pageable)).thenReturn(page);
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+        assertEquals(10, result.size());
+    }
 
+    @Test
+    void findAllRecipesReturnsEmptyListWhenNoRecipesPresent() {
+        Page<Recipe> emptyPage = new PageImpl<>(Collections.emptyList());
+        Pageable pageable = PageRequest.of(0, 10, Sort.unsorted());
+
+        when(recipeRepository.findAll(pageable)).thenReturn(emptyPage);
+
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findAllRecipesReturnsSingleRecipeDtoWhenOneRecipePresent() {
+        Recipe singleRecipe = RecipeMapper.toEntity(sampleRecipeDto);
+        Page<Recipe> singleRecipePage = new PageImpl<>(Collections.singletonList(singleRecipe));
+        Pageable pageable = PageRequest.of(0, 10, Sort.unsorted());
+
+        when(recipeRepository.findAll(pageable)).thenReturn(singleRecipePage);
+
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void findAllRecipesHandlesLargeNumberOfRecipes() {
+        List<Recipe> largeListOfRecipes = IntStream.range(0, 100)
+                .mapToObj(i -> RecipeMapper.toEntity(new RecipeDto(
+                        i, "Name" + i, "Description" + i, false,
+                        "Source" + i, 10, 10, 10, 200,
+                        "imageUrl" + i, Collections.emptyList(),
+                        Collections.emptyList())))
+                .collect(Collectors.toList());
+        Page<Recipe> largeRecipePage = new PageImpl<>(largeListOfRecipes);
+        Pageable pageable = PageRequest.of(0, 100, Sort.unsorted());
+
+        when(recipeRepository.findAll(pageable)).thenReturn(largeRecipePage);
+
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+
+        assertEquals(100, result.size());
+    }
+
+    @Test
+    void findAllRecipesWithDifferentPageableParameters() {
+        List<Recipe> recipes = IntStream.range(0, 20)
+                .mapToObj(i -> RecipeMapper.toEntity(new RecipeDto(
+                        i, "Name" + i, "Description" + i, false,
+                        "Source" + i, 10, 10, 10, 200,
+                        "imageUrl" + i, Collections.emptyList(),
+                        Collections.emptyList())))
+                .collect(Collectors.toList());
+        Page<Recipe> recipePage = new PageImpl<>(recipes.subList(10, 20));
+        Pageable pageable = PageRequest.of(1, 10, Sort.by("name").descending());
+        when(recipeRepository.findAll(pageable)).thenReturn(recipePage);
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+        assertEquals(10, result.size());
+    }
+
+    @Test
+    void findAllRecipesReturnsCorrectRecipesOnGivenPage() {
+        int totalRecipes = 40;
+        int pageSize = 10;
+        int pageNumber = 2;
+        List<Recipe> allRecipes = IntStream.range(0, totalRecipes)
+                .mapToObj(i -> RecipeMapper.toEntity(new RecipeDto(
+                        i, "Name" + i, "Description" + i, false,
+                        "Source" + i, 10, 10, 10, 200,
+                        "imageUrl" + i, Collections.emptyList(),
+                        Collections.emptyList())))
+                .collect(Collectors.toList());
+        int start = pageNumber * pageSize;
+        List<Recipe> expectedRecipesOnPage = allRecipes.subList(start, Math.min(start + pageSize, totalRecipes));
+        Page<Recipe> recipePage = new PageImpl<>(expectedRecipesOnPage, PageRequest.of(pageNumber, pageSize), totalRecipes);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.unsorted());
+        when(recipeRepository.findAll(pageable)).thenReturn(recipePage);
+        List<RecipeDto> result = recipeService.findAllRecipes(pageable);
+        assertEquals(expectedRecipesOnPage.size(), result.size());
+        IntStream.range(0, expectedRecipesOnPage.size()).forEach(i -> {
+            Recipe expectedRecipe = expectedRecipesOnPage.get(i);
+            RecipeDto resultDto = result.get(i);
+            assertEquals(expectedRecipe.getId(), resultDto.id());
+        });
+    }
     @Test
     void getFavoriteRecipes() {
     }
@@ -238,7 +372,6 @@ public class RecipeServiceImplTest {
     void deleteRecipeShouldThrowExceptionWhenNonExistentId() {
         int nonExistentRecipeId = 999;
         doThrow(new EmptyResultDataAccessException(1)).when(recipeRepository).deleteById(nonExistentRecipeId);
-
         assertThrows(EmptyResultDataAccessException.class, () -> recipeService.deleteRecipe(nonExistentRecipeId));
         verify(recipeRepository, times(1)).deleteById(nonExistentRecipeId);
     }
@@ -268,6 +401,48 @@ public class RecipeServiceImplTest {
         Optional<RecipeDto> result = recipeService.getRecipeById(givenId);
         assertFalse(result.isPresent());
     }
+
+    @Test
+    void searchRecipesByFridgeIngredientsReturnsListOfRecipeDto() {
+        List<String> fridgeIngredients = List.of("Onion", "Tomato");
+        JsonNode onionNode = JsonNodeFactory.instance.objectNode().put("name", "Onion");
+        JsonNode tomatoNode = JsonNodeFactory.instance.objectNode().put("name", "Tomato");
+        when(mockWebClient.get()).thenReturn(mockRequestHeadersUriSpec);
+        when(mockRequestHeadersUriSpec.uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")).thenReturn(mockRequestHeadersSpec);
+        when(mockRequestHeadersSpec.retrieve()).thenReturn(mockResponseSpec);
+        when(mockResponseSpec.bodyToFlux(JsonNode.class)).thenReturn(Flux.just(onionNode, tomatoNode));
+        List<Integer> recipeIds = List.of(1, 2);
+        List<Recipe> recipes = List.of(RecipeMapper.toEntity(sampleRecipeDto),RecipeMapper.toEntity(secondSampleRecipeDto));
+        when(recipeRepository.findRecipesByMatchingTags(fridgeIngredients)).thenReturn(recipeIds);
+        when(recipeRepository.findAllById(recipeIds)).thenReturn(recipes);
+        List<RecipeDto> result = recipeService.searchRecipesByFridgeIngredients();
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void searchRecipesByFridgeIngredientsReturnsEmptyListWhenNoIngredients() {
+        when(mockWebClient.get()).thenReturn(mockRequestHeadersUriSpec);
+        when(mockRequestHeadersUriSpec.uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")).thenReturn(mockRequestHeadersSpec);
+        when(mockRequestHeadersSpec.retrieve()).thenReturn(mockResponseSpec);
+        when(mockResponseSpec.bodyToFlux(JsonNode.class)).thenReturn(Flux.empty()); // Brak składników
+        when(recipeRepository.findRecipesByMatchingTags(anyList())).thenReturn(Collections.emptyList());
+
+        List<RecipeDto> result = recipeService.searchRecipesByFridgeIngredients();
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void searchRecipesByFridgeIngredientsHandlesExternalServiceErrors() {
+        when(mockWebClient.get()).thenReturn(mockRequestHeadersUriSpec);
+        when(mockRequestHeadersUriSpec.uri("https://j9kvt6f27i.execute-api.eu-central-1.amazonaws.com/Stage/ingredients")).thenReturn(mockRequestHeadersSpec);
+        when(mockRequestHeadersSpec.retrieve()).thenReturn(mockResponseSpec);
+        when(mockResponseSpec.bodyToFlux(JsonNode.class)).thenReturn(Flux.error(new RuntimeException("External service error")));
+
+        Exception exception = assertThrows(RuntimeException.class, () -> recipeService.searchRecipesByFridgeIngredients());
+        assertEquals("External service error", exception.getMessage());
+    }
+
+
 
     @Test
     void updateRecipeImages() {

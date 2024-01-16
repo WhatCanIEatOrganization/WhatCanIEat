@@ -5,26 +5,33 @@ import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
 import com.recipeservice.service.RecipeService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.*;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(RecipeController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class RecipeControllerTests {
     @MockBean
     RecipeService recipeService;
@@ -118,7 +125,7 @@ public class RecipeControllerTests {
                 sampleRecipeDto.preparationSteps(),
                 new ArrayList<>()
         );
-        when(recipeService.addNewRecipe(Mockito.any(CreateRecipeDto.class))).thenReturn(sampleRecipeDto);
+        when(recipeService.addNewRecipe(any(CreateRecipeDto.class))).thenReturn(sampleRecipeDto);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(createRecipeDto);
@@ -132,22 +139,6 @@ public class RecipeControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("name"));
 
     }
-
-
-//    @Test
-//    public void getRecipesListShouldReturn200WithRecipeList() throws Exception {
-//        when(recipeService.getRecipesList()).thenReturn(Arrays.asList(sampleRecipeDto, secondSampleRecipeDto));
-//
-//        mockMvc
-//                .perform(MockMvcRequestBuilders
-//                        .get("/api/v1/recipes")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
-//    }
 
 
     @Test
@@ -180,10 +171,10 @@ public class RecipeControllerTests {
                         .param("ids", "1,2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Onion"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Tomato"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(ingredient1.id()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(ingredient1.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(ingredient2.id()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value(ingredient2.name()));
     }
 
     @Test
@@ -197,4 +188,115 @@ public class RecipeControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("name"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("name2"));
     }
+
+
+    @Test
+    public void getSortedRecipesWithPaginationShouldReturnRecipes() throws Exception {
+        int page = 0;
+        int size = 10;
+        String sortBy = "name";
+        List<RecipeDto> expectedRecipes = Arrays.asList(sampleRecipeDto, secondSampleRecipeDto);
+
+        when(recipeService.findAllRecipes(any(Pageable.class))).thenReturn(expectedRecipes);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sortBy", sortBy)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(sampleRecipeDto.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value(secondSampleRecipeDto.name()));
+    }
+
+    @Test
+    public void getSortedRecipesWithPaginationShouldReturnEmptyListWhenNoRecipes() throws Exception {
+        when(recipeService.findAllRecipes(any(Pageable.class))).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortBy", "name")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty());
+    }
+
+    @Test
+    public void getSortedRecipesWithPaginationShouldHandlePaginationCorrectly() throws Exception {
+        int page = 1;
+        int size = 5;
+        when(recipeService.findAllRecipes(any(Pageable.class))).thenReturn(Arrays.asList(sampleRecipeDto));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sortBy", "name")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()", Matchers.is(1)));
+    }
+
+    @Test
+    public void getSortedRecipesWithPaginationShouldHandleSortingCorrectly() throws Exception {
+        String sortBy = "calories";
+        when(recipeService.findAllRecipes(any(Pageable.class))).thenReturn(Arrays.asList(sampleRecipeDto, secondSampleRecipeDto));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortBy", sortBy)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].calories").value(sampleRecipeDto.calories()));
+    }
+
+    @Test
+    public void getSortedRecipesWithInvalidParametersShouldReturnBadRequest() throws Exception {
+        int invalidPage = -1;
+        int size = 10;
+        String sortBy = "name";
+        Mockito.when(recipeService.findAllRecipes(any(Pageable.class)))
+                .thenThrow(new IllegalArgumentException("Page index must not be less than zero"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes")
+                        .param("page", String.valueOf(invalidPage))
+                        .param("size", String.valueOf(size))
+                        .param("sortBy", sortBy)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+
+    @Test
+    public void searchRecipesByFridgeIngredientsShouldReturnRecipes() throws Exception {
+        List<RecipeDto> expectedRecipes = Arrays.asList(sampleRecipeDto, secondSampleRecipeDto);
+        when(recipeService.searchRecipesByFridgeIngredients()).thenReturn(expectedRecipes);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/search/fridge-ingredients")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(sampleRecipeDto.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value(secondSampleRecipeDto.name()));
+    }
+
+    @Test
+    public void searchRecipesByFridgeIngredientsShouldReturnEmptyListWhenNoRecipes() throws Exception {
+        when(recipeService.searchRecipesByFridgeIngredients()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/search/fridge-ingredients")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty());
+    }
+    @Test
+    public void searchRecipesByFridgeIngredientsShouldHandleExceptions() throws Exception {
+        when(recipeService.searchRecipesByFridgeIngredients()).thenThrow(new RuntimeException("Error fetching data"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/search/fridge-ingredients")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isInternalServerError());
+    }
+
+
+
 }

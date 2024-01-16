@@ -1,7 +1,7 @@
 package com.example.authservice.service;
 
 import com.example.authservice.dto.AuthRequestDto;
-import com.example.authservice.entity.UserCredential;
+import com.example.authservice.entity.UserEntity;
 import com.example.authservice.exception.EmailAlreadyTakenException;
 import com.example.authservice.exception.UsernameAlreadyTakenException;
 import com.example.authservice.repository.UserCredentialRepository;
@@ -32,7 +32,7 @@ public class AuthService {
     }
 
 
-    public String saveUser(UserCredential credential) {
+    public String saveUser(UserEntity credential) {
         repository.findByName(credential.getName())
                 .ifPresent(s -> {
                     throw new UsernameAlreadyTakenException("Username already taken");

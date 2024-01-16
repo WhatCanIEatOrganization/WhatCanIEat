@@ -137,4 +137,5 @@ public class RecipeController {
         logger.info("Search recipes by fridge-ingredients successful");
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
+
 }

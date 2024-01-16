@@ -1,7 +1,7 @@
 package com.example.authservice.controller;
 
 import com.example.authservice.dto.AuthRequestDto;
-import com.example.authservice.entity.UserCredential;
+import com.example.authservice.entity.UserEntity;
 import com.example.authservice.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserCredential user) {
+    public String register(@RequestBody UserEntity user) {
         return service.saveUser(user);
     }
 
