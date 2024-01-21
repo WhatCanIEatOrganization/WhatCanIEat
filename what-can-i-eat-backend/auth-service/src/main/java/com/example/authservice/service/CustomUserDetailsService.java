@@ -1,7 +1,8 @@
-package com.example.authservice.config;
+package com.example.authservice.service;
 
-import com.example.authservice.entity.UserCredential;
-import com.example.authservice.repository.UserCredentialRepository;
+import com.example.authservice.config.CustomUserDetails;
+import com.example.authservice.entity.UserEntity;
+import com.example.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,11 +15,11 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserCredentialRepository repository;
+    private UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserCredential> credential = repository.findByName(username);
+        Optional<UserEntity> credential = repository.findByName(username);
         return credential.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + username));
     }
 }

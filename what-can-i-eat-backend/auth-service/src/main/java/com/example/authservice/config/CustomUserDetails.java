@@ -1,6 +1,6 @@
 package com.example.authservice.config;
 
-import com.example.authservice.entity.UserCredential;
+import com.example.authservice.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,10 +12,10 @@ public class CustomUserDetails implements UserDetails {
     private String email;
     private String password;
 
-    public CustomUserDetails(UserCredential userCredential) {
-        this.username = userCredential.getName();
-        this.password = userCredential.getPassword();
-        this.email = userCredential.getEmail();
+    public CustomUserDetails(UserEntity userEntity) {
+        this.username = userEntity.getName();
+        this.password = userEntity.getPassword();
+        this.email = userEntity.getEmail();
     }
 
     @Override
@@ -32,8 +32,6 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return username;
     }
-
-    public String getEmail() {return email;}
 
     @Override
     public boolean isAccountNonExpired() {

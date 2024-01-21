@@ -4,7 +4,7 @@ import com.example.authservice.dto.AuthRequestDto;
 import com.example.authservice.entity.UserEntity;
 import com.example.authservice.exception.EmailAlreadyTakenException;
 import com.example.authservice.exception.UsernameAlreadyTakenException;
-import com.example.authservice.repository.UserCredentialRepository;
+import com.example.authservice.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
 
-    private final UserCredentialRepository repository;
+    private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthService(UserCredentialRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthService(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
