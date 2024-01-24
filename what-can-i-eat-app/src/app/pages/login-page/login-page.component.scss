@@ -1,24 +1,19 @@
-.container {
-    padding-bottom: 50px;
-}
-
 .center-in-row {
     justify-content: center;
     align-items: center;
 }
 
 .content {
-    width: 30vw;
-    min-width: 300px;
+    width: 85vw;
+    min-width: 250px;
     padding-bottom: 25px;
 }
 
 .title {
-    padding: 20px;
-    text-align: left;
+    padding: 10px;
     background-color: #3a7575;
     width: stretch;
-    text-align: left;
+    text-align: center;
     color: white;
     margin-bottom: 25px;
     border: 1px solid rgb(107, 107, 107);
@@ -52,4 +47,29 @@ button {
     border-radius: 100px;
     color: #FFFFFF;
     margin-bottom: 20px;
+}
+
+u {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 672px) {
+    .container {
+        padding-bottom: 10px;
+    }
+
+    .content {
+        width: 80vw;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .container {
+        padding-bottom: 50px;
+    }
+
+    .content {
+        width: 60vw;
+        max-width: 600px;
+    }
 }

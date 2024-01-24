@@ -33,7 +33,7 @@
             <button mat-flat-button (click)="sendLoginRequest()" [disabled]="!this.loginCredentialsForm.valid" color="secondary">LOGIN</button>
         </div>
         <div>
-            <p>Need an account? <u><strong>SIGN UP</strong></u></p>
+            <p>Need an account? <u [routerLink]="['/register']"><strong>SIGN UP</strong></u></p>
         </div>
     </div>
 </div>

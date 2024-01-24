@@ -1,16 +1,47 @@
-<div>
-    <div>
-        <div>
-            <input placeholder="email" value="karol@wp.pl">
+<div class="center-in-row flex-row container">
+    <div class="content box-shadow flex-col center">
+        <div class="title">
+            <span>
+                REGISTER NEW ACCOUNT
+            </span>
         </div>
+        <ng-form [formGroup]="registerNewUserForm" class="form flex-col center">
+            <div class="inputs flex-col">
+                <span>
+                    Email
+                </span>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your email address</mat-label> 
+                        <input matInput placeholder="example-email@example.com" type="email" formControlName="emailInput">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="inputs flex-col">
+                <span>
+                    Username
+                </span>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your username</mat-label>
+                        <input type="text" matInput placeholder="Username" formControlName="usernameInput">
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="inputs flex-col">
+                <span>
+                    Password
+                </span>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your password</mat-label>
+                        <input type="password" matInput placeholder="Password" formControlName="passwordInput">
+                    </mat-form-field>
+                </p>
+            </div>
+        </ng-form>
         <div>
-            <input placeholder="name" value="karol991">
+            <button mat-flat-button (click)="registerUser()" [disabled]="!this.registerNewUserForm.valid" color="secondary">REGISTER</button>
         </div>
-        <div>
-            <input placeholder="password" value="karoljestkotem123">
-        </div>
-    </div>
-    <div>
-        <button (click)="registerUser()">Submit</button>
     </div>
 </div>
