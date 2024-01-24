@@ -2,10 +2,10 @@
     <div class="content box-shadow flex-col center">
         <div class="title">
             <span>
-                LOGIN
+                REGISTER NEW ACCOUNT
             </span>
         </div>
-        <ng-form [formGroup]="loginCredentialsForm" class="form flex-col center">
+        <ng-form [formGroup]="registerNewUserForm" class="form flex-col center">
             <div class="inputs flex-col">
                 <span>
                     Email
@@ -16,6 +16,17 @@
                         <input matInput placeholder="example-email@example.com" type="email" formControlName="emailInput">
                     </mat-form-field>
                 </div>
+            </div>
+            <div class="inputs flex-col">
+                <span>
+                    Username
+                </span>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your username</mat-label>
+                        <input type="text" matInput placeholder="Username" formControlName="usernameInput">
+                    </mat-form-field>
+                </p>
             </div>
             <div class="inputs flex-col">
                 <span>
@@ -30,10 +41,7 @@
             </div>
         </ng-form>
         <div>
-            <button mat-flat-button (click)="registerUser()" [disabled]="!this.loginCredentialsForm.valid" color="secondary">LOGIN</button>
-        </div>
-        <div>
-            <p>Need an account? <u><strong>SIGN UP</strong></u></p>
+            <button mat-flat-button (click)="registerUser()" [disabled]="!this.registerNewUserForm.valid" color="secondary">REGISTER</button>
         </div>
     </div>
 </div>
