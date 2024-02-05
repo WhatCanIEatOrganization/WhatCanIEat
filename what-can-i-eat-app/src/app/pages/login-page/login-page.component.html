@@ -8,6 +8,17 @@
         <ng-form [formGroup]="loginCredentialsForm" class="form flex-col center">
             <div class="inputs flex-col">
                 <span>
+                    Username
+                </span>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input your username</mat-label> 
+                        <input matInput placeholder="username" type="text" formControlName="usernameInput">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="inputs flex-col">
+                <span>
                     Email
                 </span>
                 <div>
