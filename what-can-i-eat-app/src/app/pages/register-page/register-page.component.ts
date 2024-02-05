@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/common/auth/auth.service';
+import { RegisterUserCredentials, UserCredentials } from 'src/app/common/auth/models/userCredentials';
 
 @Component({
   selector: 'app-register-page',
@@ -22,7 +23,13 @@ export class RegisterPageComponent implements OnInit {
   }
 
   registerUser(): void {
-    this.authService.registerUser();
+    let userCredentials: RegisterUserCredentials = {
+      id: 0,
+      name: this.registerNewUserForm.value.usernameInput!,
+      email: this.registerNewUserForm.value.emailInput!,
+      password: this.registerNewUserForm.value.passwordInput!
+    }
+    this.authService.registerUser(userCredentials);
   }
 
 }
