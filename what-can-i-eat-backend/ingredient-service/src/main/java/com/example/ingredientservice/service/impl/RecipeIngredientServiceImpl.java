@@ -46,13 +46,13 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
     }
 
     @Override
-    @Cacheable(value = "ingredients", key = "#ingredientId")
+//    @Cacheable(value = "ingredients", key = "#ingredientId")
     public Optional<RecipeIngredientDto> getIngredientById(int ingredientId) {
         Optional<RecipeIngredient> ingredient = recipeIngredientRepository.findById(ingredientId);
         return ingredient.map(RecipeIngredientMapper::mapToDto);
     }
     @Override
-    @Cacheable(value = "recipeIngredients", key = "#ids.toString()")
+//    @Cacheable(value = "recipeIngredients", key = "#ids.toString()")
     public List<RecipeIngredientDto> findIngredientsById(List<Integer> ids) {
         List<RecipeIngredient> recipeIngredients = recipeIngredientRepository.findAllById(ids);
         return recipeIngredients.stream().map(RecipeIngredientMapper::mapToDto).collect(Collectors.toList());

@@ -3,7 +3,6 @@ package com.recipeservice.controller;
 import com.recipeservice.dto.CreateRecipeDto;
 import com.recipeservice.dto.IngredientDto;
 import com.recipeservice.dto.RecipeDto;
-import com.recipeservice.model.Recipe;
 import com.recipeservice.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +20,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/recipes")
-@CrossOrigin
 public class RecipeController {
 
 
@@ -34,6 +32,11 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+
+    @GetMapping("/test")
+    public String test(){
+        return "success";
+    }
     @PostMapping
     @Operation(summary = "Create a new recipe", description = "Add a new recipe to the system and return the saved recipe details.")
     public ResponseEntity<RecipeDto> addNewRecipe(@RequestBody CreateRecipeDto recipeDto) {
@@ -134,4 +137,5 @@ public class RecipeController {
         logger.info("Search recipes by fridge-ingredients successful");
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
+
 }
